@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <script src="../build/room.js"></script>
+    <script>
+      const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
+      const context = canvas.getContext('2d')
+      let things = []
+
+      room
+        .assert(`Simba is a cat at (50, 50)`)
+        .then(({data}) => console.log(`My id is ${data.id}`))
+
+      window.setInterval(
+        room
+          .select(`$name is a $thing at ($x, $y)`)
+          .then(({data}) => { things = data })
+        , 100
+      )
+
+      async function draw (time) {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        things.forEach(thing => ctxt.fillText(...thing))
+        requestAnimationFrame(draw)
+      }
+
+      requestAnimationFrame(draw)
+    </script>
+  </body>
+</html>

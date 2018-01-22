@@ -1,0 +1,21 @@
+{
+  "name": "room",
+  "version": "1.0.0",
+  "description": "node.js and browser client for roomdb",
+  "main": "build/room.js",
+  "repository": "https://github.com/jedahan/room",
+  "author": "Jonathan Dahan",
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "^0.54.1",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.2"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "dependencies": {
+    "node-fetch": "^1.7.3"
+  }
+}
