@@ -6,6 +6,11 @@
 
 fetch = fetch && fetch.hasOwnProperty('default') ? fetch['default'] : fetch;
 
+/**
+ * Creates a new http client to a roomdb instance
+ *
+ * @param {uri} location Location to connect (defaults to localhost:3000)
+ */
 class Room {
   constructor (uri) {
     this._uri = uri || `http://localhost:3000`;
@@ -14,12 +19,13 @@ class Room {
 
   _db (endpoint, data) {
     const body = Object.assign(data, {id: this._id});
-    const options = {
+    const post = {
       method: 'POST',
       body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' }
     };
-    return fetch(this._uri + '/' + endpoint, options)
+
+    return fetch(this._uri + '/' + endpoint, post)
       .then(response => response.json())
       .then(json => {
         this._id = json.id;
@@ -27,6 +33,11 @@ class Room {
       })
   }
 
+  async facts () {
+    return this._db('facts', {})
+  }
+
+  // todo: refactor to allow for easier callbacks
   async select (...facts) {
     return this._db('select', {facts})
   }
@@ -38,7 +49,7 @@ class Room {
 
   // filler values not implemented
   async retract (fact, _) {
-    return this._db('retractj', {fact})
+    return this._db('retract', {fact})
   }
 }
 

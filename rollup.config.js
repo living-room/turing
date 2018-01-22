@@ -14,5 +14,8 @@ export default {
       'node-fetch': 'fetch'
     }
   },
-  plugins: [ resolve(), commonjs({include: './node_modules/**'}) ]
+  plugins: [
+    resolve(),
+    commonjs({include: './node_modules/**'})
+  ]
 }

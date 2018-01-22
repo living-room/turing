@@ -9,11 +9,15 @@
   "devDependencies": {
     "rollup": "^0.54.1",
     "rollup-plugin-commonjs": "^8.2.6",
-    "rollup-plugin-node-resolve": "^3.0.2"
+    "rollup-plugin-livereload": "^0.6.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-serve": "^0.4.2",
+    "serve": "^6.4.8"
   },
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "serve": "serve --cors examples"
   },
   "dependencies": {
     "node-fetch": "^1.7.3"

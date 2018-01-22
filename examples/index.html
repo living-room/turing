@@ -6,28 +6,27 @@
   <body>
     <canvas id="canvas"></canvas>
 
-    <script src="../build/room.js"></script>
+    <script src="room.js"></script>
     <script>
       const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
       const context = canvas.getContext('2d')
       let things = []
 
-      room
-        .assert(`Simba is a cat at (50, 50)`)
-        .then(({data}) => console.log(`My id is ${data.id}`))
+      room.assert(`Simba is a cat at (50, 50)`)
+      room.assert(`Timon is a meerkat at (100, 77)`)
+      room.assert(`Pumba is a warthog at (66, 77)`)
 
-      window.setInterval(
+      window.setInterval(() => {
         room
           .select(`$name is a $thing at ($x, $y)`)
-          .then(({data}) => { things = data })
-        , 100
-      )
+          .then(({solutions}) => things = solutions)
+      }, 1000)
 
       async function draw (time) {
         canvas.width = window.innerWidth
         canvas.height = window.innerHeight
         context.clearRect(0, 0, canvas.width, canvas.height)
-        things.forEach(thing => ctxt.fillText(...thing))
+        things.forEach(({name, x, y}) => context.fillText(name.str, x, y))
         requestAnimationFrame(draw)
       }
 
