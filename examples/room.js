@@ -15,19 +15,17 @@ class Room {
   constructor (uri) {
     this._uri = uri || `http://localhost:3000`;
     this._id = null;
-    this._data = {};
-    this._endpoint = '';
   }
 
-  _db () {
-    const body = Object.assign(this._data, {id: this._id});
+  _db (endpoint, data) {
+    const body = Object.assign(data, {id: this._id});
     const post = {
       method: 'POST',
       body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' }
     };
 
-    return fetch(this._uri + '/' + this._endpoint, post)
+    return fetch(this._uri + '/' + endpoint, post)
       .then(response => response.json())
       .then(json => {
         this._id = json.id;
@@ -40,27 +38,13 @@ class Room {
   }
 
   // todo: refactor to allow for easier callbacks
-  select (...facts) {
-    this._data = {facts};
-    this._endpoint = 'select';
-    return this
-  }
-
-  async do (callbackFn) {
-    const {solutions} = await this._db();
-    solutions.forEach(callbackFn);
-  }
-
-  async doAll (callbackFn) {
-    callbackFn(await this._db());
+  async select (...facts) {
+    return this._db('select', {facts})
   }
 
   // filler values not implemented
-  assert (fact, _) {
-    this._data = {fact};
-    this._endpoint = 'assert';
-    this._db();
-    return this
+  async assert (fact, _) {
+    return this._db('assert', {fact})
   }
 
   // filler values not implemented

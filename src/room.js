@@ -11,17 +11,19 @@ export default class Room {
   constructor (uri) {
     this._uri = uri || `http://localhost:3000`
     this._id = null
+    this._data = {}
+    this._endpoint = ''
   }
 
-  _db (endpoint, data) {
-    const body = Object.assign(data, {id: this._id})
+  _db () {
+    const body = Object.assign(this._data, {id: this._id})
     const post = {
       method: 'POST',
       body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' }
     }
 
-    return fetch(this._uri + '/' + endpoint, post)
+    return fetch(this._uri + '/' + this._endpoint, post)
       .then(response => response.json())
       .then(json => {
         this._id = json.id
@@ -34,13 +36,27 @@ export default class Room {
   }
 
   // todo: refactor to allow for easier callbacks
-  async select (...facts) {
-    return this._db('select', {facts})
+  select (...facts) {
+    this._data = {facts}
+    this._endpoint = 'select'
+    return this
+  }
+
+  async do (callbackFn) {
+    const {solutions} = await this._db()
+    solutions.forEach(callbackFn)
+  }
+
+  async doAll (callbackFn) {
+    callbackFn(await this._db())
   }
 
   // filler values not implemented
-  async assert (fact, _) {
-    return this._db('assert', {fact})
+  assert (fact, _) {
+    this._data = {fact}
+    this._endpoint = 'assert'
+    this._db()
+    return this
   }
 
   // filler values not implemented

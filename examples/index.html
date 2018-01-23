@@ -12,14 +12,15 @@
       const context = canvas.getContext('2d')
       let things = []
 
-      room.assert(`Simba is a cat at (50, 50)`)
-      room.assert(`Timon is a meerkat at (100, 77)`)
-      room.assert(`Pumba is a warthog at (66, 77)`)
+      room
+        .assert(`Simba is a cat at (50, 50)`)
+        .assert(`Timon is a meerkat at (100, 77)`)
+        .assert(`Pumba is a warthog at (66, 77)`)
 
       window.setInterval(() => {
         room
           .select(`$name is a $thing at ($x, $y)`)
-          .then(({solutions}) => things = solutions)
+          .doAll(matches => things = matches)
       }, 1000)
 
       async function draw (time) {

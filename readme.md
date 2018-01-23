@@ -11,23 +11,21 @@ from [examples/node.mjs](./examples/node.mjs)
 ```javascript
 #!node --experimental-modules
 
-import Room from './build/room.js'
+import Room from '../build/room.js'
 
 // connects to http://localhost:3000 by default
 const room = new Room()
 
 room
-  .assert(`#I am a cat`)
-  .then(({id}) => console.log(`my id is ${id}`))
-
-room
-  .select(`#I am a $what`)
-  .then(({what}) => {
-    console.log(`roomdb thinks I am a`, what)
+  .assert(`#You am a doggo`)
+  .assert(`#I am a pupper`)
+  .select(`$who am a $what`)
+  .do(({who, what}) => {
+    console.log(`roomdb thinks ${who.name} is a ${what.str}`)
   })
 ```
 
-from [examples/browser.html](./examples/browser.html)
+from [examples/index.html](./examples/index.html)
 
 ```html
 <html>
@@ -38,7 +36,7 @@ from [examples/browser.html](./examples/browser.html)
   <body>
     <canvas id="canvas"></canvas>
 
-    <script src="./build/room.js"></script>
+    <script src="room.js"></script>
     <script>
       const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
       const context = canvas.getContext('2d')
@@ -46,20 +44,20 @@ from [examples/browser.html](./examples/browser.html)
 
       room
         .assert(`Simba is a cat at (50, 50)`)
-        .then(({data}) => console.log(`My id is ${data.id}`))
+        .assert(`Timon is a meerkat at (100, 77)`)
+        .assert(`Pumba is a warthog at (66, 77)`)
 
-      window.setInterval(
+      window.setInterval(() => {
         room
           .select(`$name is a $thing at ($x, $y)`)
-          .then(({data}) => { things = data })
-        , 100
-      )
+          .doAll(matches => things = matches)
+      }, 1000)
 
       async function draw (time) {
         canvas.width = window.innerWidth
         canvas.height = window.innerHeight
         context.clearRect(0, 0, canvas.width, canvas.height)
-        things.forEach(thing => ctxt.fillText(...thing))
+        things.forEach(({name, x, y}) => context.fillText(name.str, x, y))
         requestAnimationFrame(draw)
       }
 
