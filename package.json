@@ -7,6 +7,7 @@
   "author": "Jonathan Dahan",
   "license": "MIT",
   "devDependencies": {
+    "@jedahan/room-http": "jedahan/room-http",
     "rollup": "^0.54.1",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-livereload": "^0.6.0",
@@ -18,6 +19,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
+    "backend": "node -e 'require(\"@jedahan/room-http/server.js\")'",
     "assert": "node --experimental-modules examples/assert.mjs",
     "select": "node --experimental-modules examples/select.mjs",
     "examples": "npm run build && cp build/room* examples/ && serve --cors examples"
