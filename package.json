@@ -20,6 +20,8 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "backend": "node -e 'require(\"@jedahan/room-http/server.js\")'",
+    "assert": "node --experimental-modules examples/assert.mjs",
+    "select": "node --experimental-modules examples/select.mjs",
     "examples": "npm run build && cp build/room* examples/ && serve --cors examples"
   },
   "dependencies": {

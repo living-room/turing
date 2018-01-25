@@ -8,7 +8,7 @@
 import fetch from 'node-fetch'
 
 export default class Room {
-  constructor (uri) {
+  constructor (uri = process.env.ROOMDB_URI) {
     this.uri = uri || `http://localhost:3000`
     this.id = null
     this._data = null

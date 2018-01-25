@@ -2,7 +2,8 @@
 
 import Room from '../build/room.js'
 
-// connects to http://localhost:3000 by default
+// Connects to http://localhost:3000 by default
+// You can also pass via ROOMDB_URI in your environment
 const room = new Room()
 
 room
