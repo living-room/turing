@@ -77,4 +77,4 @@ build the [umd](https://github.com/umdjs/umd) library `yarn build`
 
 for a nicer development experience, try using `yarn dev`, which will build on file change
 
-To test the browser example, use `yarn serve`
+To test the browser example locally, run `yarn backend` to start a room-http backend, and `yarn examples` to run the example frontend.
