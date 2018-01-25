@@ -1,5 +1,6 @@
 import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
+import replace from 'rollup-plugin-replace'
 import pkg from './package.json'
 
 export default {
@@ -15,6 +16,9 @@ export default {
     }
   },
   plugins: [
+    replace({
+      'process.env.ROOMDB_URI': (process.env.ROOMDB_URI ? JSON.stringify(process.env.ROOMDB_URI) : 'null')
+    }),
     resolve(),
     commonjs({include: './node_modules/**'})
   ]
