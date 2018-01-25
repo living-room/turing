@@ -19,6 +19,7 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "assert": "node --experimental-modules examples/assert.mjs",
+    "select": "node --experimental-modules examples/select.mjs",
     "examples": "npm run build && cp build/room* examples/ && serve --cors examples"
   },
   "dependencies": {

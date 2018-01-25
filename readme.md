@@ -6,9 +6,11 @@ It works in node or the browser
 
 ROOMDB_URI defaults to http://localhost:3000
 
-Try `yarn assert "#something wicked this way comes"`
+Try `yarn assert "#something wicked this way comes"`, then `yarn select "$name $adj this way comes"`
 
 #### examples
+
+check out [examples/select.mjs](./examples/select.mjs) for the simplest write
 
 check out [examples/assert.mjs](./examples/assert.mjs) for the simplest write
 
