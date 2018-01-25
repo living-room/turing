@@ -13,43 +13,64 @@ fetch = fetch && fetch.hasOwnProperty('default') ? fetch['default'] : fetch;
  */
 class Room {
   constructor (uri) {
-    this._uri = uri || `http://localhost:3000`;
-    this._id = null;
+    this.uri = uri || `http://localhost:3000`;
+    this.id = null;
+    this._data = null;
+    this._endpoint = null;
   }
 
-  _db (endpoint, data) {
-    const body = Object.assign(data, {id: this._id});
+  _db () {
+    if (!(this._data || this._endpoint)) {
+      throw new Error(`please set _data and _endpoint using assert(), retract(), select(), or do()`)
+    }
+    const endpoint = this.uri + '/' + this._endpoint;
+
     const post = {
       method: 'POST',
-      body: JSON.stringify(body),
+      body: JSON.stringify(Object.assign(this._data, {id: this.id})),
       headers: { 'Content-Type': 'application/json' }
     };
 
-    return fetch(this._uri + '/' + endpoint, post)
+    return fetch(endpoint, post)
       .then(response => response.json())
       .then(json => {
-        this._id = json.id;
+        this.id = this.id || json.id;
+        this._data = null;
+        this._endpoint = null;
         return json
       })
   }
 
-  async facts () {
-    return this._db('facts', {})
+  select (...facts) {
+    this._data = {facts};
+    this._endpoint = 'select';
+    return this
   }
 
-  // todo: refactor to allow for easier callbacks
-  async select (...facts) {
-    return this._db('select', {facts})
+  async do (callbackFn) {
+    const {solutions} = await this._db();
+    solutions.forEach(callbackFn);
   }
 
-  // filler values not implemented
-  async assert (fact, _) {
-    return this._db('assert', {fact})
+  async doAll (callbackFn) {
+    const {solutions} = await this._db();
+    callbackFn(solutions);
   }
 
-  // filler values not implemented
-  async retract (fact, _) {
-    return this._db('retract', {fact})
+  // todo: implement filler values
+  assert (fact, _) {
+    this._data = {fact};
+    this._endpoint = 'assert';
+    this._db();
+    return this
+  }
+
+  // todo: implement filler values
+  retract (fact, _) {
+    this._data = {fact};
+    this._endpoint = 'retract';
+    this._db();
+    return this
   }
 }
 

@@ -9,33 +9,34 @@ import fetch from 'node-fetch'
 
 export default class Room {
   constructor (uri) {
-    this._uri = uri || `http://localhost:3000`
-    this._id = null
-    this._data = {}
-    this._endpoint = ''
+    this.uri = uri || `http://localhost:3000`
+    this.id = null
+    this._data = null
+    this._endpoint = null
   }
 
   _db () {
-    const body = Object.assign(this._data, {id: this._id})
+    if (!(this._data || this._endpoint)) {
+      throw new Error(`please set _data and _endpoint using assert(), retract(), select(), or do()`)
+    }
+    const endpoint = this.uri + '/' + this._endpoint
+
     const post = {
       method: 'POST',
-      body: JSON.stringify(body),
+      body: JSON.stringify(Object.assign(this._data, {id: this.id})),
       headers: { 'Content-Type': 'application/json' }
     }
 
-    return fetch(this._uri + '/' + this._endpoint, post)
+    return fetch(endpoint, post)
       .then(response => response.json())
       .then(json => {
-        this._id = json.id
+        this.id = this.id || json.id
+        this._data = null
+        this._endpoint = null
         return json
       })
   }
 
-  async facts () {
-    return this._db('facts', {})
-  }
-
-  // todo: refactor to allow for easier callbacks
   select (...facts) {
     this._data = {facts}
     this._endpoint = 'select'
@@ -48,10 +49,11 @@ export default class Room {
   }
 
   async doAll (callbackFn) {
-    callbackFn(await this._db())
+    const {solutions} = await this._db()
+    callbackFn(solutions)
   }
 
-  // filler values not implemented
+  // todo: implement filler values
   assert (fact, _) {
     this._data = {fact}
     this._endpoint = 'assert'
@@ -59,8 +61,11 @@ export default class Room {
     return this
   }
 
-  // filler values not implemented
-  async retract (fact, _) {
-    return this._db('retract', {fact})
+  // todo: implement filler values
+  retract (fact, _) {
+    this._data = {fact}
+    this._endpoint = 'retract'
+    this._db()
+    return this
   }
 }

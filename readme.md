@@ -1,8 +1,8 @@
-room is a javascript client for talking to a roomdb server
+# room-js
 
-it works in node or the browser
+a universal javascript client that talks to a [roomdb](https://github.com/alexwart/roomdb) http [server](https://github.com/jedahan/room-http)
 
-requires a running roomdb server
+It works in node or the browser
 
 #### examples
 
@@ -75,8 +75,6 @@ mess around with [room.js](./room.js)
 
 build the [umd](https://github.com/umdjs/umd) library `yarn build`
 
-for a nicer development experience, try using `yarn dev`
+for a nicer development experience, try using `yarn dev`, which will build on file change
 
-to test the browser example, use `yarn serve`
-
-this will build automatically on file changes
+To test the browser example, use `yarn serve`

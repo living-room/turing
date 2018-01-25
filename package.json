@@ -12,12 +12,13 @@
     "rollup-plugin-livereload": "^0.6.0",
     "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-plugin-serve": "^0.4.2",
-    "serve": "^6.4.8"
+    "serve": "^6.4.8",
+    "roomdb": "alexwarth/roomdb#modularify"
   },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "serve": "serve --cors examples"
+    "examples": "npm run build && cp build/room* examples/ && serve --cors examples"
   },
   "dependencies": {
     "node-fetch": "^1.7.3"
