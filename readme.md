@@ -4,6 +4,8 @@ a universal javascript client that talks to a [roomdb](https://github.com/alexwa
 
 It works in node or the browser
 
+ROOMDB_URI defaults to http://localhost:3000
+
 #### examples
 
 from [examples/node.mjs](./examples/node.mjs)
@@ -13,8 +15,7 @@ from [examples/node.mjs](./examples/node.mjs)
 
 import Room from '../build/room.js'
 
-// connects to http://localhost:3000 by default
-const room = new Room()
+const room = new Room() // you can pass in the uri here or in ROOMDB_URI
 
 room
   .assert(`#You am a doggo`)
