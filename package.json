@@ -1,13 +1,13 @@
 {
   "name": "room",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "node.js and browser client for roomdb",
   "main": "build/room.js",
   "repository": "https://github.com/jedahan/room",
   "author": "Jonathan Dahan",
   "license": "MIT",
   "devDependencies": {
-    "@jedahan/room-http": "jedahan/room-http",
+    "@jedahan/room-server": "jedahan/room-server",
     "rollup": "^0.54.1",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-livereload": "^0.6.0",
@@ -20,10 +20,10 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "backend": "node -e 'require(\"@jedahan/room-http/server.js\")'",
+    "backend": "node -e 'require(\"@jedahan/room-server/server.js\")'",
     "assert": "node --experimental-modules examples/assert.mjs",
-    "select": "node --experimental-modules examples/select.mjs",
-    "examples": "npm run build && cp build/room* examples/ && serve --cors examples"
+    "assert": "node --experimental-modules examples/select.mjs",
+    "examples": "serve --cors examples"
   },
   "dependencies": {
     "node-fetch": "^1.7.3"
