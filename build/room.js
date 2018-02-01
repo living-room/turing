@@ -11,18 +11,13 @@ fetch = fetch && fetch.hasOwnProperty('default') ? fetch['default'] : fetch;
  *
  * @param {uri} location Location to connect (defaults to localhost:3000)
  */
-/*
-function getRoomDBURI() {
-  try {
-    return process.env.ROOMDB_URI
-  } catch (err) { // we are probably in the browser
-    return null
-  }
+function getEnv(key) {
+  if (typeof process !== 'undefined') return process.env[key]
 }
-*/
+
 class Room {
-  constructor (uri = processs && process.env && process.env.ROOMDB_URI) {
-    this.uri = uri || `http://localhost:3000`;
+  constructor (uri) {
+    this.uri = uri || getEnv('ROOMDB_URI') || 'http://localhost:3000';
     this.id = null;
     this._data = null;
     this._endpoint = null;

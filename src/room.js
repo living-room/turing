@@ -7,18 +7,13 @@
  */
 import fetch from 'node-fetch'
 
-/*
-function getRoomDBURI() {
-  try {
-    return process.env.ROOMDB_URI
-  } catch (err) { // we are probably in the browser
-    return null
-  }
+function getEnv(key) {
+  if (typeof process !== 'undefined') return process.env[key]
 }
-*/
+
 export default class Room {
-  constructor (uri = processs && process.env && process.env.ROOMDB_URI) {
-    this.uri = uri || `http://localhost:3000`
+  constructor (uri) {
+    this.uri = uri || getEnv('ROOMDB_URI') || 'http://localhost:3000'
     this.id = null
     this._data = null
     this._endpoint = null
