@@ -37,8 +37,8 @@ export default class Room {
       })
   }
 
-  select (...facts) {
-    this._data = {facts}
+  select (facts) {
+    this._data = facts
     this._endpoint = 'select'
     return this
   }

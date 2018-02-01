@@ -6,7 +6,12 @@ It works in node or the browser
 
 ROOMDB_URI defaults to http://localhost:3000
 
+# commandline app
+
+This also include a commandline app built in node for fast testing in **examples/cli.js**
+
 Try `yarn assert "#something wicked this way comes"`, then `yarn select "$name $adj this way comes"`
+
 
 #### examples
 
