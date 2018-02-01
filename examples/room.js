@@ -12,7 +12,7 @@ fetch = fetch && fetch.hasOwnProperty('default') ? fetch['default'] : fetch;
  * @param {uri} location Location to connect (defaults to localhost:3000)
  */
 class Room {
-  constructor (uri = null) {
+  constructor (uri = "http://localhost:3000") {
     this.uri = uri || `http://localhost:3000`;
     this.id = null;
     this._data = null;

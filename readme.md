@@ -1,7 +1,5 @@
 # room-client
 
-**warning**: this is not up-to-date with the latest room-server
-
 a universal javascript client that talks to a [roomdb](https://github.com/alexwart/roomdb) [server](https://github.com/jedahan/room-server)
 
 It works in node or the browser
