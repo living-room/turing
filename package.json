@@ -22,7 +22,7 @@
     "dev": "rollup -c -w",
     "backend": "node -e 'require(\"@jedahan/room-server/server.js\")'",
     "assert": "node --experimental-modules examples/assert.mjs",
-    "assert": "node --experimental-modules examples/select.mjs",
+    "select": "node --experimental-modules examples/select.mjs",
     "examples": "serve --cors examples"
   },
   "dependencies": {
