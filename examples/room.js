@@ -31,7 +31,7 @@ class Room {
 
     const post = {
       method: 'POST',
-      body: JSON.stringify(Object.assign(this._data, {id: this.id})),
+      body: JSON.stringify(this._data), //Object.assign(this._data, {id: this.id})),
       headers: { 'Content-Type': 'application/json' }
     };
 
@@ -46,7 +46,7 @@ class Room {
   }
 
   select (facts) {
-    this._data = facts;
+    this._data = {facts};
     this._endpoint = 'select';
     return this
   }

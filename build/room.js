@@ -11,14 +11,13 @@ fetch = fetch && fetch.hasOwnProperty('default') ? fetch['default'] : fetch;
  *
  * @param {uri} location Location to connect (defaults to localhost:3000)
  */
-function getEnv(key) {
+function getEnv (key) {
   if (typeof process !== 'undefined') return process.env[key]
 }
 
 class Room {
   constructor (uri) {
     this.uri = uri || getEnv('ROOMDB_URI') || 'http://localhost:3000';
-    this.id = null;
     this._data = null;
     this._endpoint = null;
   }
@@ -31,14 +30,13 @@ class Room {
 
     const post = {
       method: 'POST',
-      body: JSON.stringify(Object.assign(this._data, {id: this.id})),
+      body: JSON.stringify(this._data),
       headers: { 'Content-Type': 'application/json' }
     };
 
     return fetch(endpoint, post)
       .then(response => response.json())
       .then(json => {
-        this.id = this.id || json.id;
         this._data = null;
         this._endpoint = null;
         return json
@@ -46,7 +44,7 @@ class Room {
   }
 
   select (facts) {
-    this._data = facts;
+    this._data = {facts};
     this._endpoint = 'select';
     return this
   }

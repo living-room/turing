@@ -10,24 +10,40 @@
     <script>
       const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
       const context = canvas.getContext('2d')
-      let things = []
+      let things = new Set()
+      let boxes = new Set()
 
       room
         .assert(`Simba is a cat at (50, 50)`)
         .assert(`Timon is a meerkat at (100, 77)`)
         .assert(`Pumba is a warthog at (66, 77)`)
 
+
       window.setInterval(() => {
         room
-          .select(`$name is a $thing at ($x, $y)`)
-          .doAll(matches => things = matches)
+          .select([`$name is a $thing at ($x, $y)`])
+          .doAll(matches => things = new Set(matches))
+
+        room
+          .select(`$name is a boundingbox at ($x, $y, $xx, $yy)`)
+          .doAll(matches => boxes = new Set(matches))
       }, 1000)
 
       async function draw (time) {
         canvas.width = window.innerWidth
         canvas.height = window.innerHeight
         context.clearRect(0, 0, canvas.width, canvas.height)
+
         things.forEach(({name, x, y}) => context.fillText(name.str, x, y))
+
+        if (boxes.size) {
+          const oldFillStyle = context.fillStyle
+          const {x, y, xx, yy} = Array.from(boxes.values())[boxes.size - 1]
+          context.fillStyle = '#abc'
+          context.fillRect(x, y, xx, yy)
+          context.fillStyle = oldFillStyle
+        }
+
         requestAnimationFrame(draw)
       }
 
