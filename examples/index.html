@@ -34,7 +34,7 @@
         canvas.height = window.innerHeight
         context.clearRect(0, 0, canvas.width, canvas.height)
 
-        things.forEach(({name, x, y}) => context.fillText(name.str, x, y))
+        things.forEach(({name, x, y}) => context.fillText(name.word, x, y))
 
         if (boxes.size) {
           const oldFillStyle = context.fillStyle
