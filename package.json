@@ -1,5 +1,5 @@
 {
-  "name": "room",
+  "name": "room-client",
   "version": "0.2.0",
   "description": "node.js and browser client for roomdb",
   "main": "build/room.js",
