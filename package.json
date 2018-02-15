@@ -8,6 +8,7 @@
   "license": "MIT",
   "devDependencies": {
     "@jedahan/room-server": "jedahan/room-server",
+    "npm-run-all": "^4.1.2",
     "rollup": "^0.54.1",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-livereload": "^0.6.0",
@@ -24,7 +25,10 @@
     "assert": "node examples/cli.js assert",
     "retract": "node examples/cli.js retract",
     "select": "node examples/cli.js select",
-    "examples": "serve --cors examples"
+    "examples": "serve --cors examples",
+    "systemd": "npm-run-all systemd:remove systemd:add",
+    "systemd:add": "NODE=`which node` sudo -E bash -c '$NODE service.js add'",
+    "systemd:remove": "NODE=`which node` sudo -E bash -c '$NODE service.js remove'"
   },
   "dependencies": {
     "node-fetch": "^1.7.3"
