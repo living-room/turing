@@ -5,7 +5,7 @@ do
     then
         echo "Master ref received.  Deploying master branch to production..."
         git --work-tree=${PWD%.git} --git-dir=$PWD checkout -f
-        sudo systemctl restart room-server
+        sudo systemctl restart ${PWD%.git}
     else
         echo "Ref $ref successfully received.  Doing nothing: only the master branch may be deployed on this server."
     fi
