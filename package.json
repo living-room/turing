@@ -31,6 +31,7 @@
     "systemd:remove": "NODE=`which node` sudo -E bash -c '$NODE service.js remove'"
   },
   "dependencies": {
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^1.7.3",
+    "room-server": "jedahan/room-server"
   }
 }
