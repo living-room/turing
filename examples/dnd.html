@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <script src="room.js"></script>
+    <script>
+      const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
+      const context = canvas.getContext('2d')
+      let characters = new Map()
+
+      room
+        .assert(`#gorog the barbarian is at 0.3, 0.4`)
+        .assert(`#stilgar the sorceror is at 0.5, 0.5`)
+        .assert(`a troll is at 0.6, 0.4`)
+
+      room
+        .subscribe(`$name the $class is at ($x, $y)`)
+        .on(({name, x, y}) => {
+          characters.set(name.str, {x, y})
+        })
+
+      async function draw (time) {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        context.clearRect(0, 0, canvas.width, canvas.height)
+
+        characters.forEach(({x, y}, name) => context.fillText(name, x, y))
+
+        requestAnimationFrame(draw)
+      }
+
+      requestAnimationFrame(draw)
+    </script>
+  </body>
+</html>
