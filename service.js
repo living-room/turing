@@ -15,7 +15,8 @@ function add () {
     error: `/var/log/${pkg.name}/error`,
     'engine.bin': process.env.NODE,
     env: {
-      NODE_ENV: 'production'
+      NODE_ENV: 'production',
+      PATH: path.dirname(process.env._)
     }
   })
   .then(() => console.log(`${pkg.name} service removed`))
