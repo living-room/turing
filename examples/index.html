@@ -55,7 +55,7 @@
           .select(`$labelId a label ($x, $y)`)
           .doAll(matches => {
             latestLabels = {}
-            matches.forEach({labelId, x, y} => {
+            matches.forEach(({labelId, x, y}) => {
               latestLabels[labelId.id] = {x, y}
             })
             labels = latestLabels
