@@ -14,7 +14,7 @@
     <script>
       const fullScreen = function() {
           if (canvas.requestFullscreen) return canvas.requestFullscreen()
-          if (canvas.mozRequestFullscreen) return canvas.mozRequestFullScreen()
+          if (canvas.mozRequestFullScreen) return canvas.mozRequestFullScreen()
       }
 
       const room = new window.room('http://crosby.cluster.recurse.com:3000') // assumes RoomDB http server running on http://localhost:3000
