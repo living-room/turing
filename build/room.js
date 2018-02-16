@@ -94,6 +94,13 @@ class Room {
     this._db();
     return this
   }
+
+  retractEverythingAbout (name) {
+    this._data = {name};
+    this._endpoint = 'retractEverythingAbout';
+    this._db();
+    return this
+  }
 }
 
 return Room;
