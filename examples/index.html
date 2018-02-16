@@ -22,7 +22,7 @@
       const makeHalo = function(x, y) {
         context.strokeStyle = 'rgb(0, ' + Math.floor(255 - 42.5 * x) + ', ' + Math.floor(255 - 42.5 * y) + ')';
         context.beginPath();
-        context.arc(12.5 + y * 25, 12.5 + x * 25, 10, 0, Math.PI * 2, true);
+        context.arc(12.5 + y, 12.5 + x, 10, 0, Math.PI * 2, true);
         context.stroke();
       }
 
