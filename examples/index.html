@@ -22,7 +22,7 @@
 
       let things = new Set()
       let boxes = new Set()
-      let labels = new Set()
+      let labels = {}
 
       const makeHalo = function(x, y) {
         r = 0
@@ -45,22 +45,24 @@
       window.setInterval(() => {
         room
           .select([`$name is a $thing at ($x, $y)`])
-          .doAll(matches => things = new Set(matches))
+          .doAll(matches => things = new Set(matches.filter(({thing}) => thing.word !== 'label')))
 
         room
           .select(`$name is a boundingbox at ($x, $y, $xx, $yy)`)
           .doAll(matches => boxes = new Set(matches))
 
         room
-          .select(`$labelId a label ($x, $y)`)
+          .select(`$labelId is a label at ($x, $y)`)
           .doAll(matches => {
             latestLabels = {}
             matches.forEach(({labelId, x, y}) => {
               latestLabels[labelId.id] = {x, y}
             })
             labels = latestLabels
-            room.retractEverythingAbout(labelId.id)
-           })
+            for (labelId in labels) {
+              room.retractEverythingAbout(labelId)
+            }
+          })
       }, 1000)
 
       async function draw (time) {
@@ -73,7 +75,7 @@
         let sentences = [
           'git clone https://github.com/jedahan/room-client',
           'export ROOMDB_URI=http://crosby.cluster.recurse.com:3000',
-          'npm install && npm assert `jedahan is a recurser at (0.6, 0.3)`'
+          'yarn && yarn assert "jedahan is a recurser at (0.6, 0.3)"'
         ]
         sentences.forEach(sentence => {
            context.fillStyle = '#fff'
@@ -82,14 +84,15 @@
            offset += 0.05
          })
 
-        labels.forEach(({labelId, x, y}) => {
+        for (labelId in labels) {
+          const { x, y } = labels[labelId]
           const oldFillStyle = context.fillStyle
           makeHalo(x, y)
           context.fillStyle = '#0f0'
           context.font = '40px sans-serif'
-          context.fillText(labelId.id, x * canvas.width, y * canvas.height)
+          context.fillText(labelId, x * canvas.width, y * canvas.height)
           context.fillStyle = oldFillStyle
-        })
+        }
 
         things.forEach(({name, x, y}) => {
           makeHalo(x, y)
