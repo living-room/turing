@@ -7,13 +7,17 @@
     </style>
   </head>
   <body>
+    <a href="#" onClick="fullScreen()">fullscreen</a>
     <canvas id="canvas"></canvas>
 
     <script src="room.js"></script>
     <script>
-      if (canvas.requestFullscreen) canvas.requestFullscreen()
+      const fullScreen = function() {
+          if (canvas.requestFullscreen) return canvas.requestFullscreen()
+          if (canvas.mozRequestFullscreen) return canvas.mozRequestFullScreen()
+      }
 
-      const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
+      const room = new window.room('http://crosby.cluster.recurse.com:3000') // assumes RoomDB http server running on http://localhost:3000
       const context = canvas.getContext('2d')
 
       let things = new Set()
@@ -52,6 +56,7 @@
 
         things.forEach(({name, x, y}) => {
           makeHalo(x, y)
+          context.fullStyle = '#fff'
           context.fillText(name.word, (x * canvas.width), y * canvas.height)
         })
 
