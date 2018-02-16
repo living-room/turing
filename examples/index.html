@@ -23,18 +23,16 @@
         r = 0
         g = 255 * x
         b = 255 * y
-        x *= canvas.width
-        y *= canvas.width
         context.strokeStyle = 'rgb(0, ' + Math.floor(g) + ', ' + Math.floor(b) + ')';
         context.beginPath();
-        context.arc(12.5 + x, 12.5 + y, 10, 0, Math.PI * 2, true);
+        context.arc(x*canvas.width, y*canvas.height, 10, 0, Math.PI * 2, true);
         context.stroke();
       }
 
       room
-        .assert(`Simba is a cat at (.5, .5)`)
-        .assert(`Timon is a meerkat at (.4, .6)`)
-        .assert(`Pumba is a warthog at (.55, .6`)
+        .assert(`Simba is a cat at (0.5, 0.5)`)
+        .assert(`Timon is a meerkat at (0.4, 0.6)`)
+        .assert(`Pumba is a warthog at (0.55, 0.6)`)
 
 
       window.setInterval(() => {
