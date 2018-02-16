@@ -20,16 +20,21 @@
       let boxes = new Set()
 
       const makeHalo = function(x, y) {
-        context.strokeStyle = 'rgb(0, ' + Math.floor(255 - 42.5 * x) + ', ' + Math.floor(255 - 42.5 * y) + ')';
+        r = 0
+        g = 255 * x
+        b = 255 * y
+        x *= canvas.width
+        y *= canvas.width
+        context.strokeStyle = 'rgb(0, ' + Math.floor(g) + ', ' + Math.floor(b) + ')';
         context.beginPath();
         context.arc(12.5 + x, 12.5 + y, 10, 0, Math.PI * 2, true);
         context.stroke();
       }
 
       room
-        .assert(`Simba is a cat at (50, 50)`)
-        .assert(`Timon is a meerkat at (100, 77)`)
-        .assert(`Pumba is a warthog at (66, 77)`)
+        .assert(`Simba is a cat at (.5, .5)`)
+        .assert(`Timon is a meerkat at (.4, .6)`)
+        .assert(`Pumba is a warthog at (.55, .6`)
 
 
       window.setInterval(() => {
@@ -49,7 +54,7 @@
 
         things.forEach(({name, x, y}) => {
           makeHalo(x, y)
-          context.fillText(name.word, x, y)
+          context.fillText(name.word, (x * canvas.width), y * canvas.height)
         })
 
         if (boxes.size) {
