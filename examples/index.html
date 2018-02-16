@@ -22,6 +22,7 @@
 
       let things = new Set()
       let boxes = new Set()
+      let labels = new Set()
 
       const makeHalo = function(x, y) {
         r = 0
@@ -49,6 +50,17 @@
         room
           .select(`$name is a boundingbox at ($x, $y, $xx, $yy)`)
           .doAll(matches => boxes = new Set(matches))
+
+        room
+          .select(`$labelId a label ($x, $y)`)
+          .doAll(matches => {
+            latestLabels = {}
+            matches.forEach({labelId, x, y} => {
+              latestLabels[labelId.id] = {x, y}
+            })
+            labels = latestLabels
+            room.retractEverythingAbout(labelId.id)
+           })
       }, 1000)
 
       async function draw (time) {
@@ -69,6 +81,15 @@
            context.fillText(sentence, (canvas.width * 0.03), canvas.height * (0.85 + offset))
            offset += 0.05
          })
+
+        labels.forEach(({labelId, x, y}) => {
+          const oldFillStyle = context.fillStyle
+          makeHalo(x, y)
+          context.fillStyle = '#0f0'
+          context.font = '40px sans-serif'
+          context.fillText(labelId.id, x * canvas.width, y * canvas.height)
+          context.fillStyle = oldFillStyle
+        })
 
         things.forEach(({name, x, y}) => {
           makeHalo(x, y)
