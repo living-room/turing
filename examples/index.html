@@ -63,56 +63,68 @@
               room.retractEverythingAbout(labelId)
             }
           })
-      }, 1000)
+      }, 1000/30)
+
+      var fps = 30
+      var now
+      var then = Date.now()
+      var interval = 1000/fps
+      var delta
 
       async function draw (time) {
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
-        context.clearRect(0, 0, canvas.width, canvas.height)
-
-        let offset = 0
-
-        let sentences = [
-          'git clone https://github.com/jedahan/room-client',
-          'export ROOMDB_URI=http://crosby.cluster.recurse.com:3000',
-          'yarn && yarn assert "jedahan is a recurser at (0.6, 0.3)"'
-        ]
-        sentences.forEach(sentence => {
-           context.fillStyle = '#fff'
-           context.font = '40px sans-serif'
-           context.fillText(sentence, (canvas.width * 0.03), canvas.height * (0.85 + offset))
-           offset += 0.05
-         })
-
-        for (labelId in labels) {
-          const { x, y } = labels[labelId]
-          const oldFillStyle = context.fillStyle
-          makeHalo(x, y)
-          context.fillStyle = '#0f0'
-          context.font = '40px sans-serif'
-          context.fillText(labelId, x * canvas.width, y * canvas.height)
-          context.fillStyle = oldFillStyle
-        }
-
-        things.forEach(({name, x, y}) => {
-          makeHalo(x, y)
-          context.fillStyle = '#fff'
-          context.font = '40px sans-serif'
-          context.fillText(name.word, x * canvas.width, y * canvas.height)
-        })
-
-        if (boxes.size) {
-          const oldFillStyle = context.fillStyle
-          const {x, y, xx, yy} = Array.from(boxes.values())[boxes.size - 1]
-          context.fillStyle = '#abc'
-          context.fillRect(x, y, xx, yy)
-          context.fillStyle = oldFillStyle
-        }
-
         requestAnimationFrame(draw)
+
+        now = Date.now()
+        delta = now - then
+
+        if (delta > interval) {
+          canvas.width = window.innerWidth
+          canvas.height = window.innerHeight
+          context.clearRect(0, 0, canvas.width, canvas.height)
+
+          let offset = 0
+
+          let sentences = [
+            'git clone https://github.com/jedahan/room-client',
+            'export ROOMDB_URI=http://crosby.cluster.recurse.com:3000',
+            'yarn && yarn assert "jedahan is a recurser at (0.6, 0.3)"'
+          ]
+          sentences.forEach(sentence => {
+             context.fillStyle = '#fff'
+             context.font = '40px sans-serif'
+             context.fillText(sentence, (canvas.width * 0.03), canvas.height * (0.85 + offset))
+             offset += 0.05
+           })
+
+          for (labelId in labels) {
+            const { x, y } = labels[labelId]
+            const oldFillStyle = context.fillStyle
+            makeHalo(x, y)
+            context.fillStyle = '#0f0'
+            context.font = '40px sans-serif'
+            context.fillText(labelId, x * canvas.width, y * canvas.height)
+            context.fillStyle = oldFillStyle
+          }
+
+          things.forEach(({name, x, y}) => {
+            makeHalo(x, y)
+            context.fillStyle = '#fff'
+            context.font = '40px sans-serif'
+            context.fillText(name.word, x * canvas.width, y * canvas.height)
+          })
+
+          if (boxes.size) {
+            const oldFillStyle = context.fillStyle
+            const {x, y, xx, yy} = Array.from(boxes.values())[boxes.size - 1]
+            context.fillStyle = '#abc'
+            context.fillRect(x, y, xx, yy)
+            context.fillStyle = oldFillStyle
+          }
+
+        }
       }
 
-      requestAnimationFrame(draw)
+      draw()
     </script>
   </body>
 </html>

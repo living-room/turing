@@ -11,17 +11,37 @@ fetch = fetch && fetch.hasOwnProperty('default') ? fetch['default'] : fetch;
  *
  * @param {uri} location Location to connect (defaults to localhost:3000)
  */
-function getEnv(key) {
+//import io from 'socket.io-client'
+
+function getEnv (key) {
   if (typeof process !== 'undefined') return process.env[key]
 }
 
 class Room {
   constructor (uri) {
     this.uri = uri || getEnv('ROOMDB_URI') || 'http://localhost:3000';
-    this.id = null;
+    this._subscriptions = new Map();
     this._data = null;
     this._endpoint = null;
   }
+
+/*
+  subscribe (facts) {
+    const subscriptionName = facts.toString()
+    if (this._sockets.has(subscriptionName)) return this._sockets.get(subscriptionName)
+    const subscription = io
+      .of(`/${subscriptionName}`)
+      .on('connection', socket => {
+        socket.emit('subscribe', facts)
+      })
+    this._sockets.set(subscriptionName, subscription)
+    return {
+      on(callback) {
+        subscription.on('subscriptionFacts', cb)
+      }
+    }
+  }
+  */
 
   _db () {
     if (!(this._data || this._endpoint)) {
@@ -31,17 +51,15 @@ class Room {
 
     const post = {
       method: 'POST',
-      body: JSON.stringify(this._data), //Object.assign(this._data, {id: this.id})),
+      body: JSON.stringify(this._data),
       headers: { 'Content-Type': 'application/json' }
     };
 
     return fetch(endpoint, post)
-      .then(response => response.json())
-      .then(json => {
-        this.id = this.id || json.id;
+      .then(response => {
         this._data = null;
         this._endpoint = null;
-        return json
+        return response
       })
   }
 
@@ -52,12 +70,12 @@ class Room {
   }
 
   async do (callbackFn) {
-    const {solutions} = await this._db();
+    const {solutions} = await this._db().then(_ => _.json());
     solutions.forEach(callbackFn);
   }
 
   async doAll (callbackFn) {
-    const {solutions} = await this._db();
+    const {solutions} = await this._db().then(_ => _.json());
     callbackFn(solutions);
   }
 
@@ -75,6 +93,12 @@ class Room {
     this._endpoint = 'retract';
     this._db();
     return this
+  }
+
+  async retractEverythingAbout (name) {
+    this._data = {name};
+    this._endpoint = 'retractEverythingAbout';
+    await this._db();
   }
 }
 

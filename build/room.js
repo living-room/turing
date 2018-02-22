@@ -95,11 +95,10 @@ class Room {
     return this
   }
 
-  retractEverythingAbout (name) {
+  async retractEverythingAbout (name) {
     this._data = {name};
     this._endpoint = 'retractEverythingAbout';
-    this._db();
-    return this
+    await this._db();
   }
 }
 
