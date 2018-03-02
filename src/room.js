@@ -6,7 +6,7 @@
  * @param {uri} location Location to connect (defaults to localhost:3000)
  */
 import fetch from 'node-fetch'
-//import io from 'socket.io-client'
+import io from 'socket.io-client'
 
 function getEnv (key) {
   if (typeof process !== 'undefined') return process.env[key]
@@ -20,14 +20,13 @@ export default class Room {
     this._endpoint = null
   }
 
-/*
   subscribe (facts) {
     const subscriptionName = facts.toString()
     if (this._sockets.has(subscriptionName)) return this._sockets.get(subscriptionName)
     const subscription = io
       .of(`/${subscriptionName}`)
       .on('connection', socket => {
-        socket.emit('subscribe', facts)
+        socket.emit('updateSubscription', facts)
       })
     this._sockets.set(subscriptionName, subscription)
     return {
@@ -36,7 +35,6 @@ export default class Room {
       }
     }
   }
-  */
 
   _db () {
     if (!(this._data || this._endpoint)) {
@@ -74,16 +72,14 @@ export default class Room {
     callbackFn(solutions)
   }
 
-  // todo: implement filler values
-  assert (fact, _) {
+  assert (fact) {
     this._data = {fact}
     this._endpoint = 'assert'
     this._db()
     return this
   }
 
-  // todo: implement filler values
-  retract (fact, _) {
+  retract (fact) {
     this._data = {fact}
     this._endpoint = 'retract'
     this._db()

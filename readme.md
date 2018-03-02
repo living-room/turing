@@ -1,25 +1,19 @@
-# room-client
+# living-room-js
 
-a universal javascript client that talks to a [roomdb](https://github.com/alexwart/roomdb) [server](https://github.com/jedahan/room-server)
+A universal javascript client that talks to a [living room server](https://github.com/jedahan/living-room-server)
 
-It works in node or the browser
-
-ROOMDB_URI defaults to http://localhost:3000
+It works in node or the browser, make sure you have a server listening on localhost:3000 or change LIVING_ROOM_URI to point to your server
 
 # commandline app
 
-This also include a commandline app built in node for fast testing in **examples/cli.js**
+There is a commandline application for quick testing and as a simple example of how to use this client in **[examples/commandline.js](./examples/commandline.js)**
 
 Try `yarn assert "#something wicked this way comes"`, then `yarn select "$name $adj this way comes"`
 
 
 #### examples
 
-check out [examples/select.mjs](./examples/select.mjs) for the simplest write
-
-check out [examples/assert.mjs](./examples/assert.mjs) for the simplest write
-
-from [examples/node.mjs](./examples/node.mjs)
+In addition to [examples/commandline.js](./examples/commandline.js), we have a few other [examples](./examples):
 
 ```javascript
 #!node --experimental-modules

@@ -1,130 +1,50 @@
+<!--
+  This is an example use of the subscription model for a living room server
+-->
 <html>
   <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
-    <style>
-      canvas { background-color: rgba(58, 67, 84, 0.7) }
-    </style>
   </head>
   <body>
-    <a href="#" onClick="fullScreen()">fullscreen</a>
     <canvas id="canvas"></canvas>
 
-    <script src="room.js"></script>
+    <script src="build/room.js"></script>
     <script>
-      const fullScreen = function() {
-          if (canvas.requestFullscreen) return canvas.requestFullscreen()
-          if (canvas.mozRequestFullScreen) return canvas.mozRequestFullScreen()
-      }
-
-      const room = new window.room('http://crosby.cluster.recurse.com:3000') // assumes RoomDB http server running on http://localhost:3000
+      const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
       const context = canvas.getContext('2d')
-
-      let things = new Set()
-      let boxes = new Set()
-      let labels = {}
-
-      const makeHalo = function(x, y) {
-        r = 0
-        g = 255 * x
-        b = 255 * y
-        context.strokeStyle = 'rgb(0, ' + Math.floor(g) + ', ' + Math.floor(b) + ')';
-        context.fillStyle = context.strokeStyle
-        context.beginPath();
-        context.arc(x*canvas.width - 20, y*canvas.height - 20, 15, 0, Math.PI * 2, true);
-        context.stroke();
-        context.fill();
-      }
+      let characters = new Map()
 
       room
         .assert(`Simba is a cat at (0.5, 0.5)`)
         .assert(`Timon is a meerkat at (0.4, 0.6)`)
         .assert(`Pumba is a warthog at (0.55, 0.6)`)
+        .do()
 
-
-      window.setInterval(() => {
-        room
-          .select([`$name is a $thing at ($x, $y)`])
-          .doAll(matches => things = new Set(matches.filter(({thing}) => thing.word !== 'label')))
-
-        room
-          .select(`$name is a boundingbox at ($x, $y, $xx, $yy)`)
-          .doAll(matches => boxes = new Set(matches))
-
-        room
-          .select(`$labelId is a label at ($x, $y)`)
-          .doAll(matches => {
-            latestLabels = {}
-            matches.forEach(({labelId, x, y}) => {
-              latestLabels[labelId.id] = {x, y}
-            })
-            labels = latestLabels
-            for (labelId in labels) {
-              room.retractEverythingAbout(labelId)
-            }
-          })
-      }, 1000/30)
-
-      var fps = 30
-      var now
-      var then = Date.now()
-      var interval = 1000/fps
-      var delta
+      room
+        .subscribe(`$name is a $animal at ($x, $y)`)
+        .on(({name, x, y}) => {
+          characters.set(name.str, {x, y})
+        })
 
       async function draw (time) {
+        // if the window is resized, change the canvas to fill the window
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+
+        // clear the canvas
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        context.fillStyle = '#fff'
+        context.font = '40px sans-serif'
+
+        characters.forEach(({x, y}, name) => {
+          context.fillText(name, x * canvas.width, y * canvas.height)
+        })
+
         requestAnimationFrame(draw)
-
-        now = Date.now()
-        delta = now - then
-
-        if (delta > interval) {
-          canvas.width = window.innerWidth
-          canvas.height = window.innerHeight
-          context.clearRect(0, 0, canvas.width, canvas.height)
-
-          let offset = 0
-
-          let sentences = [
-            'git clone https://github.com/jedahan/room-client',
-            'export ROOMDB_URI=http://crosby.cluster.recurse.com:3000',
-            'yarn && yarn assert "jedahan is a recurser at (0.6, 0.3)"'
-          ]
-          sentences.forEach(sentence => {
-             context.fillStyle = '#fff'
-             context.font = '40px sans-serif'
-             context.fillText(sentence, (canvas.width * 0.03), canvas.height * (0.85 + offset))
-             offset += 0.05
-           })
-
-          for (labelId in labels) {
-            const { x, y } = labels[labelId]
-            const oldFillStyle = context.fillStyle
-            makeHalo(x, y)
-            context.fillStyle = '#0f0'
-            context.font = '40px sans-serif'
-            context.fillText(labelId, x * canvas.width, y * canvas.height)
-            context.fillStyle = oldFillStyle
-          }
-
-          things.forEach(({name, x, y}) => {
-            makeHalo(x, y)
-            context.fillStyle = '#fff'
-            context.font = '40px sans-serif'
-            context.fillText(name.word, x * canvas.width, y * canvas.height)
-          })
-
-          if (boxes.size) {
-            const oldFillStyle = context.fillStyle
-            const {x, y, xx, yy} = Array.from(boxes.values())[boxes.size - 1]
-            context.fillStyle = '#abc'
-            context.fillRect(x, y, xx, yy)
-            context.fillStyle = oldFillStyle
-          }
-
-        }
       }
 
-      draw()
+      requestAnimationFrame(draw)
     </script>
   </body>
 </html>
