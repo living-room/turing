@@ -1,0 +1,37 @@
+<!--
+  This is an example use of the subscription model for a living room server
+-->
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+  </head>
+  <body>
+    <script src="/socket.io/socket.io.js" ></script>
+    <script src="build/room.js"></script>
+    <script src="js/phaser.min.js"></script>
+    <script src="js/banana-emitter.js"></script>
+    <script>
+      const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
+      let characters = new Map()
+      room
+        .subscribe(`$name is a label at ($x, $y)`)
+        .on(({queries, solutions}) => {
+          solutions.forEach(animal => {
+            let [label, x, y] = [animal.name.id, animal.x.value, animal.y.value]
+            characters.set(label, {x, y})
+          })
+        })
+
+      async function draw (time) {
+        characters.forEach(({x, y}, name) => {
+          doParticles(x * game.width, y * game.height,  2);
+        })
+
+        requestAnimationFrame(draw)
+      }
+
+      requestAnimationFrame(draw)
+    </script>
+  </body>
+</html>
