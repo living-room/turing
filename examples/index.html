@@ -5,10 +5,14 @@
   <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
+    <style>
+      canvas { background-color: rgba(58, 67, 84, 0.7) }
+    </style>
   </head>
   <body>
     <canvas id="canvas"></canvas>
 
+     <script src="http://localhost:3000/socket.io/socket.io.js" ></script>
     <script src="build/room.js"></script>
     <script>
       const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
@@ -16,15 +20,17 @@
       let characters = new Map()
 
       room
-        .assert(`Simba is a cat at (0.5, 0.5)`)
-        .assert(`Timon is a meerkat at (0.4, 0.6)`)
-        .assert(`Pumba is a warthog at (0.55, 0.6)`)
-        .do()
+        .assert(`#Simba is a cat at (0.5, 0.5)`)
+        .assert(`#Timon is a meerkat at (0.4, 0.6)`)
+        .assert(`#Pumba is a warthog at (0.55, 0.6)`)
 
       room
         .subscribe(`$name is a $animal at ($x, $y)`)
-        .on(({name, x, y}) => {
-          characters.set(name.str, {x, y})
+        .on(({queries, solutions}) => {
+          solutions.forEach(animal => {
+            let [label, x, y] = [animal.name.id, animal.x.value, animal.y.value]
+            characters.set(label, {x, y})
+          })
         })
 
       async function draw (time) {
