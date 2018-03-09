@@ -44,7 +44,7 @@ switch (process.argv[2]) {
     break;
   case 'select':
     room.select(facts)
-        .doAll(console.log)
+        .do(console.log)
     break;
   default:
     printHelp()
