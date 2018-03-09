@@ -8,7 +8,7 @@ It works in node or the browser, make sure you have a server listening on localh
 
 There is a commandline application for quick testing and as a simple example of how to use this client in **[examples/commandline.js](./examples/commandline.js)**
 
-Try `yarn assert "#something wicked this way comes"`, then `yarn select "$name $adj this way comes"`
+Try `yarn assert '#something wicked this way comes'`, then `yarn select '$name $adj this way comes'`
 
 
 #### examples
