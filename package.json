@@ -1,13 +1,15 @@
 {
   "name": "living-room-js",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "node.js and browser client for living room server",
   "main": "build/room.js",
   "repository": "https://github.com/jedahan/living-room-js",
   "author": "Jonathan Dahan",
   "license": "MIT",
   "devDependencies": {
-    "@jedahan/room-server": "jedahan/room-server",
+    "chance": "^1.0.13",
+    "living-room-database": "jedahan/living-room-database",
+    "living-room-server": "jedahan/living-room-server",
     "npm-run-all": "^4.1.2",
     "rollup": "^0.54.1",
     "rollup-plugin-commonjs": "^8.2.6",
@@ -17,23 +19,22 @@
     "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-serve": "^0.4.2",
-    "roomdb": "alexwarth/roomdb#build-roomdb-module",
     "serve": "^6.4.8"
   },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "node -e 'require(\"@jedahan/room-server/server.js\")'",
+    "start": "node -e 'require(\"living-room-server/server.js\")'",
     "assert": "node examples/commandline.js assert",
     "retract": "node examples/commandline.js retract",
     "select": "node examples/commandline.js select",
     "examples": "serve --cors examples",
+    "test": "npm-run-all -p start examples",
     "systemd": "npm-run-all systemd:remove systemd:add",
     "systemd:add": "NODE=`which node` sudo -E bash -c '$NODE service.js add'",
     "systemd:remove": "NODE=`which node` sudo -E bash -c '$NODE service.js remove'"
   },
   "dependencies": {
-    "node-fetch": "^1.7.3",
-    "room-server": "jedahan/room-server"
+    "node-fetch": "^1.7.3"
   }
 }
