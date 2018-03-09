@@ -31,46 +31,50 @@ room
   })
 ```
 
-from [examples/index.html](./examples/index.html)
+from [examples/animals/animals.js](./examples/animals/animals.js)
 
-```html
-<html>
-  <head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="utf-8" http-equiv="encoding">
-  </head>
-  <body>
-    <canvas id="canvas"></canvas>
+```js
+// Set up some demo data
+room
+  .assert(`#Simba is a cat animal at (0.5, 0.1)`)
+  .assert(`#Timon is a meerkat animal at (0.4, 0.6)`)
+  .assert(`#Pumba is a warthog animal at (0.55, 0.6)`)
 
-    <script src="room.js"></script>
-    <script>
-      const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
-      const context = canvas.getContext('2d')
-      let things = []
+// Query for locations of animals and update our local list
+room
+  .subscribe(`$name is a $animal animal at ($x, $y)`)
+  .on(({queries, solutions}) => {
+    solutions.forEach(animal => {
+      let [label, x, y] = [animal.name.id, animal.x.value, animal.y.value]
+      characters.set(label, {x, y})
+    })
 
-      room
-        .assert(`Simba is a cat at (50, 50)`)
-        .assert(`Timon is a meerkat at (100, 77)`)
-        .assert(`Pumba is a warthog at (66, 77)`)
+    // Produce a string version of the results for the debugger to use
+    animalFacts = solutions.map(animal => JSON.stringify(animal))
+  })
 
-      window.setInterval(() => {
-        room
-          .select(`$name is a $thing at ($x, $y)`)
-          .doAll(matches => things = matches)
-      }, 1000)
+// Query for "bugnets", locations where someone has physically placed a debugger.
+room
+  .subscribe(`there is a $bugnet bugnet at $x $y $xx $yy`)
+  .on(({queries, solutions}) => {
+    bugnets = []
 
-      async function draw (time) {
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
-        context.clearRect(0, 0, canvas.width, canvas.height)
-        things.forEach(({name, x, y}) => context.fillText(name.str, x, y))
-        requestAnimationFrame(draw)
-      }
+    solutions.forEach(bugnet => {
+      let [bugnetType, x, y, xx, yy] = [
+        bugnet.bugnet.word,
+        bugnet.x.value,
+        bugnet.y.value,
+        bugnet.xx.value,
+        bugnet.yy.value
+      ]
+      let description = `Bugnet at ${x}, ${y}`
 
-      requestAnimationFrame(draw)
-    </script>
-  </body>
-</html>
+      // We only visualize the last bugnet returned by the query.
+      // Previously we would build up an array of all the
+      // bugnets we saw, but that got too messy.
+      bugnets = [{bugnetType, x, y, xx, yy, description}]
+    })
+  })
 ```
 
 #### developing
