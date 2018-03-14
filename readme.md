@@ -31,46 +31,52 @@ room
   })
 ```
 
-from [examples/index.html](./examples/index.html)
+from [examples/animals/animals.js](./examples/animals/animals.js)
 
-```html
-<html>
-  <head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="utf-8" http-equiv="encoding">
-  </head>
-  <body>
-    <canvas id="canvas"></canvas>
+```js
+// This is a demo of subscribing to a server query.
+// It queries for animals in the database and draws them on screen.
 
-    <script src="room.js"></script>
-    <script>
-      const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
-      const context = canvas.getContext('2d')
-      let things = []
+const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
+const context = canvas.getContext('2d')
+let characters = new Map()
+let animalFacts = []
 
-      room
-        .assert(`Simba is a cat at (50, 50)`)
-        .assert(`Timon is a meerkat at (100, 77)`)
-        .assert(`Pumba is a warthog at (66, 77)`)
+// Set up some demo data
+room
+  .assert(`#Simba is a cat animal at (0.5, 0.1)`)
+  .assert(`#Timon is a meerkat animal at (0.4, 0.6)`)
+  .assert(`#Pumba is a warthog animal at (0.55, 0.6)`)
 
-      window.setInterval(() => {
-        room
-          .select(`$name is a $thing at ($x, $y)`)
-          .doAll(matches => things = matches)
-      }, 1000)
+// Query for locations of animals and update our local list
+room
+  .subscribe(`$name is a $animal animal at ($x, $y)`)
+  .on(({queries, solutions}) => {
+    solutions.forEach(animal => {
+      let [label, x, y] = [animal.name.id, animal.x.value, animal.y.value]
+      characters.set(label, {x, y})
+    })
+  })
 
-      async function draw (time) {
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
-        context.clearRect(0, 0, canvas.width, canvas.height)
-        things.forEach(({name, x, y}) => context.fillText(name.str, x, y))
-        requestAnimationFrame(draw)
-      }
+async function draw (time) {
+  // if the window is resized, change the canvas to fill the window
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
 
-      requestAnimationFrame(draw)
-    </script>
-  </body>
-</html>
+  // clear the canvas
+  context.clearRect(0, 0, canvas.width, canvas.height)
+
+  context.fillStyle = '#fff'
+  context.font = '40px sans-serif'
+
+  characters.forEach(({x, y}, name) => {
+    context.fillText(name, x * canvas.width, y * canvas.height)
+  })
+
+  requestAnimationFrame(draw)
+}
+
+requestAnimationFrame(draw)
 ```
 
 #### developing
