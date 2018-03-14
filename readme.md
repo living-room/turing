@@ -34,6 +34,14 @@ room
 from [examples/animals/animals.js](./examples/animals/animals.js)
 
 ```js
+// This is a demo of subscribing to a server query.
+// It queries for animals in the database and draws them on screen.
+
+const room = new window.room() // assumes RoomDB http server running on http://localhost:3000
+const context = canvas.getContext('2d')
+let characters = new Map()
+let animalFacts = []
+
 // Set up some demo data
 room
   .assert(`#Simba is a cat animal at (0.5, 0.1)`)
@@ -48,33 +56,27 @@ room
       let [label, x, y] = [animal.name.id, animal.x.value, animal.y.value]
       characters.set(label, {x, y})
     })
-
-    // Produce a string version of the results for the debugger to use
-    animalFacts = solutions.map(animal => JSON.stringify(animal))
   })
 
-// Query for "bugnets", locations where someone has physically placed a debugger.
-room
-  .subscribe(`there is a $bugnet bugnet at $x $y $xx $yy`)
-  .on(({queries, solutions}) => {
-    bugnets = []
+async function draw (time) {
+  // if the window is resized, change the canvas to fill the window
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
 
-    solutions.forEach(bugnet => {
-      let [bugnetType, x, y, xx, yy] = [
-        bugnet.bugnet.word,
-        bugnet.x.value,
-        bugnet.y.value,
-        bugnet.xx.value,
-        bugnet.yy.value
-      ]
-      let description = `Bugnet at ${x}, ${y}`
+  // clear the canvas
+  context.clearRect(0, 0, canvas.width, canvas.height)
 
-      // We only visualize the last bugnet returned by the query.
-      // Previously we would build up an array of all the
-      // bugnets we saw, but that got too messy.
-      bugnets = [{bugnetType, x, y, xx, yy, description}]
-    })
+  context.fillStyle = '#fff'
+  context.font = '40px sans-serif'
+
+  characters.forEach(({x, y}, name) => {
+    context.fillText(name, x * canvas.width, y * canvas.height)
   })
+
+  requestAnimationFrame(draw)
+}
+
+requestAnimationFrame(draw)
 ```
 
 #### developing
