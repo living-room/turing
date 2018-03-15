@@ -14,7 +14,7 @@ function getEnv (key) {
 
 export default class Room {
   constructor (uri) {
-    this.uri = uri || getEnv('ROOMDB_URI') || 'http://localhost:3000'
+    this.uri = uri || getEnv('LIVING_ROOM_URI') || 'http://localhost:3000'
     this._sockets = new Map()
     this._data = null
     this._endpoint = null

@@ -20,7 +20,7 @@ In addition to [examples/commandline.js](./examples/commandline.js), we have a f
 
 import Room from '../build/room.js'
 
-const room = new Room() // you can pass in the uri here or in ROOMDB_URI
+const room = new Room() // you can pass in the uri here or in LIVING_ROOM_URI
 
 room
   .assert(`#You am a doggo`)
