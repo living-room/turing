@@ -12,6 +12,9 @@ function getEnv (key) {
   if (typeof process !== 'undefined') return process.env[key]
 }
 
+// represents the intention to select all facts from the database
+const all = Symbol('all')
+
 export default class Room {
   constructor (uri) {
     this.uri = uri || getEnv('LIVING_ROOM_URI') || 'http://localhost:3000'
@@ -39,7 +42,7 @@ export default class Room {
 
   _db () {
     if (!(this._data || this._endpoint)) {
-      throw new Error(`please set _data and _endpoint using assert(), retract(), select(), or do()`)
+      throw new Error(`please set _data and _endpoint using assert(), retract(), or select()`)
     }
     const endpoint = this.uri + '/' + this._endpoint
 
@@ -55,6 +58,12 @@ export default class Room {
         this._endpoint = null
         return response
       })
+  }
+
+  facts () {
+    this._data = {}
+    this._endpoint = 'facts'
+    return this
   }
 
   select (facts) {
