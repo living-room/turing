@@ -4,6 +4,8 @@ A universal javascript client that talks to a [living room server](https://githu
 
 It works in node or the browser, make sure you have a server listening on localhost:3000 or change LIVING_ROOM_URI to point to your server
 
+To test things out, just run `npm start` and all the servers and build processes will start
+
 # commandline app
 
 There is a commandline application for quick testing and as a simple example of how to use this client in **[examples/commandline.js](./examples/commandline.js)**

@@ -25,9 +25,9 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "start": "node -e 'require(\"living-room-server/server.js\")'",
+    "server": "node -e 'require(\"living-room-server/server.js\")'",
     "examples": "serve --cors examples",
-    "dev": "npm-run-all -p watch start examples",
+    "start": "npm-run-all -p watch server examples",
     "assert": "node examples/commandline.js assert",
     "retract": "node examples/commandline.js retract",
     "select": "node examples/commandline.js select",
