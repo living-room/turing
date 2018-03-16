@@ -23,7 +23,7 @@ export default [{
   output: {
     name: 'room',
     file: 'build/room.browser.js',
-    format: 'iife',
+    format: 'umd',
     sourcemap: true,
     globals: {
       'node-fetch': 'fetch',

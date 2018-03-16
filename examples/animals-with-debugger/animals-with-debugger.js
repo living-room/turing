@@ -5,7 +5,7 @@
 // Then, if another program sees a "bugnet" (a debugger), it will also
 // print debug output at the location of the bugnet.
 
-const room = new LivingRoom() // assumes LivingRoom server running on http://localhost:3000
+const room = new window.Room() // assumes LivingRoom server running on http://localhost:3000
 const context = canvas.getContext('2d')
 let characters = new Map()
 let animalFacts = []
@@ -22,7 +22,7 @@ room
   .subscribe(`$name is a $animal animal at ($x, $y)`)
   .on(({queries, solutions}) => {
     solutions.forEach(animal => {
-      let [label, x, y] = [animal.name.str, animal.x.value, animal.y.value]
+      let [label, x, y] = [animal.name.word, animal.x.value, animal.y.value]
       characters.set(label, {x, y})
     })
 

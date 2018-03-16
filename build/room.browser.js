@@ -1,5 +1,8 @@
-var room = (function (fetch,io) {
-'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('node-fetch'), require('socket.io-client')) :
+	typeof define === 'function' && define.amd ? define(['node-fetch', 'socket.io-client'], factory) :
+	(global.room = factory(global.fetch,global.io));
+}(this, (function (fetch,io) { 'use strict';
 
 fetch = fetch && fetch.hasOwnProperty('default') ? fetch['default'] : fetch;
 io = io && io.hasOwnProperty('default') ? io['default'] : io;
@@ -326,5 +329,5 @@ class Room {
 
 return Room;
 
-}(fetch,io));
+})));
 //# sourceMappingURL=room.browser.js.map

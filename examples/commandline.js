@@ -30,8 +30,8 @@ const printHelp = () => {
 
 if (process.argv.length < 2) process.exit(printHelp())
 
-const LivingRoom = require('../build/room.js')
-const room = new LivingRoom() // Defaults to http://localhost:3000
+const Room = require('../build/room.js')
+const room = new Room() // Defaults to http://localhost:3000
 
 const facts = process.argv.slice(3)[0]
 

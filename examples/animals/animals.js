@@ -1,7 +1,7 @@
 // This is a demo of subscribing to a server query.
 // It queries for animals in the database and draws them on screen.
 
-const room = new LivingRoom() // assumes living room server running on http://localhost:3000
+const room = new window.room() // assumes living room server running on http://localhost:3000
 const context = canvas.getContext('2d')
 let characters = new Map()
 let animalFacts = []
@@ -17,7 +17,7 @@ room
   .subscribe(`$name is a $animal animal at ($x, $y)`)
   .on(({queries, solutions}) => {
     solutions.forEach(animal => {
-      let [label, x, y] = [animal.name.str, animal.x.value, animal.y.value]
+      let [label, x, y] = [animal.name.word, animal.x.value, animal.y.value]
       characters.set(label, {x, y})
     })
   })

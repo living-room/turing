@@ -15,7 +15,7 @@ const makeRandomAnimal = () => {
 
 const printRandomAnimal = () => {
   const {name, animal, x, y} = makeRandomAnimal()
-  console.log(`${name} is a ${animal} at (${x}, ${y})`)
+  console.log(`${name} is a ${animal} animal at (${x}, ${y})`)
 }
 
 const printRandomAnimalRecursively = () => {
