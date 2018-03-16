@@ -1,7 +1,5 @@
 /// A node.js commandline example
 
-if (process.argv.length < 2) { printHelp(); return }
-
 const printHelp = () => {
   const invocation = process.argv.map(arg => {
     if (arg.endsWith('node')) return process.argv0
@@ -30,6 +28,8 @@ const printHelp = () => {
   `)
 }
 
+if (process.argv.length < 2) process.exit(printHelp())
+
 const Room = require('../build/room.js')
 const room = new Room() // Defaults to http://localhost:3000
 
@@ -38,14 +38,14 @@ const facts = process.argv.slice(3)[0]
 switch (process.argv[2]) {
   case 'assert':
     room.assert(facts)
-    break;
+    break
   case 'retract':
     room.retract(facts)
-    break;
+    break
   case 'select':
     room.select(facts)
         .do(console.log)
-    break;
+    break
   default:
     printHelp()
 }

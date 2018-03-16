@@ -8,7 +8,7 @@ It works in node or the browser, make sure you have a server listening on localh
 
 There is a commandline application for quick testing and as a simple example of how to use this client in **[examples/commandline.js](./examples/commandline.js)**
 
-Try `yarn assert '#something wicked this way comes'`, then `yarn select '$name $adj this way comes'`
+Try `npm run assert 'something wicked this way comes'`, then `npm run select '$name $adj this way comes'`
 
 
 #### examples
@@ -16,15 +16,13 @@ Try `yarn assert '#something wicked this way comes'`, then `yarn select '$name $
 In addition to [examples/commandline.js](./examples/commandline.js), we have a few other [examples](./examples):
 
 ```javascript
-#!node --experimental-modules
-
-import Room from '../build/room.js'
+const Room = require('../build/room.js')
 
 const room = new Room() // you can pass in the uri here or in LIVING_ROOM_URI
 
 room
-  .assert(`#You am a doggo`)
-  .assert(`#I am a pupper`)
+  .assert(`You am a doggo`)
+  .assert(`I am a pupper`)
   .select(`$who am a $what`)
   .do(({who, what}) => {
     console.log(`roomdb thinks ${who.name} is a ${what.str}`)
@@ -81,12 +79,14 @@ requestAnimationFrame(draw)
 
 #### developing
 
-install dependencies with `yarn`
+install dependencies
 
-mess around with [room.js](./room.js)
+    npm install
 
-build the [umd](https://github.com/umdjs/umd) library `yarn build`
+build [node.js](./build/room.js) and [browser](./build/room.browser.js) libraries on changes
 
-for a nicer development experience, try using `yarn dev`, which will build on file change
+    npm dev
 
-To test the browser example locally, run `yarn backend` to start a room-http backend, and `yarn examples` to run the example frontend.
+test the browser example (with living-room-server started by `npm dev`)
+
+    open http://localhost:3000

@@ -1,8 +1,9 @@
 {
   "name": "living-room-js",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "node.js and browser client for living room server",
   "main": "build/room.js",
+  "browser": "build/room.browser.js",
   "repository": "https://github.com/jedahan/living-room-js",
   "author": "Jonathan Dahan",
   "license": "MIT",
@@ -23,13 +24,13 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "watch": "rollup -c -w",
     "start": "node -e 'require(\"living-room-server/server.js\")'",
+    "examples": "serve --cors examples",
+    "dev": "npm-run-all -p watch start examples",
     "assert": "node examples/commandline.js assert",
     "retract": "node examples/commandline.js retract",
     "select": "node examples/commandline.js select",
-    "examples": "serve --cors examples",
-    "test": "npm-run-all -p start examples",
     "systemd": "npm-run-all systemd:remove systemd:add",
     "systemd:add": "NODE=`which node` sudo -E bash -c '$NODE service.js add'",
     "systemd:remove": "NODE=`which node` sudo -E bash -c '$NODE service.js remove'"
