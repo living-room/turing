@@ -304,7 +304,6 @@ class Room {
     this._db()
       .then( _ => _.json() )
       .then( json => {
-        console.log(json);
         const {solutions} = json;
         solutions.forEach(callbackFn);
       });
