@@ -42,16 +42,16 @@ let animalFacts = []
 
 // Set up some demo data
 room
-  .assert(`#Simba is a cat animal at (0.5, 0.1)`)
-  .assert(`#Timon is a meerkat animal at (0.4, 0.6)`)
-  .assert(`#Pumba is a warthog animal at (0.55, 0.6)`)
+  .assert(`Simba is a cat animal at (0.5, 0.1)`)
+  .assert(`Timon is a meerkat animal at (0.4, 0.6)`)
+  .assert(`Pumba is a warthog animal at (0.55, 0.6)`)
 
 // Query for locations of animals and update our local list
 room
   .subscribe(`$name is a $animal animal at ($x, $y)`)
   .on(({queries, solutions}) => {
     solutions.forEach(animal => {
-      let [label, x, y] = [animal.name.id, animal.x.value, animal.y.value]
+      let [label, x, y] = [animal.name.word, animal.x.value, animal.y.value]
       characters.set(label, {x, y})
     })
   })
