@@ -72,6 +72,15 @@ export default class Room {
     return this
   }
 
+  doAll (callbackFn) {
+    this._db()
+      .then( _ => _.json() )
+      .then( json => {
+        const {solutions} = json
+        callbackFn(solutions)
+      })
+  }
+
   do (callbackFn) {
     this._db()
       .then( _ => _.json() )
