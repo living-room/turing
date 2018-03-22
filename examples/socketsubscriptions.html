@@ -1,0 +1,17 @@
+<script src=http://localhost:3000/socket.io/socket.io.js ></script>
+<script src=build/room.browser.js ></script>
+<script>
+  const room = new window.room()
+
+  room.assert('gorog is at 0.5, 0.7')
+  room.subscribe(`$name is at $x $y`)
+      .on(console.dir)
+
+  setTimeout(() => {
+    room.assert('gorog is at 0.9, 0.9')
+  }, 100)
+
+  setTimeout(() => {
+    room.retract('gorog is at 0.9, 0.9')
+  }, 300)
+</script>

@@ -31,11 +31,13 @@
     "assert": "node examples/commandline.js assert",
     "retract": "node examples/commandline.js retract",
     "select": "node examples/commandline.js select",
+    "subscribe": "node examples/commandline.js subscribe",
     "systemd": "npm-run-all systemd:remove systemd:add",
     "systemd:add": "NODE=`which node` sudo -E bash -c '$NODE service.js add'",
     "systemd:remove": "NODE=`which node` sudo -E bash -c '$NODE service.js remove'"
   },
   "dependencies": {
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^1.7.3",
+    "socket.io-client": "^2.0.4"
   }
 }

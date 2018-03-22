@@ -1,5 +1,8 @@
 /// A node.js commandline example
 
+const io = require('socket.io-client')
+const socket = io.connect('http://localhost:3000')
+
 const printHelp = () => {
   const invocation = process.argv.map(arg => {
     if (arg.endsWith('node')) return process.argv0
@@ -37,7 +40,8 @@ const facts = process.argv.slice(3)[0]
 
 switch (process.argv[2]) {
   case 'assert':
-    room.assert(facts)
+    //room.assert(facts)
+    socket.emit('assert', [facts])
     break
   case 'retract':
     room.retract(facts)
@@ -45,6 +49,10 @@ switch (process.argv[2]) {
   case 'select':
     room.select(facts)
         .do(console.log)
+    break
+  case 'subscribe':
+    room.subscribe(facts).on(console.log)
+    process.stdin.on('data', () => process.exit())
     break
   default:
     printHelp()
