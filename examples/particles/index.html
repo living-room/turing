@@ -14,8 +14,8 @@
       let characters = new Map()
       room
         .subscribe(`$name is a label at ($x, $y)`)
-        .on(({queries, solutions}) => {
-          solutions.forEach(animal => {
+        .on(({assertions}) => {
+          assertions.forEach(animal => {
             let [label, x, y] = [animal.name.id, animal.x.value, animal.y.value]
             characters.set(label, {x, y})
           })

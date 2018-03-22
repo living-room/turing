@@ -20,23 +20,23 @@ room
 // Query for locations of animals and update our local list
 room
   .subscribe(`$name is a $animal animal at ($x, $y)`)
-  .on(({queries, solutions}) => {
-    solutions.forEach(animal => {
+  .on(({assertions}) => {
+    assertions.forEach(animal => {
       let [label, x, y] = [animal.name.word, animal.x.value, animal.y.value]
       characters.set(label, {x, y})
     })
 
     // Produce a string version of the results for the debugger to use
-    animalFacts = solutions.map(animal => JSON.stringify(animal))
+    animalFacts = assertions.map(animal => JSON.stringify(animal))
   })
 
 // Query for "bugnets", locations where someone has physically placed a debugger.
 room
   .subscribe(`there is a $bugnet bugnet at $x $y $xx $yy`)
-  .on(({queries, solutions}) => {
+  .on(({assertions}) => {
     bugnets = []
 
-    solutions.forEach(bugnet => {
+    assertions.forEach(bugnet => {
       let [bugnetType, x, y, xx, yy] = [
         bugnet.bugnet.word,
         bugnet.x.value,
