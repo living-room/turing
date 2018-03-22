@@ -37,7 +37,7 @@ export default class Room {
       on(callback) {
         socket.on('assertions', callback)
         socket.on('retractions', callback)
-      }
+      },
       unsubscribe() {
         socket.emit('unsubscribe', subscriptionName)
       }

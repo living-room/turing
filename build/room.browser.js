@@ -258,12 +258,16 @@ class Room {
     }
 
     const socket = io.connect(this.uri);
-    socket.emit('updateSubscription', facts);
+    socket.emit('subscribe', facts);
 
     this._sockets.set(subscriptionName, socket);
     return {
       on(callback) {
-        socket.on('subscriptionFacts', callback);
+        socket.on('assertions', callback);
+        socket.on('retractions', callback);
+      },
+      unsubscribe() {
+        socket.emit('unsubscribe', subscriptionName);
       }
     }
   }
