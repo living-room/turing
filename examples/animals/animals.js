@@ -13,12 +13,15 @@ room.select(`$name is a $type animal at ($x, $y)`)
     .doAll(animals => {
       if (!animals) return
       const names = animals.map(animal => animal.name.word)
-      if (names.indexOf('Simba')==-1)
+      if (names.indexOf('Simba') == -1) {
         room.assert(`Simba is a cat animal at (0.5, 0.1)`)
-      if (names.indexOf('Timon')==-1)
+      }
+      if (names.indexOf('Timon') == -1) {
         room.assert(`Timon is a meerkat animal at (0.4, 0.6)`)
-      if (names.indexOf('Pumba')==-1)
+      }
+      if (names.indexOf('Pumba') == -1) {
         room.assert(`Pumba is a warthog animal at (0.55, 0.6)`)
+      }
      })
 
 // Query for locations of animals and update our local list
@@ -37,7 +40,6 @@ room
   .on(({assertions}) => {
     if (!assertions) return
     assertions.forEach(line => {
-      console.dir(line)
       let [name, r, g, b, x, y, xx, yy] = [ line.name.word,
                                              line.r.value,
                                              line.g.value,
@@ -84,6 +86,7 @@ async function draw (time) {
   circles.forEach(({x, y, r, g, b, radius}, name) => {
     const oldStrokeStyle = context.strokeStyle
     context.strokeStyle=`rgb(${r},${g},${b})`
+    context.beginPath()
     context.ellipse(x * canvas.width, y * canvas.height, radius, radius, 0, 0, 2 * Math.PI)
     context.stroke()
     context.strokeStyle = oldStrokeStyle

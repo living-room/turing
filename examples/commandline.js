@@ -40,8 +40,8 @@ const facts = process.argv.slice(3)[0]
 
 switch (process.argv[2]) {
   case 'assert':
-    //room.assert(facts)
-    socket.emit('assert', [facts])
+    room.assert(facts)
+    //socket.emit('assert', [facts])
     break
   case 'retract':
     room.retract(facts)
