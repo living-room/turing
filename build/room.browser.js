@@ -326,13 +326,9 @@ class Room {
   }
 
   assert (fact) {
-    const socket = io.connect(this.uri);
-    socket.emit('assert', [fact]);
-    /*
-    this._data = {fact}
-    this._endpoint = 'assert'
-    this._db()
-    */
+    this._data = {fact};
+    this._endpoint = 'assert';
+    this._db();
     return this
   }
 
@@ -342,14 +338,6 @@ class Room {
     this._db();
     return this
   }
-
-/*
-  async retractEverythingAbout (name) {
-    this._data = {name}
-    this._endpoint = 'retractEverythingAbout'
-    await this._db()
-  }
-  */
 }
 
 return Room;

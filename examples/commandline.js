@@ -38,22 +38,22 @@ const room = new Room() // Defaults to http://localhost:3000
 
 const facts = process.argv.slice(3)[0]
 
-switch (process.argv[2]) {
-  case 'assert':
-    room.assert(facts)
-    //socket.emit('assert', [facts])
-    break
-  case 'retract':
-    room.retract(facts)
-    break
-  case 'select':
-    room.select(facts)
-        .do(console.log)
-    break
-  case 'subscribe':
-    room.subscribe(facts).on(console.log)
-    process.stdin.on('data', () => process.exit())
-    break
-  default:
-    printHelp()
+async function main() {
+  switch (process.argv[2]) {
+    case 'assert':
+      await room.assert(facts)
+      break
+    case 'retract':
+      room.retract(facts)
+      break
+    case 'select':
+      room.select(facts).do(console.log)
+      break
+    case 'subscribe':
+      room.subscribe(facts).on(console.log)
+      process.stdin.on('data', () => process.exit())
+      break
+    default:
+      printHelp()
+  }
 }
