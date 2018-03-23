@@ -17,7 +17,7 @@ function getEnv (key) {
 class Room {
   constructor (uri) {
     this.uri = uri || getEnv('LIVING_ROOM_URI') || 'http://localhost:3000';
-    this._sockets = new Map();
+    this._sockets = new Map([['_general', io.connect(this.uri)]]);
     this._data = null;
     this._endpoint = null;
   }
@@ -47,6 +47,18 @@ class Room {
     if (!(this._data || this._endpoint)) {
       throw new Error(`please set _data and _endpoint using assert(), retract(), or select()`)
     }
+    const socket = this._sockets.get('_general');
+
+    if (socket.connected && (
+          this._endpoint == 'assert'
+        ||this._endpoint == 'retract' )) {
+      socket.emit(this._endpoint, [this._data]);
+    } else {
+      return this._post()
+    }
+  }
+
+  _post () {
     const endpoint = this.uri + '/' + this._endpoint;
 
     const post = {
@@ -66,11 +78,11 @@ class Room {
   facts () {
     this._data = {};
     this._endpoint = 'facts';
-    return this
+    this._db();
   }
 
-  select (facts) {
-    this._data = {facts};
+  select (fact) {
+    this._data = {fact};
     this._endpoint = 'select';
     return this
   }
@@ -94,13 +106,9 @@ class Room {
   }
 
   assert (fact) {
-    const socket = io.connect(this.uri);
-    socket.emit('assert', [fact]);
-    /*
-    this._data = {fact}
-    this._endpoint = 'assert'
-    this._db()
-    */
+    this._data = {fact};
+    this._endpoint = 'assert';
+    this._db();
     return this
   }
 
@@ -110,14 +118,6 @@ class Room {
     this._db();
     return this
   }
-
-/*
-  async retractEverythingAbout (name) {
-    this._data = {name}
-    this._endpoint = 'retractEverythingAbout'
-    await this._db()
-  }
-  */
 }
 
 module.exports = Room;
