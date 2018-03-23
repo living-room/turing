@@ -5,6 +5,7 @@ const room = new window.room(`http://${window.location.hostname}:3000`)
 const context = canvas.getContext('2d')
 let characters = new Map()
 let circles = new Map()
+let lines = new Map()
 let animalFacts = []
 
 // Set up some demo data
@@ -32,11 +33,28 @@ room
   })
 
 room
+  .subscribe(`$name is a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`)
+  .on(({assertions}) => {
+    if (!assertions) return
+    assertions.forEach(line => {
+      console.dir(line)
+      let [name, r, g, b, x, y, xx, yy] = [ line.name.word,
+                                             line.r.value,
+                                             line.g.value,
+                                             line.b.value,
+                                             line.x.value,
+                                             line.y.value,
+                                             line.xx.value,
+                                             line.yy.value]
+      lines.set(name, {name, r, g, b, x, y, xx, yy})
+    })
+  })
+
+room
   .subscribe(`$name is a ($r, $g, $b) circle at ($x, $y) with radius $radius`)
   .on(({assertions}) => {
     if (!assertions) return
     assertions.forEach(circle => {
-      console.dir(circle)
       let [name, x, y, r, g, b, radius] = [ circle.name.word,
                                              circle.x.value,
                                              circle.y.value,
@@ -67,6 +85,16 @@ async function draw (time) {
     const oldStrokeStyle = context.strokeStyle
     context.strokeStyle=`rgb(${r},${g},${b})`
     context.ellipse(x * canvas.width, y * canvas.height, radius, radius, 0, 0, 2 * Math.PI)
+    context.stroke()
+    context.strokeStyle = oldStrokeStyle
+  })
+
+  lines.forEach(({x, y, xx, yy, r, g, b}, name) => {
+    const oldStrokeStyle = context.strokeStyle
+    context.strokeStyle=`rgb(${r},${g},${b})`
+    context.beginPath()
+    context.moveTo(x * canvas.width, y * canvas.height)
+    context.lineTo(xx * canvas.width, yy * canvas.height)
     context.stroke()
     context.strokeStyle = oldStrokeStyle
   })
