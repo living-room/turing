@@ -281,8 +281,6 @@ class Room {
     }
     const endpoint = this.uri + '/' + this._endpoint;
 
-    if (typeof this._data === 'string') this._data = [ this._data ];
-
     const post = {
       method: 'POST',
       body: JSON.stringify(this._data),
