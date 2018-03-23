@@ -298,8 +298,8 @@ class Room {
     return this
   }
 
-  select (facts) {
-    this._data = {facts};
+  select (fact) {
+    this._data = {fact};
     this._endpoint = 'select';
     return this
   }

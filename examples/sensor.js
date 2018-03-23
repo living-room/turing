@@ -1,26 +1,24 @@
-const Chance = require('chance')
-const chance = new Chance()
 
-const getRandomDelay = () => chance.integer({min: 1, max: 10}) * 1000
+// comments for the formatter
+// comments for the formatter
+//
+// comments for the formatter
+// comments for the formatter
+// comments for the formatter
+// comments for the formatter
 
-const makeRandomAnimal = () => {
-   const longAnimal = chance.animal().split(' ')
-   return {
-     name: chance.first(),
-     animal: longAnimal[longAnimal.length-1],
-     x: chance.floating({min: 0, max: 1}),
-     y: chance.floating({min: 0, max: 1})
-   }
-}
+const Room = require('../build/room.js')
+const room = new Room('http://crosby.cluster.recurse.com:3000')
 
-const printRandomAnimal = () => {
-  const {name, animal, x, y} = makeRandomAnimal()
-  console.log(`${name} is a ${animal} animal at (${x}, ${y})`)
-}
+setInterval(() => {
+  room
+    .select(`$name is a $type animal at ($x, $y)`)
+    .doAll(animals => {
+      const {name, type, x, y} = animals[parseInt(Math.random() * animals.length)]
 
-const printRandomAnimalRecursively = () => {
-  printRandomAnimal()
-  setTimeout(printRandomAnimalRecursively, getRandomDelay())
-}
+      const [dx, dy] = [Math.random() / 100, Math.random() / 100]
 
-printRandomAnimalRecursively()
+      room.assert(`${name} is a ${type} animal at (${x + dx}, ${y + dy})`)
+      room.retract(`${name} is a ${type} animal at (${x}, ${y})`)
+    })
+}, 2000)

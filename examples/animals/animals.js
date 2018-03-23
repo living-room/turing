@@ -15,8 +15,8 @@ room
 // Query for locations of animals and update our local list
 room
   .subscribe(`$name is a $animal animal at ($x, $y)`)
-  .on(({assertions}) => {
-    assertions.forEach(animal => {
+  .on(({solutions}) => {
+    solutions.forEach(animal => {
       let [label, x, y] = [animal.name.word, animal.x.value, animal.y.value]
       characters.set(label, {x, y})
     })
