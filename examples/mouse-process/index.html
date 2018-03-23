@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title>living room game jam mouse client</title>
+
+</head>
+
+<body>
+	
+	<p>Hello, mouse client!</p>
+
+	<script src='http://localhost:4200/socket.io/socket.io.js'></script>
+
+	<script>
+		const socket = io.connect('http://localhost:4200');
+		window.onmousemove = e => {
+			const normalizedX = e.clientX / window.innerWidth;
+			const normalizedY = e.clientY / window.innerHeight;
+			socket.emit('mm', {x: normalizedX, y: normalizedY});
+		}
+	</script>
+
+</body>
+
+</html>
