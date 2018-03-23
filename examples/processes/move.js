@@ -4,7 +4,7 @@ const room = new Room() // grabs from process.env.LIVING_ROOM_URI
 
 const moveRandomAnimal = () => {
   room
-    .select(`$name is a $type animal at ($x, $y)`)
+    .select([`$name is a $type animal at ($x, $y)`])
     .doAll(animals => {
       if (animals.length) {
         const {name, type, x, y} = animals[parseInt(Math.random() * animals.length)]
