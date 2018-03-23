@@ -4,7 +4,7 @@
   const room = new window.room()
 
   room.assert('gorog is at 0.5, 0.7')
-  room.subscribe(`$name is at $x $y`)
+  room.subscribe(`$name is at $x, $y`)
       .on(console.dir)
 
   setTimeout(() => {

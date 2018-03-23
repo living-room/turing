@@ -95,9 +95,13 @@ export default class Room {
   }
 
   assert (fact) {
+    const socket = io.connect(this.uri)
+    socket.emit('assert', [fact])
+    /*
     this._data = {fact}
     this._endpoint = 'assert'
     this._db()
+    */
     return this
   }
 
