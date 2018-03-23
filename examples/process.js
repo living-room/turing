@@ -1,6 +1,6 @@
 
 const Room = require('../build/room.js')
-const room = new Room('http://crosby.cluster.recurse.com:3000')
+const room = new Room() //'http://crosby.cluster.recurse.com:3000')
 
 const moveRandomAnimal = () => {
   room

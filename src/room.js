@@ -35,8 +35,11 @@ export default class Room {
     this._sockets.set(subscriptionName, socket)
     return {
       on(callback) {
-        socket.on('assertions', callback)
-        socket.on('retractions', callback)
+        const fillOut = object => {
+          return Object.assign({ selections: [], retractions: [], assertions: []}, object)
+        }
+        socket.on('assertions', data => callback(fillOut(data)))
+        socket.on('retractions', data => callback(fillOut(data)))
       },
       unsubscribe() {
         socket.emit('unsubscribe', subscriptionName)

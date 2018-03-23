@@ -11,9 +11,6 @@ var global$1 = typeof global !== "undefined" ? global :
             typeof self !== "undefined" ? self :
             typeof window !== "undefined" ? window : {}
 
-// shim for using process in browser
-// based off https://github.com/defunctzombie/node-process/blob/master/browser.js
-
 function defaultSetTimout() {
     throw new Error('setTimeout has not been defined');
 }
@@ -263,8 +260,11 @@ class Room {
     this._sockets.set(subscriptionName, socket);
     return {
       on(callback) {
-        socket.on('assertions', callback);
-        socket.on('retractions', callback);
+        const fillOut = object => {
+          return Object.assign({ selections: [], retractions: [], assertions: []}, object)
+        };
+        socket.on('assertions', data => callback(fillOut(data)));
+        socket.on('retractions', data => callback(fillOut(data)));
       },
       unsubscribe() {
         socket.emit('unsubscribe', subscriptionName);
