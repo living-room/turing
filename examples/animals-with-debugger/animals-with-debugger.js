@@ -5,7 +5,7 @@
 // Then, if another program sees a "bugnet" (a debugger), it will also
 // print debug output at the location of the bugnet.
 
-const room = new window.Room() // assumes LivingRoom server running on http://localhost:3000
+const room = new window.room() // assumes LivingRoom server running on http://localhost:3000
 const context = canvas.getContext('2d')
 let characters = new Map()
 let animalFacts = []
