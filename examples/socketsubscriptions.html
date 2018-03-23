@@ -3,17 +3,15 @@
 <script>
   const room = new window.room()
 
+  room.assert('gorog is at 0.5, 0.7')
+  room.subscribe(`$name is at $x, $y`)
+      .on(console.dir)
+
   setTimeout(() => {
-    room.assert('gorog is at 0.5, 0.7')
-    room.subscribe(`$name is at $x, $y`)
-        .on(console.dir)
-
-    setTimeout(() => {
-      room.assert('gorog is at 0.9, 0.9')
-    }, 100)
-
-    setTimeout(() => {
-      room.retract('gorog is at 0.5, 0.7')
-    }, 300)
+    room.assert('gorog is at 0.9, 0.9')
   }, 100)
+
+  setTimeout(() => {
+    room.retract('gorog is at 0.5, 0.7')
+  }, 300)
 </script>

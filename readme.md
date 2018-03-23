@@ -2,16 +2,16 @@
 
 A universal javascript client that talks to a [living room server](https://github.com/jedahan/living-room-server)
 
-To get started, do 'npm start' - this will start
-- a living room server on [http://localhost:3000]() and [osc://localhost:41234]()
-- a static file server with all the examples on [http://localhost:5000]()
-- a file watcher to recompile and test any changes to [src/room.js](./src/room.js)
+It works in node or the browser, make sure you have a server listening on localhost:3000 or change LIVING_ROOM_URI to point to your server
+
+To test things out, just run `npm start` and all the servers and build processes will start
 
 # commandline app
 
 There is a commandline application for quick testing and as a simple example of how to use this client in **[examples/commandline.js](./examples/commandline.js)**
 
-Try `node examples/commandline.js assert 'something wicked this way comes'`, then `node examples/commandline.js select '$name $adj this way comes'`
+Try `npm run assert 'something wicked this way comes'`, then `npm run select '$name $adj this way comes'`
+
 
 #### examples
 
