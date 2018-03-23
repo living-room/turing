@@ -4,13 +4,21 @@
 const room = new window.room(`http://${window.location.hostname}:3000`)
 const context = canvas.getContext('2d')
 let characters = new Map()
+let circles = new Map()
 let animalFacts = []
 
 // Set up some demo data
-room
-  .assert(`Simba is a cat animal at (0.5, 0.1)`)
-  .assert(`Timon is a meerkat animal at (0.4, 0.6)`)
-  .assert(`Pumba is a warthog animal at (0.55, 0.6)`)
+room.select(`$name is a $type animal at ($x, $y)`)
+    .doAll(animals => {
+      if (!animals) return
+      const names = animals.map(animal => animal.name.word)
+      if (names.indexOf('Simba')==-1)
+        room.assert(`Simba is a cat animal at (0.5, 0.1)`)
+      if (names.indexOf('Timon')==-1)
+        room.assert(`Timon is a meerkat animal at (0.4, 0.6)`)
+      if (names.indexOf('Pumba')==-1)
+        room.assert(`Pumba is a warthog animal at (0.55, 0.6)`)
+     })
 
 // Query for locations of animals and update our local list
 room
@@ -20,6 +28,23 @@ room
     assertions.forEach(animal => {
       let [label, x, y] = [animal.name.word, animal.x.value, animal.y.value]
       characters.set(label, {x, y})
+    })
+  })
+
+room
+  .subscribe(`$name is a ($r, $g, $b) circle at ($x, $y) with radius $radius`)
+  .on(({assertions}) => {
+    if (!assertions) return
+    assertions.forEach(circle => {
+      console.dir(circle)
+      let [name, x, y, r, g, b, radius] = [ circle.name.word,
+                                             circle.x.value,
+                                             circle.y.value,
+                                             circle.r.value,
+                                             circle.g.value,
+                                             circle.b.value,
+                                             circle.radius.value]
+      circles.set(name, {name, x, y, r, g, b, radius})
     })
   })
 
@@ -36,6 +61,14 @@ async function draw (time) {
 
   characters.forEach(({x, y}, name) => {
     context.fillText(name, x * canvas.width, y * canvas.height)
+  })
+
+  circles.forEach(({x, y, r, g, b, radius}, name) => {
+    const oldStrokeStyle = context.strokeStyle
+    context.strokeStyle=`rgb(${r},${g},${b})`
+    context.ellipse(x * canvas.width, y * canvas.height, radius, radius, 0, 0, 2 * Math.PI)
+    context.stroke()
+    context.strokeStyle = oldStrokeStyle
   })
 
   requestAnimationFrame(draw)
