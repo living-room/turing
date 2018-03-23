@@ -12,9 +12,6 @@ function getEnv (key) {
   if (typeof process !== 'undefined') return process.env[key]
 }
 
-// represents the intention to select all facts from the database
-const all = Symbol('all')
-
 export default class Room {
   constructor (uri) {
     this.uri = uri || getEnv('LIVING_ROOM_URI') || 'http://localhost:3000'
@@ -98,13 +95,9 @@ export default class Room {
   }
 
   assert (fact) {
-    const socket = io.connect(this.uri)
-    socket.emit('assert', [fact])
-    /*
     this._data = {fact}
     this._endpoint = 'assert'
     this._db()
-    */
     return this
   }
 
@@ -114,12 +107,4 @@ export default class Room {
     this._db()
     return this
   }
-
-/*
-  async retractEverythingAbout (name) {
-    this._data = {name}
-    this._endpoint = 'retractEverythingAbout'
-    await this._db()
-  }
-  */
 }
