@@ -3,7 +3,7 @@ const room = new Room();
 
 const SEES_DIST = 0.5;
 
-const seesAnimal = () => {
+const seesAnimal = verbose => {
   // Animal looks like:
   //
   // {
@@ -18,8 +18,11 @@ const seesAnimal = () => {
     _promiseSelect(`$name is a $type animal at ($x, $y)`)
   ])
     .then(([oldSees, animals]) => {
-      // console.log("oldSees?", oldSees);
-      // console.log("animals?", animals);
+      if (verbose) {
+        console.log(`### ${new Date()}\n`);
+        console.log("oldSees?", oldSees);
+        console.log("animals?", animals);
+      }
 
       oldSees = oldSees.map(x => _joinNames([x.a.word, x.b.word]));
       let newSees = _getSees(animals).map(_joinNames);
@@ -39,8 +42,11 @@ const seesAnimal = () => {
         newSees.delete(x);
       });
 
-      // console.log("processed oldSees", oldSees);
-      // console.log("processed newSees", newSees);
+      if (verbose) {
+        console.log("processed oldSees", oldSees);
+        console.log("processed newSees", newSees);
+        console.log();
+      }
 
       // retract remaining olds and assert remaining news (no change to intersection)
       Array.from(oldSees)
@@ -64,7 +70,7 @@ const seesAnimal = () => {
 // helpers
 
 const _promiseSelect = query =>
-  new Promise((resolve, reject) => room.select(query).doAll(resolve));
+  new Promise((resolve, reject) => room.select([query]).doAll(resolve));
 
 const _getSees = animals => {
   // group by name (in case of redundant names)
@@ -109,4 +115,17 @@ const _distance = (a, b) =>
 const _joinNames = x => x.join("$");
 const _splitNames = x => x.split("$");
 
-setInterval(seesAnimal, 500);
+const hasAny = (arr, args) => args.some(arg => arr.indexOf(arg) !== -1);
+
+// Main runner
+
+if (require.main === module) {
+  if (hasAny(process.argv, ["--help", "-h"])) {
+    console.log("USAGE: node sees.js [-v|--verbose]");
+  } else {
+    let verbose = ["--verbose", "-v"].some(
+      arg => process.argv.indexOf(arg) !== -1
+    );
+    setInterval(() => seesAnimal(verbose), 500);
+  }
+}
