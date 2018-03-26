@@ -4,15 +4,17 @@ const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3000')
 
 const printHelp = () => {
-  const invocation = process.argv.map(arg => {
-    if (arg.endsWith('node')) return process.argv0
-    if (arg.endsWith('.js')) {
-      console.log(process.env.PWD)
-      return arg.replace(`${process.env.PWD}/`, '')
-    }
-    if (arg === 'help') return ''
-    return arg
-  }).join(' ')
+  const invocation = process.argv
+    .map(arg => {
+      if (arg.endsWith('node')) return process.argv0
+      if (arg.endsWith('.js')) {
+        console.log(process.env.PWD)
+        return arg.replace(`${process.env.PWD}/`, '')
+      }
+      if (arg === 'help') return ''
+      return arg
+    })
+    .join(' ')
 
   console.error(`
   Assert, retract, or select facts from a living room server
@@ -38,7 +40,7 @@ const room = new Room() // Defaults to http://localhost:3000
 
 const facts = process.argv.slice(3)[0]
 
-async function main() {
+async function main () {
   switch (process.argv[2]) {
     case 'assert':
       await room.assert(facts)

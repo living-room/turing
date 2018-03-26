@@ -18,22 +18,20 @@ room
   .assert(`Pumba is a warthog animal at (0.55, 0.6)`)
 
 // Query for locations of animals and update our local list
-room
-  .subscribe(`$name is a $animal animal at ($x, $y)`)
-  .on(({assertions}) => {
-    assertions.forEach(animal => {
-      let [label, x, y] = [animal.name.word, animal.x.value, animal.y.value]
-      characters.set(label, {x, y})
-    })
-
-    // Produce a string version of the results for the debugger to use
-    animalFacts = assertions.map(animal => JSON.stringify(animal))
+room.subscribe(`$name is a $animal animal at ($x, $y)`).on(({ assertions }) => {
+  assertions.forEach(animal => {
+    let [label, x, y] = [animal.name.word, animal.x.value, animal.y.value]
+    characters.set(label, { x, y })
   })
+
+  // Produce a string version of the results for the debugger to use
+  animalFacts = assertions.map(animal => JSON.stringify(animal))
+})
 
 // Query for "bugnets", locations where someone has physically placed a debugger.
 room
   .subscribe(`there is a $bugnet bugnet at $x $y $xx $yy`)
-  .on(({assertions}) => {
+  .on(({ assertions }) => {
     bugnets = []
 
     assertions.forEach(bugnet => {
@@ -49,7 +47,7 @@ room
       // We only visualize the last bugnet returned by the query.
       // Previously we would build up an array of all the
       // bugnets we saw, but that got too messy.
-      bugnets = [{bugnetType, x, y, xx, yy, description}]
+      bugnets = [{ bugnetType, x, y, xx, yy, description }]
     })
   })
 
@@ -61,36 +59,44 @@ async function draw (time) {
   // clear the canvas
   context.clearRect(0, 0, canvas.width, canvas.height)
 
-  characters.forEach(({x, y}, name) => {
+  characters.forEach(({ x, y }, name) => {
     context.fillStyle = '#fff'
     context.font = '40px sans-serif'
     context.fillText(name, x * canvas.width, y * canvas.height)
   })
 
   // Draw any bugnets that have been placed
-  bugnets.forEach(({x, y}) => {
+  bugnets.forEach(({ x, y }) => {
     let yOffset = 0
 
     context.font = '16px sans-serif'
     context.fillStyle = 'lightblue'
-    context.fillText("BUGNET!", x * canvas.width, y * canvas.height)
+    context.fillText('BUGNET!', x * canvas.width, y * canvas.height)
 
     animalFacts.forEach(animalString => {
       yOffset += 25 // This is just to put each animal's JSON on a new line
 
       context.font = '18px sans-serif'
       context.fillStyle = 'lightblue'
-      context.fillText(animalString, x * canvas.width, (y * canvas.height) + yOffset)
+      context.fillText(
+        animalString,
+        x * canvas.width,
+        y * canvas.height + yOffset
+      )
     })
 
     yOffset += 50
 
-    bugnets.forEach(({description}) => {
+    bugnets.forEach(({ description }) => {
       yOffset += 25
 
       context.font = '18px sans-serif'
       context.fillStyle = 'lightblue'
-      context.fillText(description, x * canvas.width, (y * canvas.height) + yOffset)
+      context.fillText(
+        description,
+        x * canvas.width,
+        y * canvas.height + yOffset
+      )
     })
   })
 
@@ -98,7 +104,6 @@ async function draw (time) {
 }
 
 requestAnimationFrame(draw)
-
 
 // Here we set up a loop that retracts all bugnets we've seen after 1 second.
 // This helps keep the canvas clean.

@@ -1,7 +1,7 @@
-const Room = require("../build/room.js");
-const room = new Room();
+const Room = require('../build/room.js')
+const room = new Room()
 
-const SEES_DIST = 0.5;
+const SEES_DIST = 0.5
 
 const seesAnimal = verbose => {
   // Animal looks like:
@@ -24,23 +24,23 @@ const seesAnimal = verbose => {
         console.log("animals?", animals);
       }
 
-      oldSees = oldSees.map(x => _joinNames([x.a.word, x.b.word]));
-      let newSees = _getSees(animals).map(_joinNames);
+      oldSees = oldSees.map(x => _joinNames([x.a.word, x.b.word]))
+      let newSees = _getSees(animals).map(_joinNames)
 
-      oldSees = new Set(oldSees);
-      newSees = new Set(newSees);
+      oldSees = new Set(oldSees)
+      newSees = new Set(newSees)
 
       // get and remove intersection between the two
-      let intersection = [];
+      let intersection = []
       newSees.forEach(x => {
         if (oldSees.has(x)) {
-          intersection.push(x);
+          intersection.push(x)
         }
-      });
+      })
       intersection.forEach(x => {
-        oldSees.delete(x);
-        newSees.delete(x);
-      });
+        oldSees.delete(x)
+        newSees.delete(x)
+      })
 
       if (verbose) {
         console.log("processed oldSees", oldSees);
@@ -52,20 +52,20 @@ const seesAnimal = verbose => {
       Array.from(oldSees)
         .map(_splitNames)
         .forEach(([a, b]) => {
-          console.log(`RETRACT ${a} sees ${b}`);
-          room.retract(`${a} sees ${b}`);
-        });
+          console.log(`RETRACT ${a} sees ${b}`)
+          room.retract(`${a} sees ${b}`)
+        })
       Array.from(newSees)
         .map(_splitNames)
         .forEach(([a, b]) => {
-          console.log(`ASSERT ${a} sees ${b}`);
-          room.assert(`${a} sees ${b}`);
-        });
+          console.log(`ASSERT ${a} sees ${b}`)
+          room.assert(`${a} sees ${b}`)
+        })
     })
     .catch(e => {
-      console.log("ERROR", e);
-    });
-};
+      console.log('ERROR', e)
+    })
+}
 
 // helpers
 
@@ -74,46 +74,46 @@ const _promiseSelect = query =>
 
 const _getSees = animals => {
   // group by name (in case of redundant names)
-  let nameToAnimalsMap = new Map();
+  let nameToAnimalsMap = new Map()
 
   animals.forEach(x => {
-    let name = x.name.word;
+    let name = x.name.word
     if (!nameToAnimalsMap.has(name)) {
-      nameToAnimalsMap.set(name, []);
+      nameToAnimalsMap.set(name, [])
     }
-    nameToAnimalsMap.get(name).push(x);
-  });
+    nameToAnimalsMap.get(name).push(x)
+  })
 
-  let seenNames = new Set();
-  let results = [];
+  let seenNames = new Set()
+  let results = []
 
   // iterate over names finding in range and trying to avoid duplicate work
   nameToAnimalsMap.forEach((anims, name) => {
     anims.forEach(anim => {
-      let name = anim.name.word;
+      let name = anim.name.word
       let sees = animals.filter(
         o =>
           o.name.word !== name &&
           !seenNames.has(o.name.word) &&
           _distance(anim, o) <= SEES_DIST
-      );
+      )
 
-      seenNames.add(name);
+      seenNames.add(name)
 
       sees.forEach(s => {
-        results.push([name, s.name.word], [s.name.word, name]);
-      });
-    });
-  });
+        results.push([name, s.name.word], [s.name.word, name])
+      })
+    })
+  })
 
-  return results;
-};
+  return results
+}
 
 const _distance = (a, b) =>
-  Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+  Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2))
 
-const _joinNames = x => x.join("$");
-const _splitNames = x => x.split("$");
+const _joinNames = x => x.join('$')
+const _splitNames = x => x.split('$')
 
 const hasAny = (arr, args) => args.some(arg => arr.indexOf(arg) !== -1);
 
