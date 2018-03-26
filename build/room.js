@@ -33,14 +33,17 @@ class Room {
 
     this._sockets.set(subscriptionName, socket);
     return {
-      on(callback) {
+      on (callback) {
         const fillOut = object => {
-          return Object.assign({ selections: [], retractions: [], assertions: []}, object)
+          return Object.assign(
+            { selections: [], retractions: [], assertions: [] },
+            object
+          )
         };
         socket.on('assertions', data => callback(fillOut(data)));
         socket.on('retractions', data => callback(fillOut(data)));
       },
-      unsubscribe() {
+      unsubscribe () {
         socket.emit('unsubscribe', subscriptionName);
       }
     }
@@ -48,11 +51,13 @@ class Room {
 
   _db () {
     if (!(this._data || this._endpoint)) {
-      throw new Error(`please set _data and _endpoint using assert(), retract(), or select()`)
+      throw new Error(
+        `please set _data and _endpoint using assert(), retract(), or select()`
+      )
     }
     const endpoint = this.uri + '/' + this._endpoint;
 
-    if (typeof this._data === 'string') this._data = [ this._data ];
+    if (typeof this._data === 'string') this._data = [this._data];
 
     const post = {
       method: 'POST',
@@ -60,12 +65,11 @@ class Room {
       headers: { 'Content-Type': 'application/json' }
     };
 
-    return fetch(endpoint, post)
-      .then(response => {
-        this._data = null;
-        this._endpoint = null;
-        return response
-      })
+    return fetch(endpoint, post).then(response => {
+      this._data = null;
+      this._endpoint = null;
+      return response
+    })
   }
 
   facts () {
@@ -75,38 +79,38 @@ class Room {
   }
 
   select (fact) {
-    this._data = {fact};
+    this._data = { fact };
     this._endpoint = 'select';
     return this
   }
 
   doAll (callbackFn) {
     this._db()
-      .then( _ => _.json() )
-      .then( json => {
-        const {solutions} = json;
+      .then(_ => _.json())
+      .then(json => {
+        const { solutions } = json;
         callbackFn(solutions);
       });
   }
 
   do (callbackFn) {
     this._db()
-      .then( _ => _.json() )
-      .then( json => {
-        const {solutions} = json;
+      .then(_ => _.json())
+      .then(json => {
+        const { solutions } = json;
         solutions.forEach(callbackFn);
       });
   }
 
   assert (fact) {
-    this._data = {fact};
+    this._data = { fact };
     this._endpoint = 'assert';
     this._db();
     return this
   }
 
   retract (fact) {
-    this._data = {fact};
+    this._data = { fact };
     this._endpoint = 'retract';
     this._db();
     return this
