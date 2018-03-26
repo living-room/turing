@@ -27,6 +27,7 @@
     "watch": "rollup -c -w",
     "server": "node -e 'require(\"living-room-server/server.js\")'",
     "examples": "serve --cors examples",
+    "format": "prettier-standard 'src/*.js' 'examples/*/*.js'",
     "start": "npm-run-all -p watch server examples",
     "assert": "node examples/commandline.js assert",
     "retract": "node examples/commandline.js retract",
@@ -38,6 +39,7 @@
   },
   "dependencies": {
     "node-fetch": "^1.7.3",
+    "prettier-standard": "^8.0.0",
     "socket.io-client": "^2.0.4"
   }
 }
