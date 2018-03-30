@@ -26,7 +26,6 @@ room.select(`$name is a $type animal at ($x, $y)`).doAll(animals => {
 
 // Query animals
 room.subscribe(`$name is a $animal animal at ($x, $y)`, ({ assertions, retractions }) => {
-  console.dir(assertions, retractions)
   retractions.forEach(({name}) => animals.delete(name.word))
 
   assertions
@@ -37,6 +36,7 @@ room.subscribe(`$name is a $animal animal at ($x, $y)`, ({ assertions, retractio
         y: animal.y.value
       })
     })
+  
   })
 
 // Query labels
@@ -94,6 +94,8 @@ room
           radius: circle.radius.value
         })
      })
+
+     console.dir(assertions[assertions.length - 1])
   })
 
 async function draw (time) {
