@@ -266,18 +266,18 @@ class Room {
   }
 
   _db () {
-    if (!(this._data || this._endpoint)) {
+    if (!(this._facts || this._endpoint)) {
       throw new Error(
-        `please set _data and _endpoint using assert(), retract(), or select()`
+        `please set _facts and _endpoint using assert(), retract(), or select()`
       )
     }
-    const endpoint = this.uri + '/' + this._endpoint;
+    if (typeof this._facts === 'string') this._facts = [this._facts];
 
-    if (typeof this._data === 'string') this._data = [this._data];
+    const endpoint = this.uri + '/' + this._endpoint;
 
     const post = {
       method: 'POST',
-      body: JSON.stringify(this._data),
+      body: JSON.stringify({facts: this._facts}),
       headers: { 'Content-Type': 'application/json' }
     };
 
@@ -289,15 +289,8 @@ class Room {
   }
 
   facts () {
-    this._data = {};
+    this._facts = '';
     this._endpoint = 'facts';
-    return this
-  }
-
-  select (fact) {
-    if (typeof fact === 'string') fact = [fact];
-    this._data = { fact };
-    this._endpoint = 'select';
     return this
   }
 
@@ -319,19 +312,23 @@ class Room {
       });
   }
 
-  assert (fact) {
-    if (typeof fact === 'string') fact = [fact];
-    this._data = { fact };
+  assert (facts) {
+    this._facts = facts;
     this._endpoint = 'assert';
     this._db();
     return this
   }
 
-  retract (fact) {
-    if (typeof fact === 'string') fact = [fact];
-    this._data = { fact };
+  retract (facts) {
+    this._facts = facts;
     this._endpoint = 'retract';
     this._db();
+    return this
+  }
+  
+  select (facts) {
+    this._facts = facts;
+    this._endpoint = 'select';
     return this
   }
 }
