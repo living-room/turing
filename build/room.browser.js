@@ -246,36 +246,23 @@ function getEnv (key) {
 class Room {
   constructor (uri) {
     this.uri = uri || getEnv('LIVING_ROOM_URI') || 'http://localhost:3000';
-    this._sockets = new Map();
+    this._socket = null;
     this._data = null;
     this._endpoint = null;
   }
 
-  subscribe (facts) {
-    const subscriptionName = facts.toString();
-    if (this._sockets.has(subscriptionName)) {
-      return this._sockets.get(subscriptionName)
+  /**
+   * @param {String[]} facts 
+   * @param {Function} callback 
+   */
+  subscribe (facts, callback) {
+    if (typeof facts === 'string') facts = [facts];
+    const patternsString = JSON.stringify(facts);
+    if (this._socket == null) {
+      this._socket = io.connect(this.uri);
     }
-
-    const socket = io.connect(this.uri);
-    socket.emit('subscribe', facts);
-
-    this._sockets.set(subscriptionName, socket);
-    return {
-      on (callback) {
-        const fillOut = object => {
-          return Object.assign(
-            { selections: [], retractions: [], assertions: [] },
-            object
-          )
-        };
-        socket.on('assertions', data => callback(fillOut(data)));
-        socket.on('retractions', data => callback(fillOut(data)));
-      },
-      unsubscribe () {
-        socket.emit('unsubscribe', subscriptionName);
-      }
-    }
+    this._socket.on(patternsString, callback);
+    this._socket.emit('subscribe', patternsString);
   }
 
   _db () {

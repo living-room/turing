@@ -30,8 +30,10 @@ function moveMouse(vec) {
             .doAll(mice => {
                 if (mice.length) {
                     setTimeout(() => {
+                        // FIXME: the mouse will disappear after 100ms of inactivity!
+                        // maybe this should be mice.slice(0, mice.length-1).forEach?
                         mice.forEach(mouse => {
-                        room.retract(`${mouse.mouseLabel} is a (${mouse.r}, ${mouse.g}, ${mouse.b}) circle at (${mouse.x}, ${mouse.y}) with radius ${mouse.radius}`);
+                            room.retract(`${mouse.mouseLabel} is a (${mouse.r}, ${mouse.g}, ${mouse.b}) circle at (${mouse.x}, ${mouse.y}) with radius ${mouse.radius}`);
                         });
                     }, 100); 
                 }
