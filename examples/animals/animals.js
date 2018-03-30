@@ -80,7 +80,7 @@ room
 // Query circles
 room
   .subscribe(`$name is a ($r, $g, $b) circle at ($x, $y) with radius $radius`, ({ assertions, retractions}) => {
-    retractions.forEach(({name}) => circles.remove(name.word))
+    retractions.forEach(({name}) => circles.delete(name.word))
 
     assertions
       .forEach(circle => {

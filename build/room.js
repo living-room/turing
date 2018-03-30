@@ -66,6 +66,7 @@ class Room {
   }
 
   select (fact) {
+    if (typeof fact === 'string') fact = [fact];
     this._data = { fact };
     this._endpoint = 'select';
     return this
@@ -90,6 +91,7 @@ class Room {
   }
 
   assert (fact) {
+    if (typeof fact === 'string') fact = [fact];
     this._data = { fact };
     this._endpoint = 'assert';
     this._db();
@@ -97,6 +99,7 @@ class Room {
   }
 
   retract (fact) {
+    if (typeof fact === 'string') fact = [fact];
     this._data = { fact };
     this._endpoint = 'retract';
     this._db();
