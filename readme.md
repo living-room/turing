@@ -37,7 +37,7 @@ The visualization should now show alice near the top left of the screen
 
 ## 'Sense' some more animals
 
-Coming up with creative names and animal species and locations is tedious, so we've created a fake sensor that 'sees' other animals for us. In **[examples/sensor.js][sensor]** we wrote a small script that sees random animals and prints them out on the commandline. Try running it!
+Coming up with creative names and animal species and locations is tedious, so we've created a fake sensor that 'sees' other animals for us. In **[examples/sensor.js][example-sensor]** we wrote a small script that sees random animals and prints them out on the commandline. Try running it!
 
 ```bash
 node examples/sensor.js
@@ -174,3 +174,4 @@ test the browser example (with living-room-server started by `npm dev`)
 ![example-sensor]: (./images/example-sensor.png)
 [color-sensor]: https://github.com/jedahan/colorTracker
 [yolo-sensor]: https://github.com/jedahan/yoloSensor
+[example-sensor]: (./examples/sensor.js)
