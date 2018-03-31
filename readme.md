@@ -171,7 +171,7 @@ test the browser example (with living-room-server started by `npm dev`)
 
     open http://localhost:3000
 
-![example-sensor-image]: (./images/example-sensor.png)
+[example-sensor-image]: (./images/example-sensor.png)
 [color-sensor]: https://github.com/jedahan/colorTracker
 [yolo-sensor]: https://github.com/jedahan/yoloSensor
 [example-sensor]: (./examples/sensor.js)
