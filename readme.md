@@ -1,19 +1,97 @@
 # living-room-js
 
-A universal javascript client that talks to a [living room server](https://github.com/jedahan/living-room-server)
+A javascript package that makes it easy to talk with a [living room server](https://github.com/jedahan/living-room-server)
 
-It works in node or the browser, make sure you have a server listening on localhost:3000 or change LIVING_ROOM_URI to point to your server
+It works in node or the browser, and looks for a server at `LIVING_ROOM_URI` (default `localhost:3000`.
 
-To test things out, just run `npm start` and all the servers and build processes will start
+# getting started
 
-# commandline app
+First install this codebase
 
-There is a commandline application for quick testing and as a simple example of how to use this client in **[examples/commandline.js](./examples/commandline.js)**
+```bash
+git clone https://github.com/jedahan/living-room-js
+cd living-room-js
+npm install
+```
 
-Try `npm run assert 'something wicked this way comes'`, then `npm run select '$name $adj this way comes'`
+## Test that it works
+
+This repository contains some example applications that talk with a room. To make sure communication is working, let's start the server, and see that one of the applications work.
+
+```bash
+npm start
+```
+
+This should copy [http://localhost:5000]() to your clipboard. Navigate to *[http://localhost:5000/animals]()*, and if everything is working, **Timon**, **Pumba**, and **Simba** will just be chilling in your browser. If not, please [file an issue](https://github.com/jedahan/living-room-js/issues/new).
 
 
-#### examples
+## Add a new animal from the commandline
+
+The living room server is running at http://localhost:3000 (over HTTP and Socket.io), and osc://localhost:41234 . Let's send some commands to add more animals to the browser window:
+
+```bash
+curl -d 'facts=alice is a human animal at (0.33, 0.22)' localhost:3000/assert
+```
+
+The visualization should now show alice near the top left of the screen
+
+## 'Sense' some more animals
+
+Coming up with creative names and animal species and locations is tedious, so we've created a fake sensor that 'sees' other animals for us. In **[examples/sensor.js][sensor]** we wrote a small script that sees random animals and prints them out on the commandline. Try running it!
+
+```bash
+node examples/sensor.js
+```
+
+You should see some animals being printed out
+
+![example-sensor]
+
+## Connect the sensor
+
+This fake sensor is for debugging purposes - in lovelace we have a few sensors that [detect and track color][color-sensor], and [share the locations of objects in the room][yolo-sensor].
+
+In this case, we are gonna use xargs and curl together to put them on the server
+
+```bash
+node examples/sensor.js | xargs -I {} curl -d "facts={}" localhost:3000/assert
+```
+
+This should start randomly adding some more animals to the canvas!
+
+## How do we visualize things?
+
+So we added some facts to the server, but like, how does the canvas react to that? Or maybe someone else wrote a sensor and you want to do something fun with it.
+
+First, we'll want to see what the room has heard (if the server is not running, just do `npm start`)
+
+```bash
+curl http://localhost:3000/facts
+```
+
+You might see a bunch of strings like "Simba is a cat at (0.5, 0.5)" and "Elnora is a Xiphosura at (0.0676, 0.8081)".
+
+Lets say we want a list of animal types, we can use pattern matching with the `$` symbol:
+
+```bash
+# note: the single quotes are VERY IMPORTANT in the terminal
+curl -d 'facts=$name is a $species animal at ($x, $y)' localhost:3000/select
+
+```
+
+This is neat, but we want to do something with the browser and maybe make it more performant. The client library has support for subscriptions! See the html in **[examples/]()** for more information, but the general gist is:
+
+```javascript
+room
+  .subscribe(`$name is a $species animal at ($x, $y)`, ({assertions} => {
+    assertions.forEach(assertion => {
+      console.log(`something new!`)
+      console.dir(assertion)
+    })
+  })
+```
+
+# examples
 
 In addition to [examples/commandline.js](./examples/commandline.js), we have a few other [examples](./examples):
 
@@ -92,3 +170,7 @@ build [node.js](./build/room.js) and [browser](./build/room.browser.js) librarie
 test the browser example (with living-room-server started by `npm dev`)
 
     open http://localhost:3000
+
+![example-sensor]: (./images/example-sensor.png)
+[color-sensor]: https://github.com/jedahan/colorTracker
+[yolo-sensor]: https://github.com/jedahan/yoloSensor
