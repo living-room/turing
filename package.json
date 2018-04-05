@@ -9,7 +9,7 @@
   "license": "MIT",
   "devDependencies": {
     "chance": "^1.0.13",
-    "living-room-database": "jedahan/living-room-database",
+    "living-room-database": "jedahan/living-room-database#perf",
     "living-room-server": "jedahan/living-room-server",
     "npm-run-all": "^4.1.2",
     "rollup": "^0.54.1",

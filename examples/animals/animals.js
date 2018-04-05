@@ -25,78 +25,81 @@ room.select(`$name is a $type animal at ($x, $y)`).doAll(animals => {
 })
 
 // Query animals
-room.subscribe(`$name is a $animal animal at ($x, $y)`, ({ assertions, retractions }) => {
-  retractions.forEach(({name}) => animals.delete(name.word))
+room.subscribe(
+  `$name is a $animal animal at ($x, $y)`,
+  ({ assertions, retractions }) => {
+    retractions.forEach(({ name }) => animals.delete(name.word))
 
-  assertions
-    .forEach(animal => {
+    assertions.forEach(animal => {
       animals.set(animal.name.word, {
         name: animal.name.word,
         x: animal.x.value,
         y: animal.y.value
       })
     })
-  
-  })
+  }
+)
 
 // Query labels
-room.subscribe(`$name is a label at ($x, $y)`, ({ assertions, retractions }) => {
-  retractions.forEach(({name}) => labels.delete(name.word))
+room.subscribe(
+  `$name is a label at ($x, $y)`,
+  ({ assertions, retractions }) => {
+    retractions.forEach(({ name }) => labels.delete(name.word))
 
-  assertions
-    .forEach(label => {
+    assertions.forEach(label => {
       labels.set(label.name.word, {
         name: label.name.word,
         x: label.x.value,
         y: label.y.value
       })
     })
-  })
+  }
+)
 
 // Query lines
-room
-  .subscribe(`$name is a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`, ({retractions, assertions}) => {
+room.subscribe(
+  `$name is a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`,
+  ({ retractions, assertions }) => {
+    retractions.forEach(({ name }) => {
+      lines.delete(name.word)
+    })
 
-    retractions
-      .forEach(({name}) => {
-        lines.delete(name.word)
+    assertions.forEach(line => {
+      lines.set(line.name.word, {
+        name: line.name.word,
+        r: line.r.value,
+        g: line.g.value,
+        b: line.b.value,
+        x: line.x.value,
+        y: line.y.value,
+        xx: line.xx.value,
+        yy: line.yy.value
       })
-
-    assertions
-      .forEach(line => {
-        lines.set(line.name.word, {
-          name: line.name.word,
-          r: line.r.value,
-          g: line.g.value,
-          b: line.b.value,
-          x: line.x.value,
-          y: line.y.value,
-          xx: line.xx.value,
-          yy: line.yy.value
-        })
-      })
-  })
+    })
+  }
+)
 
 // Query circles
-room
-  .subscribe(`$name is a ($r, $g, $b) circle at ($x, $y) with radius $radius`, ({ assertions, retractions}) => {
-    retractions.forEach(({name}) => circles.delete(name.word))
+room.subscribe(
+  `$name is a ($r, $g, $b) circle at ($x, $y) with radius $radius`,
+  ({ assertions, retractions }) => {
+    retractions.forEach(({ name }) => circles.delete(name.word))
 
-    assertions
-      .forEach(circle => {
-        circles.set(circle.name.word, {
-          name: circle.name.word,
-          x: circle.x.value,
-          y: circle.y.value,
-          r: circle.r.value,
-          g: circle.g.value,
-          b: circle.b.value,
-          radius: circle.radius.value
-        })
-     })
+    assertions.forEach(circle => {
+      circles.set(circle.name.word, {
+        name: circle.name.word,
+        x: circle.x.value,
+        y: circle.y.value,
+        r: circle.r.value,
+        g: circle.g.value,
+        b: circle.b.value,
+        radius: circle.radius.value
+      })
+    })
 
-     console.dir(assertions[assertions.length - 1])
-  })
+    console.dir(assertions[assertions.length - 1])
+  }
+)
 
 async function draw (time) {
   // if the window is resized, change the canvas to fill the window

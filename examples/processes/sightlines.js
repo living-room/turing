@@ -3,12 +3,13 @@ const room = new Room() // grabs from process.env.LIVING_ROOM_URI
 
 const lines = new Map()
 
-room
-  .subscribe([
+room.subscribe(
+  [
     `$a sees $b`,
     `$a is a $aspecies animal at ($ax, $ay)`,
     `$b is a $bspecies animal at ($bx, $by)`
-  ], seers => {
+  ],
+  seers => {
     seers.forEach(({ a, b, ax, ay, bx, by }) => {
       const id = a.word + b.word
       const p = lines.get(id)
@@ -24,4 +25,5 @@ room
         room.assert(sightline)
       }
     })
-  })
+  }
+)

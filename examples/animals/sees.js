@@ -19,9 +19,9 @@ const seesAnimal = verbose => {
   ])
     .then(([oldSees, animals]) => {
       if (verbose) {
-        console.log(`### ${new Date()}\n`);
-        console.log("oldSees?", oldSees);
-        console.log("animals?", animals);
+        console.log(`### ${new Date()}\n`)
+        console.log('oldSees?', oldSees)
+        console.log('animals?', animals)
       }
 
       oldSees = oldSees.map(x => _joinNames([x.a.word, x.b.word]))
@@ -43,9 +43,9 @@ const seesAnimal = verbose => {
       })
 
       if (verbose) {
-        console.log("processed oldSees", oldSees);
-        console.log("processed newSees", newSees);
-        console.log();
+        console.log('processed oldSees', oldSees)
+        console.log('processed newSees', newSees)
+        console.log()
       }
 
       // retract remaining olds and assert remaining news (no change to intersection)
@@ -70,7 +70,7 @@ const seesAnimal = verbose => {
 // helpers
 
 const _promiseSelect = query =>
-  new Promise((resolve, reject) => room.select([query]).doAll(resolve));
+  new Promise((resolve, reject) => room.select([query]).doAll(resolve))
 
 const _getSees = animals => {
   // group by name (in case of redundant names)
@@ -115,17 +115,17 @@ const _distance = (a, b) =>
 const _joinNames = x => x.join('$')
 const _splitNames = x => x.split('$')
 
-const hasAny = (arr, args) => args.some(arg => arr.indexOf(arg) !== -1);
+const hasAny = (arr, args) => args.some(arg => arr.indexOf(arg) !== -1)
 
 // Main runner
 
 if (require.main === module) {
-  if (hasAny(process.argv, ["--help", "-h"])) {
-    console.log("USAGE: node sees.js [-v|--verbose]");
+  if (hasAny(process.argv, ['--help', '-h'])) {
+    console.log('USAGE: node sees.js [-v|--verbose]')
   } else {
-    let verbose = ["--verbose", "-v"].some(
+    let verbose = ['--verbose', '-v'].some(
       arg => process.argv.indexOf(arg) !== -1
-    );
-    setInterval(() => seesAnimal(verbose), 500);
+    )
+    setInterval(() => seesAnimal(verbose), 500)
   }
 }

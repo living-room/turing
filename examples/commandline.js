@@ -43,16 +43,16 @@ const facts = process.argv.slice(3)[0]
 async function main () {
   switch (process.argv[2]) {
     case 'assert':
-      await room.assert(facts)
+      room.assert(facts).then(console.log)
       break
     case 'retract':
-      room.retract(facts)
+      room.retract(facts).then(console.log)
       break
     case 'select':
-      room.select(facts).do(console.log)
+      room.select(facts).then(console.log)
       break
     case 'subscribe':
-      room.subscribe(facts).on(console.log)
+      room.subscribe(facts, console.log)
       process.stdin.on('data', () => process.exit())
       break
     default:
