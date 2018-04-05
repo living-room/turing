@@ -1,35 +1,27 @@
+#!/usr/bin/env node
 /// A node.js commandline example
 
-const io = require('socket.io-client')
-const socket = io.connect('http://localhost:3000')
-
 const printHelp = () => {
-  const invocation = process.argv
-    .map(arg => {
-      if (arg.endsWith('node')) return process.argv0
-      if (arg.endsWith('.js')) {
-        console.log(process.env.PWD)
-        return arg.replace(`${process.env.PWD}/`, '')
-      }
-      if (arg === 'help') return ''
-      return arg
-    })
-    .join(' ')
-
   console.error(`
   Assert, retract, or select facts from a living room server
 
+  Note the backslashes are important for escaping bash quoting
+
   Assert a new fact
 
-      ${invocation}assert "Gorog the barbarian is at (0.5, 0.7)"
+      room assert "Gorog the barbarian is at (0.5, 0.7)"
 
   Select a fact
 
-      ${invocation}select "$who the $what is at ($x, $y)"
+      room select "\$who the \$what is at (\$x, \$y)"
 
   Retract a fact
 
-      ${invocation}retract "Gorog the barbarian is at (0.5, 0.7)"
+      room retract "Gorog the barbarian is at (0.5, 0.7)"
+
+  Subscribe to changes (press enter to exit)
+
+      room subscribe "\$who the \$what is at (\$x, \$y)"
   `)
 }
 
@@ -43,19 +35,18 @@ const facts = process.argv.slice(3)[0]
 async function main () {
   switch (process.argv[2]) {
     case 'assert':
-      room.assert(facts).then(console.log)
-      break
+      return room.assert(facts).then(console.log)
     case 'retract':
-      room.retract(facts).then(console.log)
-      break
+      return room.retract(facts).then(console.log)
     case 'select':
-      room.select(facts).then(console.log)
-      break
+      return room.select(facts).then(console.log)
     case 'subscribe':
       room.subscribe(facts, console.log)
       process.stdin.on('data', () => process.exit())
       break
     default:
-      printHelp()
+      return printHelp()
   }
 }
+
+main().then(process.exit)
