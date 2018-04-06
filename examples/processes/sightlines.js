@@ -1,5 +1,5 @@
 const Room = require('../build/room.js')
-const room = new Room() // grabs from process.env.LIVING_ROOM_URI
+const room = new Room() // grabs from process.env.LIVING_ROOM_HOST
 
 const lines = new Map()
 

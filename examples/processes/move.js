@@ -1,25 +1,48 @@
 const Room = require('../build/room.js')
-const room = new Room() // grabs from process.env.LIVING_ROOM_URI
+const room = new Room() // grabs from process.env.LIVING_ROOM_HOST
 
-const moveRandomAnimal = () => {
-  room.select([`$name is a $type animal at ($x, $y)`]).doAll(animals => {
-    if (animals.length) {
-      const { name, type, x, y } = animals[
-        parseInt(Math.random() * animals.length)
-      ]
-      const [dx, dy] = [
-        (Math.random() - 0.5) / 100,
-        (Math.random() - 0.5) / 100
-      ]
+const waitAsecondBeforeCalling = fn => {
+  setTimeout(fn, 1000)
+}
 
-      room.assert(
-        `${name.word} is a ${type.word} animal at (${x + dx}, ${y + dy})`
-      )
-      room.retract(`${name.word} is a ${type.word} animal at (${x}, ${y})`)
+const waitAsecond = async fn => {
+  return new Promise((resolve, reject) => {
+    setTimeout(fn, 1000)
+  })
+}
 
-      console.log(`${type.word} ${name.word} moved by (${dx}, ${dy})`)
+const moveIfHasSpeed = async () => {
+  const animals = await room.select([
+    `$name is a $type animal at ($x, $y)`,
+    `$name has speed ($dx, $dy)`
+  ])
+
+  animals.forEach(async ({ name, type, x, y, dx, dy }) => {
+    await room.assert(
+      `${name.word} is a ${type.word} animal at (${x.value +
+        dx.value}, ${y.value + dy.value})`
+    )
+    room.retract(
+      `${name.word} is a ${type.word} animal at (${x.value}, ${y.value})`
+    )
+  })
+}
+
+setInterval(moveIfHasSpeed, 100)
+
+const setSpeedForAnimalsWithoutSpeed = async () => {
+  const animals = await room.select(`$name is a $type animal at ($x, $y)`)
+
+  animals.forEach(async animal => {
+    const speeds = await room.select(
+      `${animal.name.word} has a speed of ($dx, $dy)`
+    )
+    if (!speeds.length) {
+      let [dx, dy] = [Math.random() - 0.5, Math.random() - 0.5]
+      const yo = await room.assert(`${name.word} has a speed of (${dx}, ${dy})`)
+      console.dir(yo)
     }
   })
 }
 
-setInterval(moveRandomAnimal, 200)
+setSpeedForAnimalsWithoutSpeed()

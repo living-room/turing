@@ -2,7 +2,7 @@
 
 A javascript package that makes it easy to talk with a [living room server](https://github.com/jedahan/living-room-server)
 
-It works in node or the browser, and looks for a server at `LIVING_ROOM_URI` (default `localhost:3000`.
+It works in node or the browser, and looks for a server at `LIVING_ROOM_HOST` (default `localhost:3000`.
 
 # getting started
 
@@ -98,7 +98,7 @@ In addition to [examples/commandline.js](./examples/commandline.js), we have a f
 ```javascript
 const Room = require('../build/room.js')
 
-const room = new Room() // you can pass in the uri here or in LIVING_ROOM_URI
+const room = new Room() // you can pass in the uri here or in LIVING_ROOM_HOST
 
 room
   .assert(`You am a doggo`)

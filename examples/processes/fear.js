@@ -1,7 +1,7 @@
 const Room = require('../build/room.js')
 const room = new Room()
 
-room.select(`$name is a $type animal at ($x, $y)`).doAll(animals => {
+room.select(`$name is a $type animal at ($x, $y)`).then(animals => {
   animals.forEach(animal => {
     let { type, name } = animal
     let fears = {

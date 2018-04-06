@@ -9,36 +9,38 @@ let labels = new Map()
 let circles = new Map()
 let lines = new Map()
 
+const setAnimals = ({ assertions, retractions }) => {
+  retractions.forEach(({ name }) => animals.delete(name.word))
+
+  assertions.forEach(animal => {
+    animals.set(animal.name.word, {
+      name: animal.name.word,
+      x: animal.x.value,
+      y: animal.y.value
+    })
+  })
+}
+
 // Set up some demo data
-room.select(`$name is a $type animal at ($x, $y)`).doAll(animals => {
-  if (!animals) return
-  const names = animals.map(animal => animal.name.word)
-  if (names.indexOf('Simba') == -1) {
-    room.assert(`Simba is a cat animal at (0.5, 0.1)`)
+async function getAnimals () {
+  let { solutions } = await room.select(`$name is a $type animal at ($x, $y)`)
+  const names = solutions.map(animal => animal.name.word)
+  if (!names.includes('Simba')) {
+    await room.assert(`Simba is a cat animal at (0.5, 0.1)`)
   }
-  if (names.indexOf('Timon') == -1) {
-    room.assert(`Timon is a meerkat animal at (0.4, 0.6)`)
+  if (!names.includes('Timon')) {
+    await room.assert(`Timon is a meerkat animal at (0.4, 0.6)`)
   }
-  if (names.indexOf('Pumba') == -1) {
-    room.assert(`Pumba is a warthog animal at (0.55, 0.6)`)
+  if (!names.includes('Pumba')) {
+    await room.assert(`Pumba is a warthog animal at (0.55, 0.6)`)
   }
-})
+  room
+    .select(`$name is a $type animal at ($x, $y)`)
+    .then(assertions => setAnimals({ assertions, retractions: [] }))
+}
 
 // Query animals
-room.subscribe(
-  `$name is a $animal animal at ($x, $y)`,
-  ({ assertions, retractions }) => {
-    retractions.forEach(({ name }) => animals.delete(name.word))
-
-    assertions.forEach(animal => {
-      animals.set(animal.name.word, {
-        name: animal.name.word,
-        x: animal.x.value,
-        y: animal.y.value
-      })
-    })
-  }
-)
+room.subscribe(`$name is a $type animal at ($x, $y)`, setAnimals)
 
 // Query labels
 room.subscribe(
@@ -96,10 +98,10 @@ room.subscribe(
         radius: circle.radius.value
       })
     })
-
-    console.dir(assertions[assertions.length - 1])
   }
 )
+
+getAnimals()
 
 async function draw (time) {
   // if the window is resized, change the canvas to fill the window
