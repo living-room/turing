@@ -32,7 +32,7 @@ function moveMouse (vec) {
     /*
         room
             .select([`$mouseLabel$num is a ($r, $g, $b) circle at ($x, $y) with radius $radius`])
-            .doAll(mice => {
+            .then(mice => {
                 if (mice.length) {
                     setTimeout(() => {
                         // FIXME: the mouse will disappear after 100ms of inactivity!

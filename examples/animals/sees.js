@@ -70,7 +70,7 @@ const seesAnimal = verbose => {
 // helpers
 
 const _promiseSelect = query =>
-  new Promise((resolve, reject) => room.select([query]).doAll(resolve))
+  new Promise((resolve, reject) => room.select([query]).then(resolve))
 
 const _getSees = animals => {
   // group by name (in case of redundant names)
