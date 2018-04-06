@@ -4,19 +4,18 @@ const assignSpeeds = async room => {
     room = new Room()
   }
 
-  const animalsWithSpeed = await room.select([`$name is a $type animal at ($x, $y)`, `$name has speed ($dx, $dy)`])
-  console.dir(animalsWithSpeed)
+  const animals = await room.select(`$name is a $type animal at ($x, $y)`)
+  const animalsSpeeds = await room.select([`$name is a $type animal at ($x, $y)`, `$name has speed ($dx, $dy)`])
+  const names = new Set(animalsSpeeds.solutions.map(({name}) => name.word))
 
-  animalsWithSpeed.solutions.forEach(({name, dx, dy}) => {
+  animalsSpeeds.forEach(({name, dx, dy}) => {
     room.retract(`${name.word} has speed (${dx.value}, ${dy.value})`)
   })
 
-  const animals = await room.select(`$name is a $type animal at ($x, $y)`)
-
-  animals.solutions.forEach(({name}) => {
+  names.forEach(name => {
       const dx = (Math.random() - 0.5) / 100
       const dy = (Math.random() - 0.5) / 100
-      room.assert(`${name.word} has speed (${dx}, ${dy})`).then(console.dir)
+      room.assert(`${name} has speed (${dx}, ${dy})`).then(console.dir)
   })
 }
 
