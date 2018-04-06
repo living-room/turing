@@ -4,7 +4,9 @@
   "description": "node.js and browser client for living room server",
   "main": "build/room.js",
   "browser": "build/room.browser.js",
-  "bin" : { "room" : "examples/commandline.js" },
+  "bin": {
+    "room": "examples/commandline.js"
+  },
   "repository": "https://github.com/jedahan/living-room-js",
   "author": "Jonathan Dahan",
   "license": "MIT",
