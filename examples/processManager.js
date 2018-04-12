@@ -6,15 +6,19 @@
 const fs = require('fs')
 
 const fps = 1
-const ms = 100 / fps
+const ms = 1000. / fps
 
 const Room = require('../build/room.js')
 room = new Room()
 
-const move = require('./processes/move.js')(room)
+const processNames = ['move', 'fear', 'sightlines']
 
-const processes = new Set()
+const processes = processNames.map(name => require(`./processes/${name}.js`)(room))
 
 setInterval(() => {
-  move()
+  processes.forEach(process => {
+     if (typeof process === 'function') {
+       process()
+     }
+  })
 }, ms)
