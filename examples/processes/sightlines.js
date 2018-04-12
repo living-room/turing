@@ -15,10 +15,10 @@ room.subscribe(
       const p = lines.get(id)
       if (!p || p.ax != ax || p.ay != ay || p.bx != bx || p.by != by) {
         lines.set(id, { ax, ay, bx, by })
-        const sightline = `${id}line is a (255, 127, 255) line from (${ax}, ${ay}) to (${bx}, ${by})`
+        const sightline = `${id}sightline is a (255, 127, 255) line from (${ax}, ${ay}) to (${bx}, ${by})`
         console.log(sightline)
         setTimeout(() => {
-          const previoussightline = `${id}line is a (255, 127, 255) line from (${ax}, ${ay}) to (${bx}, ${by})`
+          const previoussightline = `${id}sightline is a (255, 127, 255) line from (${ax}, ${ay}) to (${bx}, ${by})`
           room.retract(previoussightline)
         }, 100)
 
