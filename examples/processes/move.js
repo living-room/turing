@@ -19,4 +19,4 @@ const moveIfHasSpeed = async room => {
   })
 }
 
-setInterval(moveIfHasSpeed, 16)
+setInterval(moveIfHasSpeed, 100)

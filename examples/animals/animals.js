@@ -10,7 +10,12 @@ let circles = new Map()
 let lines = new Map()
 
 const setAnimals = ({ assertions, retractions }) => {
-  retractions.forEach(({ name }) => animals.delete(name.word))
+  retractions.forEach(({ name, x, y }) => {
+    const animal = animals.get(name.word)
+    if (animal && animal.x === x && animal.y === y) {
+      animals.delete(name.word)
+    }
+  })
 
   assertions.forEach(animal => {
     animals.set(animal.name.word, {
@@ -116,7 +121,7 @@ async function draw (time) {
 
   animals.forEach(({ x, y }, name) => {
     previousFill = context.fillStyle
-    context.fillStyle = '#ff00ff'
+    context.fillStyle = '#ffff00'
     context.fillText(name, x * canvas.width, y * canvas.height)
     context.fillStyle = previousFill
   })
