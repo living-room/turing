@@ -17,13 +17,16 @@ const setAnimals = ({ assertions, retractions }) => {
     }
   })
 
-  assertions.forEach(animal => {
-    animals.set(animal.name.word, {
-      name: animal.name.word,
-      x: animal.x.value,
-      y: animal.y.value
+  if (assertions) {
+    console.dir({assertions})
+    assertions.forEach(animal => {
+      animals.set(animal.name.word, {
+        name: animal.name.word,
+        x: animal.x.value,
+        y: animal.y.value
+      })
     })
-  })
+  }
 }
 
 // Set up some demo data
