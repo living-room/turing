@@ -70,9 +70,11 @@ room.subscribe(
 room.subscribe(
   `$name is a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`,
   ({ retractions, assertions }) => {
+    /* TODO:FIXME
     retractions.forEach(({ name }) => {
       lines.delete(name.word)
     })
+    */
 
     assertions.forEach(line => {
       lines.set(line.name.word, {
