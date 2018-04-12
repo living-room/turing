@@ -28,8 +28,8 @@ const setAnimals = ({ assertions, retractions }) => {
 
 // Set up some demo data
 async function getAnimals () {
-  let { solutions } = await room.select(`$name is a $type animal at ($x, $y)`)
-  const names = solutions.map(animal => animal.name.word)
+  let { assertions } = await room.select(`$name is a $type animal at ($x, $y)`)
+  const names = assertions.map(animal => animal.name.word)
   if (!names.includes('Simba')) {
     await room.assert(`Simba is a cat animal at (0.5, 0.1)`)
   }
