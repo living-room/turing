@@ -11,7 +11,7 @@ const ms = 1000. / fps
 const Room = require('../build/room.js')
 room = new Room()
 
-const processNames = ['move', 'fear', 'sight', 'sightlines']
+const processNames = ['move', 'fear', 'sight', 'sightlines' ]
 
 const processes = processNames.map(name => require(`./processes/${name}.js`)(room))
 

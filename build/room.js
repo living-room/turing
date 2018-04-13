@@ -5,11 +5,6 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var fetch = _interopDefault(require('node-fetch'));
 var io = _interopDefault(require('socket.io-client'));
 
-/**
- * Creates a new http client to a roomdb instance
- *
- * @param {host} host of living room server (defaults to http://localhost:3000)
- */
 function getEnv (key) {
   if (typeof process !== 'undefined') return process.env[key]
 }

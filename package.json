@@ -12,18 +12,18 @@
   "license": "MIT",
   "devDependencies": {
     "chance": "^1.0.13",
-    "living-room-database": "jedahan/living-room-database#perf",
-    "living-room-server": "jedahan/living-room-server",
+    "living-room-database": "github:jedahan/living-room-database",
+    "living-room-server": "github:jedahan/living-room-server",
     "npm-run-all": "^4.1.2",
-    "rollup": "^0.54.1",
-    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup": "^0.57.1",
+    "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-livereload": "^0.6.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.1.0",
     "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-serve": "^0.4.2",
-    "serve": "^6.4.8"
+    "serve": "^6.5.5"
   },
   "scripts": {
     "build": "rollup -c",
@@ -42,7 +42,8 @@
     "systemd:remove": "NODE=`which node` sudo -E bash -c '$NODE service.js remove'"
   },
   "dependencies": {
-    "node-fetch": "^1.7.3",
+    "iohook": "^0.1.15",
+    "node-fetch": "^2.1.2",
     "prettier-standard": "^8.0.0",
     "socket.io-client": "^2.0.4"
   }

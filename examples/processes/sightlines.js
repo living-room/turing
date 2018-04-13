@@ -22,7 +22,7 @@ module.exports = room => {
           await room.assert(`${id}sightline is a (255, 127, 255) line from (${ax.value}, ${ay.value}) to (${bx.value}, ${by.value})`).then(console.dir)
 
           if (!p) return
-          room.retract(`${id}sightline is a (255, 127, 255) line from (${p.ax.value}, ${p.ay.value}) to (${p.bx.value}, ${p.by.value})`).then(console.dir)
+          //room.retract(`${id}sightline is a (255, 127, 255) line from (${p.ax.value}, ${p.ay.value}) to (${p.bx.value}, ${p.by.value})`).then(console.dir)
 
         }
       })
