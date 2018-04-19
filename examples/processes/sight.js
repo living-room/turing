@@ -15,7 +15,7 @@ module.exports = room => {
         const [dx, dy] = [100 * (ax.value - bx.value), 100 * (ay.value - by.value)]
         const seesFact = `${a.word} sees ${b.word}`
 
-        if ((dx * dx) + (dy * dy) < (10 * 10)) {
+        if ((dx * dx) + (dy * dy) < (5 * 5)) {
           room.assert(seesFact).then(console.dir)
         } else {
           room.retract(seesFact).then(console.dir)
