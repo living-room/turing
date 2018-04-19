@@ -6,12 +6,11 @@
   "author": "Jonathan Dahan",
   "license": "MIT",
   "scripts": {
-    "build": "cp node_modules/@living-room/client-js/build/room.browser.js{,.map} src/animals/",
     "server": "node server.js",
     "animals": "serve --cors src",
     "format": "prettier-standard 'src/*/*.js'",
     "processes": "node src/processManager.js",
-    "start": "npm-run-all -p build format server animals processes",
+    "start": "npm-run-all -p format server animals processes",
     "room": "node examples/commandline.js",
     "room:assert": "node examples/commandline.js assert",
     "room:retract": "node examples/commandline.js retract",
