@@ -1,19 +1,17 @@
 {
-  "name": "living-room-js",
-  "version": "0.3.2",
+  "name": "@living-room/client-js",
+  "version": "0.4.0",
   "description": "node.js and browser client for living room server",
   "main": "build/room.js",
   "browser": "build/room.browser.js",
   "bin": {
     "room": "examples/commandline.js"
   },
-  "repository": "https://github.com/jedahan/living-room-js",
+  "repository": "https://github.com/living-room/client-js",
   "author": "Jonathan Dahan",
   "license": "MIT",
   "devDependencies": {
     "chance": "^1.0.13",
-    "living-room-database": "github:jedahan/living-room-database",
-    "living-room-server": "github:jedahan/living-room-server",
     "npm-run-all": "^4.1.2",
     "rollup": "^0.57.1",
     "rollup-plugin-commonjs": "^9.1.0",
@@ -28,10 +26,10 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "server": "node -e 'require(\"living-room-server/server.js\")'",
+    "service": "node -e 'require(\"@living-room/service-js/server.js\")'",
     "examples": "serve --cors examples",
     "format": "prettier-standard 'src/*.js' 'examples/*/*.js'",
-    "start": "npm-run-all -p watch server examples",
+    "start": "npm-run-all -p watch service examples",
     "subscribe": "node examples/commandline.js subscribe",
     "room": "node examples/commandline.js",
     "room:assert": "node examples/commandline.js assert",
@@ -42,6 +40,7 @@
     "systemd:remove": "NODE=`which node` sudo -E bash -c '$NODE service.js remove'"
   },
   "dependencies": {
+    "@living-room/service-js": "^0.4.0",
     "iohook": "^0.1.15",
     "node-fetch": "^2.1.2",
     "prettier-standard": "^8.0.0",

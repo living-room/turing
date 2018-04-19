@@ -1,6 +1,6 @@
-# living-room-js
+# client-js
 
-A javascript package that makes it easy to talk with a [living room server](https://github.com/jedahan/living-room-server)
+A javascript package that makes it easy to talk with a [living room server](https://github.com/living-room/service-js)
 
 It works in node or the browser, and looks for a server at `LIVING_ROOM_HOST` (default `localhost:3000`.
 
@@ -9,8 +9,8 @@ It works in node or the browser, and looks for a server at `LIVING_ROOM_HOST` (d
 First install this codebase
 
 ```bash
-git clone https://github.com/jedahan/living-room-js
-cd living-room-js
+git clone https://github.com/living-room/client-js
+cd client-js
 npm install
 ```
 
@@ -22,7 +22,7 @@ This repository contains some example applications that talk with a room. To mak
 npm start
 ```
 
-This should copy [http://localhost:5000]() to your clipboard. Navigate to *[http://localhost:5000/animals]()*, and if everything is working, **Timon**, **Pumba**, and **Simba** will just be chilling in your browser. If not, please [file an issue](https://github.com/jedahan/living-room-js/issues/new).
+This should copy [http://localhost:5000]() to your clipboard. Navigate to *[http://localhost:5000/animals]()*, and if everything is working, **Timon**, **Pumba**, and **Simba** will just be chilling in your browser. If not, please [file an issue](https://github.com/living-room/client-js/issues/new).
 
 
 ## Add a new animal from the commandline
