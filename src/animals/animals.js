@@ -18,7 +18,7 @@ const setAnimals = ({ assertions, retractions }) => {
   })
 
   if (assertions) {
-    console.dir({assertions})
+    console.dir({ assertions })
     assertions.forEach(animal => {
       animals.set(animal.name.word, {
         name: animal.name.word,

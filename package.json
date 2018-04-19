@@ -6,10 +6,11 @@
   "author": "Jonathan Dahan",
   "license": "MIT",
   "scripts": {
+    "build": "cp node_modules/@living-room/client-js/build/room.browser.js{,.map} src/animals/",
     "server": "node server.js",
     "animals": "serve --cors src",
     "format": "prettier-standard 'src/*/*.js'",
-    "start": "npm-run-all -p format server animals",
+    "start": "npm-run-all -p build format server animals",
     "room": "node examples/commandline.js",
     "room:assert": "node examples/commandline.js assert",
     "room:retract": "node examples/commandline.js retract",
@@ -19,10 +20,10 @@
   "dependencies": {
     "@living-room/client-js": "^0.4.0",
     "@living-room/service-js": "^0.4.0",
-    "serve": "^6.5.5",
     "iohook": "^0.1.15",
     "node-fetch": "^2.1.2",
     "prettier-standard": "^8.0.0",
+    "serve": "^6.5.5",
     "socket.io-client": "^2.0.4"
   }
 }

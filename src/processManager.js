@@ -8,7 +8,7 @@ const fs = require('fs')
 const fps = 1
 const ms = 1000. / fps
 
-const Room = require('../build/room.js')
+const Room = require('@living-room/client-js')
 room = new Room()
 
 const processNames = ['move', 'fear', 'sight', 'sightlines' ]

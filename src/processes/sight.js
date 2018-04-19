@@ -3,21 +3,27 @@
 
 module.exports = room => {
   if (!room) {
-    const Room = require('../build/room.js')
+    const Room = require('@living-room/client-js')
     const room = new Room()
   }
 
   // this only happens once on startup
-  async seed = () => {
+  seed = async () => {
     // get all the species
-    const species = new Set(await room.select(`$ is a $species animal at ($, $)`)
-                              .map(({assertions}) => assertions)
-                              .map(({species}) => species.word))
+    const species = new Set(
+      await room
+        .select(`$ is a $species animal at ($, $)`)
+        .map(({ assertions }) => assertions)
+        .map(({ species }) => species.word)
+    )
 
     // get all the species with sight
-    const sights = new Set(await room.select(`$species can see $`)
-                              .map(({assertions}) => assertions)
-                              .map(({species}) => species.word))
+    const sights = new Set(
+      await room
+        .select(`$species can see $`)
+        .map(({ assertions }) => assertions)
+        .map(({ species }) => species.word)
+    )
 
     // if a specie does not have sight, give it sight
     for (specie of species) {
@@ -35,17 +41,21 @@ module.exports = room => {
       `$aspecies can see $distance`
     ],
     // why is this async?
-    async ({assertions, retractions}) => {
+    async ({ assertions, retractions }) => {
       assertions.forEach(async ({ a, b, ax, ay, bx, by, distance }) => {
         if (a.word === b.word) return
-        const [dx, dy] = [100 * (ax.value - bx.value), 100 * (ay.value - by.value)]
+        const [dx, dy] = [
+          100 * (ax.value - bx.value),
+          100 * (ay.value - by.value)
+        ]
         const seesFact = `${a.word} sees ${b.word}`
 
-        if ((dx * dx) + (dy * dy) < ($distance * $distance)) {
+        if (dx * dx + dy * dy < $distance * $distance) {
           room.assert(seesFact).then(console.dir)
         } else {
           room.retract(seesFact).then(console.dir)
         }
       })
-    })
+    }
+  )
 }

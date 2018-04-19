@@ -1,4 +1,4 @@
-const Room = require('../build/room.js')
+const Room = require('@living-room/client-js')
 const room = new Room()
 
 const SEES_DIST = 0.5

@@ -1,6 +1,6 @@
 module.exports = room => {
   if (!room) {
-    const Room = require('../build/room.js')
+    const Room = require('@living-room/client-js')
     room = new Room()
   }
 
@@ -8,8 +8,8 @@ module.exports = room => {
 
   room.subscribe(
     `$name has speed ($dx, $dy)`,
-    ({ assertions, retractions, solutions}) => {
-      console.dir({assertions, solutions})
+    ({ assertions, retractions, solutions }) => {
+      console.dir({ assertions, solutions })
       assertions.forEach(({ name, dx, dy }) => {
         animalSpeeds.set(name.word, {
           name: name.word,
@@ -47,8 +47,8 @@ module.exports = room => {
         )
         // maybe this is why we need flushChanges / fluent programming
         room.assert(
-          `${name} is a ${type.word} animal at (${x.value +
-            dx}, ${y.value + dy})`
+          `${name} is a ${type.word} animal at (${x.value + dx}, ${y.value +
+            dy})`
         )
       })
     })
