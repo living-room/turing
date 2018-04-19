@@ -3,22 +3,32 @@
  * It would be cool if the processes themselves would check if they are active, etc
  */
 
-const fs = require('fs')
+const processManager = () => {
+  const fps = 1
+  const ms = 1000. / fps
 
-const fps = 1
-const ms = 1000. / fps
+  const Room = require('@living-room/client-js')
+  room = new Room()
 
-const Room = require('@living-room/client-js')
-room = new Room()
+  const processNames = ['move', 'fear', 'sight', 'sightlines' ]
 
-const processNames = ['move', 'fear', 'sight', 'sightlines' ]
+  const processes = processNames.map(name => require(`./processes/${name}.js`)(room))
 
-const processes = processNames.map(name => require(`./processes/${name}.js`)(room))
+  setInterval(() => {
+    processes.forEach(process => {
+       if (typeof process === 'function') {
+         process()
+       }
+    })
+  }, ms)
+}
 
-setInterval(() => {
-  processes.forEach(process => {
-     if (typeof process === 'function') {
-       process()
-     }
-  })
-}, ms)
+const processManagerLaunchpad = () => {
+  try {
+    processManager()
+  } catch (e) {
+    setTimeout(processManagerLaunchpad, 1000)
+  }
+}
+
+processManagerLaunchpad()
