@@ -9,3 +9,9 @@ Try these cool commands:
     npm run room:assert '<yournamehere> is a human animal at (0.5, 0.5)'
 
     npm run room:select '\$who is a \$species animal at (\$, \$)'
+
+Or maybe
+
+    node src/sensor.js
+
+    ![animals sensor](./images/example-sensor.png)
