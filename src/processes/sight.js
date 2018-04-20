@@ -28,7 +28,9 @@ module.exports = room => {
     // if a specie does not have sight, give it sight
     for (specie of species) {
       if (!sights.has(specie)) {
-        room.assert(`${species} can see _`, Math.floor(5 * Math.random()))
+        const fact = [`${species} can see _`, Math.floor(5 * Math.random())]
+        console.dir(fact)
+        room.assert(fact).then(console.dir)
       }
     }
   }
@@ -36,9 +38,9 @@ module.exports = room => {
 
   room.subscribe(
     [
-      `$a is a $aspecies animal at ($ax, $ay)`,
-      `$b is a $bspecies animal at ($bx, $by)`,
-      `$aspecies can see $distance`
+      `$a is a $species animal at ($ax, $ay)`,
+      `$b is a $ animal at ($bx, $by)`,
+      `$species can see $distance`
     ],
     // why is this async?
     async ({ assertions, retractions }) => {
@@ -50,7 +52,7 @@ module.exports = room => {
         ]
         const seesFact = `${a.word} sees ${b.word}`
 
-        if (dx * dx + dy * dy < $distance * $distance) {
+        if (dx * dx + dy * dy < distance * distance) {
           room.assert(seesFact).then(console.dir)
         } else {
           room.retract(seesFact).then(console.dir)
