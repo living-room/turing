@@ -8,8 +8,7 @@ module.exports = room => {
 
   room.subscribe(
     `$name has speed ($dx, $dy)`,
-    ({ assertions, retractions, solutions }) => {
-      console.dir({ assertions, solutions })
+    ({ assertions, retractions }) => {
       assertions.forEach(({ name, dx, dy }) => {
         animalSpeeds.set(name.word, {
           name: name.word,

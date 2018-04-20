@@ -7,35 +7,6 @@ module.exports = room => {
     const room = new Room()
   }
 
-  // this only happens once on startup
-  seed = async () => {
-    // get all the species
-    const species = new Set(
-      await room
-        .select(`$ is a $species animal at ($, $)`)
-        .map(({ assertions }) => assertions)
-        .map(({ species }) => species.word)
-    )
-
-    // get all the species with sight
-    const sights = new Set(
-      await room
-        .select(`$species can see $`)
-        .map(({ assertions }) => assertions)
-        .map(({ species }) => species.word)
-    )
-
-    // if a specie does not have sight, give it sight
-    for (specie of species) {
-      if (!sights.has(specie)) {
-        const fact = [`${species} can see _`, Math.floor(5 * Math.random())]
-        console.dir(fact)
-        room.assert(fact).then(console.dir)
-      }
-    }
-  }
-  seed()
-
   room.subscribe(
     [
       `$a is a $species animal at ($ax, $ay)`,
