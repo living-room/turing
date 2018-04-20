@@ -1,22 +1,38 @@
 // This is a demo of subscribing to a server query.
-// It queries for animals in the database and draws them on screen.
 
 const room = new window.room(`http://${window.location.hostname}:3000`)
 const context = canvas.getContext('2d')
 
+let labels = new Map()
 let texts = new Map()
 let circles = new Map()
 let lines = new Map()
 
 // Query labels
 room.subscribe(
-  `draw text $name at ($x, $y)`,
+  `draw label $name at ($x, $y)`,
   ({ assertions, retractions }) => {
     retractions.forEach(({ name }) => labels.delete(name.word))
 
     assertions.forEach(label => {
       labels.set(label.name.word, {
         name: label.name.word,
+        x: label.x.value,
+        y: label.y.value
+      })
+    })
+  }
+)
+
+// Query text
+room.subscribe(
+  `draw text $text at ($x, $y)`,
+  ({ assertions, retractions }) => {
+    retractions.forEach(({ text }) => texts.delete(text.value))
+
+    assertions.forEach(label => {
+      texts.set(label.text.value, {
+        text: label.text.value,
         x: label.x.value,
         y: label.y.value
       })
@@ -69,8 +85,6 @@ room.subscribe(
   }
 )
 
-getAnimals()
-
 async function draw (time) {
   // if the window is resized, change the canvas to fill the window
   canvas.width = window.innerWidth
@@ -82,15 +96,15 @@ async function draw (time) {
   context.fillStyle = '#fff'
   context.font = '40px sans-serif'
 
-  animals.forEach(({ x, y }, name) => {
-    previousFill = context.fillStyle
-    context.fillStyle = '#ffff00'
-    context.fillText(name, x * canvas.width, y * canvas.height)
-    context.fillStyle = previousFill
-  })
-
   labels.forEach(({ x, y }, name) => {
     context.fillText(name, x * canvas.width, y * canvas.height)
+  })
+
+  texts.forEach(({ x, y }, text) => {
+    const oldFillStyle = context.fillStyle
+    context.fillStyle = '#33f'
+    context.fillText(text, x * canvas.width, y * canvas.height)
+    context.fillStyle = oldFillStyle
   })
 
   circles.forEach(({ x, y, r, g, b, radius }, name) => {

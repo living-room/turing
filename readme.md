@@ -15,3 +15,9 @@ Or maybe
     node src/sensor.js
 
     ![animals sensor](./images/example-sensor.png)
+
+We have a drawing api
+
+    draw text "the devils lettuce" at (0.5, 0.5)
+
+    draw label freebelflorp at (0.1, 0.2)

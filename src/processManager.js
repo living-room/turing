@@ -10,7 +10,7 @@ const processManager = () => {
   const Room = require('@living-room/client-js')
   room = new Room()
 
-  const processNames = ['move', 'fear', 'sight', 'sightlines' ]
+  const processNames = ['animalIlluminator', 'move', 'fear', 'sight', 'sightlines' ]
 
   const processes = processNames.map(name => require(`./processes/${name}.js`)(room))
 
@@ -31,4 +31,4 @@ const processManagerLaunchpad = () => {
   }
 }
 
-processManagerLaunchpad()
+setTimeout(processManagerLaunchpad, 3000)
