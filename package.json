@@ -1,6 +1,6 @@
 {
   "name": "@living-room/lovelace",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "all the stuff running in rc/lovelace",
   "repository": "https://github.com/living-room/lovelace",
   "author": "Jonathan Dahan",
@@ -11,11 +11,11 @@
     "format": "prettier-standard 'src/*/*.js'",
     "processes": "node src/processManager.js",
     "start": "npm-run-all -p format server animals processes",
-    "room": "node examples/commandline.js",
-    "room:assert": "node examples/commandline.js assert",
-    "room:retract": "node examples/commandline.js retract",
-    "room:select": "node examples/commandline.js select",
-    "room:subscribe": "node examples/commandline.js subscribe"
+    "room": "node src/commandline.js",
+    "room:assert": "npm run room -- assert",
+    "room:retract": "npm run room -- retract",
+    "room:select": "npm run room -- select",
+    "room:subscribe": "npm run room -- subscribe"
   },
   "dependencies": {
     "@living-room/client-js": "^0.4.0",
