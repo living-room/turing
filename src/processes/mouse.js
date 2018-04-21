@@ -1,4 +1,5 @@
 module.exports = room => {
+  return
   if (!room) {
     const Room = require('@living-room/client-js')
     room = new Room()

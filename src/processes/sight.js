@@ -4,17 +4,22 @@
 module.exports = room => {
   if (!room) {
     const Room = require('@living-room/client-js')
-    const room = new Room()
+    room = new Room()
   }
 
+  const metadata = {
+    url: `https://github.com/living-room/lovelace/blob/master/src/processes/sight.js`
+  }
   room.subscribe(
     [
+      `sight is active`,
       `$a is a $species animal at ($ax, $ay)`,
       `$b is a $ animal at ($bx, $by)`,
       `$species can see $distance`
     ],
     // why is this async?
     async ({ assertions, retractions }) => {
+      if (retractions.includes('sight is active')) return
       assertions.forEach(async ({ a, b, ax, ay, bx, by, distance }) => {
         if (a.word === b.word) return
         const [dx, dy] = [
@@ -31,4 +36,10 @@ module.exports = room => {
       })
     }
   )
+
+  room.assert('sight is active')
+
+  for (let key in metadata) {
+    room.assert(`sight has ${key} "${metadata[key]}"`)
+  }
 }

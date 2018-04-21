@@ -1,34 +1,63 @@
 /**
- * This process manager is a nice way to add more animal processes to all work together
- * It would be cool if the processes themselves would check if they are active, etc
+ * Load each module inside the 'processes' folder, and
+ * if they return a step function, run it at 1fps
+ *
+ * You can toggle the step function with
+ *
+ *    "$processName is active"
+ *
+ * Maybe we have the processManager emit 'tick'...
  */
-
-const processManager = () => {
+setTimeout(() => {
   const fps = 1
-  const ms = 1000. / fps
+  const ms = 1000.0 / fps
+  const processes = new Map()
 
   const Room = require('@living-room/client-js')
-  room = new Room()
+  const room = new Room()
 
-  const processNames = ['animalIlluminator', 'move', 'fear', 'sight', 'sightlines' ]
-
-  const processes = processNames.map(name => require(`./processes/${name}.js`)(room))
-
-  setInterval(() => {
-    processes.forEach(process => {
-       if (typeof process === 'function') {
-         process()
-       }
+  const updateProcesses = ({assertions, retractions}) => {
+    assertions.forEach(({name}) => {
+      if (!processes.has(name.word)) {
+        processes.set(name.word, {name: name.word})
+      }
+      processes.get(name.word).active = true
     })
-  }, ms)
-}
-
-const processManagerLaunchpad = () => {
-  try {
-    processManager()
-  } catch (e) {
-    setTimeout(processManagerLaunchpad, 1000)
+    retractions.forEach(({name}) => {
+      processes.get(name.word).active = false
+    })
+    console.dir(processes)
   }
-}
 
-setTimeout(processManagerLaunchpad, 3000)
+  const loadModulesInFolder = folder => {
+    const path = require('path')
+    const processesFolder = path.join(__dirname, folder)
+    const fs = require('fs')
+    fs.readdirSync(processesFolder)
+      .forEach(processFile => {
+        try {
+          const processFilePath = path.join(processesFolder, processFile)
+          if (!fs.lstatSync(processFilePath).isFile) return
+          const step = require(processFilePath)(room)
+          const name = processFile.replace(/.js$/, '')
+          const active = false
+          processes.set(name, {name, step, active})
+        } catch (e) {
+          console.error(e)
+        }
+      })
+  }
+
+  const step = () => {
+    for (let {name, active, step} of processes.values()) {
+      if (active && typeof step === 'function') {
+        console.log(`stepping ${name}`)
+        step()
+      }
+    }
+  }
+
+  room.subscribe(`$name is active`, updateProcesses)
+  loadModulesInFolder('processes')
+  setInterval(step, ms)
+}, 3000)

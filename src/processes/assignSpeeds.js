@@ -1,4 +1,4 @@
-const assignSpeeds = async room => {
+module.exports = async room => {
   if (!room) {
     const Room = require('@living-room/client-js')
     room = new Room()
@@ -10,9 +10,9 @@ const assignSpeeds = async room => {
     `$name has speed ($dx, $dy)`
   ])
 
-  const names = new Set(animals.solutions.map(({ name }) => name.word))
+  const names = new Set(animals.assertions.map(({ name }) => name.word))
 
-  animalsSpeeds.solutions.forEach(({ name, dx, dy }) => {
+  animalsSpeeds.assertions.forEach(({ name, dx, dy }) => {
     room.retract(`${name.word} has speed (${dx.value}, ${dy.value})`)
   })
 
@@ -22,5 +22,3 @@ const assignSpeeds = async room => {
     room.assert(`${name} has speed (${dx}, ${dy})`).then(console.dir)
   })
 }
-
-assignSpeeds()
