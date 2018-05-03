@@ -39,7 +39,9 @@ async function main () {
     case 'retract':
       return room.retract(facts).then(console.log)
     case 'select':
-      return room.select(facts).then(({assertions}) => console.log(assertions))
+      return room
+        .select(facts)
+        .then(({ assertions }) => console.log(assertions))
     case 'subscribe':
       room.subscribe(facts, console.log)
       process.stdin.on('data', () => process.exit())

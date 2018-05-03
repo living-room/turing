@@ -41,20 +41,17 @@ room.subscribe(
 )
 
 // Query text
-room.subscribe(
-  `draw text $text at ($x, $y)`,
-  ({ assertions, retractions }) => {
-    retractions.forEach(({ text }) => texts.delete(text.value))
+room.subscribe(`draw text $text at ($x, $y)`, ({ assertions, retractions }) => {
+  retractions.forEach(({ text }) => texts.delete(text.value))
 
-    assertions.forEach(label => {
-      texts.set(label.text.value, {
-        text: label.text.value,
-        x: label.x.value,
-        y: label.y.value
-      })
+  assertions.forEach(label => {
+    texts.set(label.text.value, {
+      text: label.text.value,
+      x: label.x.value,
+      y: label.y.value
     })
-  }
-)
+  })
+})
 
 // Query lines
 room.subscribe(

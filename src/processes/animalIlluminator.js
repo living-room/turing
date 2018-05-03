@@ -10,7 +10,9 @@ module.exports = async room => {
         let fact = `draw label ${name.word} at (${x.value}, ${y.value})`
         console.log(`retract: ${fact}`)
         room.retract(fact)
-        fact = `draw (255, 255, 255) halo around (${x.value}, ${y.value}) with radius 20`
+        fact = `draw (255, 255, 255) halo around (${x.value}, ${
+          y.value
+        }) with radius 20`
         console.log(`retract: ${fact}`)
         room.retract(fact)
       })
@@ -19,7 +21,9 @@ module.exports = async room => {
         let fact = `draw label ${name.word} at (${x.value}, ${y.value})`
         console.log(`${fact}`)
         room.assert(fact)
-        fact = `draw (255, 255, 255) halo around (${x.value}, ${y.value}) with radius 20`
+        fact = `draw (255, 255, 255) halo around (${x.value}, ${
+          y.value
+        }) with radius 20`
         console.log(`${fact}`)
         room.assert(fact)
       })

@@ -1,1 +1,1 @@
-require('@living-room/service-js/server.js')
+require('@living-room/service-js/service.js')
