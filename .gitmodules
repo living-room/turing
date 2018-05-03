@@ -1,0 +1,3 @@
+[submodule "colorTracker"]
+	path = sensors/colorTracker
+	url = git@github.com:jedahan/colorTracker.git
