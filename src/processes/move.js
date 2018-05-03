@@ -37,21 +37,19 @@ module.exports = room => {
 
   return () => {
     animalSpeeds.forEach(({ name, dx, dy }) => {
-      room
-        .select(`${name} is a $type animal at ($x, $y)`)
-        .then(assertions => {
-          assertions.forEach(({ type, x, y }) => {
-            // does this trigger our subscription in a bad way?
-            room.retract(
-              `${name} is a ${type.word} animal at (${x.value}, ${y.value})`
-            )
-            // maybe this is why we need flushChanges / fluent programming
-            room.assert(
-              `${name} is a ${type.word} animal at (${x.value + dx}, ${y.value +
-                dy})`
-            )
-          })
+      room.select(`${name} is a $type animal at ($x, $y)`).then(assertions => {
+        assertions.forEach(({ type, x, y }) => {
+          // does this trigger our subscription in a bad way?
+          room.retract(
+            `${name} is a ${type.word} animal at (${x.value}, ${y.value})`
+          )
+          // maybe this is why we need flushChanges / fluent programming
+          room.assert(
+            `${name} is a ${type.word} animal at (${x.value + dx}, ${y.value +
+              dy})`
+          )
         })
+      })
     })
   }
 }

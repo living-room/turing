@@ -1,5 +1,21 @@
 // This is a demo of subscribing to a server query.
 
+// Draw a word
+//  `draw label $name at ($x, $y)`
+//  `draw label Timon at (0.3, 0.3)`
+
+// Draw a sentence
+//  `draw text $text at ($x, $y)`
+//  `draw text "timon is cool" at (0.8, 0.8)`
+
+// Drawing a line
+//  `$name is a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`
+//  `timonpumbaline is a (255, 255, 0) line from (0.3, 0.3) to (0.5, 0.5)`
+
+// Drawing a circle:
+//  `$name is a ($r, $g, $b) circle at ($x, $y) with radius $radius`
+//  `mycircle is a (255, 12, 123) circle at (0.5, 0.6) with radius 20`
+
 const room = new window.room(`http://${window.location.hostname}:3000`)
 const context = canvas.getContext('2d')
 

@@ -1,4 +1,5 @@
 // This looks for animals, and adds text for them
+//    `$name is a $ animal at ($x, $y)`,
 
 module.exports = async room => {
   // query animals
@@ -6,13 +7,19 @@ module.exports = async room => {
     `$name is a $ animal at ($x, $y)`,
     ({ assertions, retractions }) => {
       retractions.forEach(({ name, x, y }) => {
-        const fact = `draw label ${name.word} at (${x.value}, ${y.value})`
+        let fact = `draw label ${name.word} at (${x.value}, ${y.value})`
+        console.log(`retract: ${fact}`)
+        room.retract(fact)
+        fact = `draw (255, 255, 255) halo around (${x.value}, ${y.value}) with radius 20`
         console.log(`retract: ${fact}`)
         room.retract(fact)
       })
 
       assertions.forEach(({ name, x, y }) => {
-        const fact = `draw label ${name.word} at (${x.value}, ${y.value})`
+        let fact = `draw label ${name.word} at (${x.value}, ${y.value})`
+        console.log(`${fact}`)
+        room.assert(fact)
+        fact = `draw (255, 255, 255) halo around (${x.value}, ${y.value}) with radius 20`
         console.log(`${fact}`)
         room.assert(fact)
       })

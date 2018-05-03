@@ -12,7 +12,7 @@ Try these cool commands:
 
 Or maybe
 
-    node src/sensor.js
+    node src/util/sensor.js
 
     ![animals sensor](./images/example-sensor.png)
 
