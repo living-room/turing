@@ -14,7 +14,7 @@ Or maybe
 
     node src/util/sensor.js
 
-    ![animals sensor](./images/example-sensor.png)
+![animals sensor](./images/example-sensor.png)
 
 We have a drawing api
 
