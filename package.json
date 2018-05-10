@@ -1,6 +1,6 @@
 {
   "name": "@living-room/lovelace",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "all the stuff running in rc/lovelace",
   "repository": "https://github.com/living-room/lovelace",
   "author": "Jonathan Dahan",
