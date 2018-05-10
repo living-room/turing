@@ -37,6 +37,7 @@ module.exports = room => {
 
   return () => {
     animalSpeeds.forEach(({ name, dx, dy }) => {
+      if (dx + dx == 0) return
       room.select(`${name} is a $type animal at ($x, $y)`).then(assertions => {
         assertions.forEach(({ type, x, y }) => {
           // does this trigger our subscription in a bad way?

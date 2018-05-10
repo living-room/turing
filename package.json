@@ -12,10 +12,10 @@
     "processes": "node src/processManager.js",
     "start": "npm-run-all -p format server animals processes",
     "room": "node src/util/commandline.js",
-    "room:assert": "npm run room -- assert",
-    "room:retract": "npm run room -- retract",
-    "room:select": "npm run room -- select",
-    "room:subscribe": "npm run room -- subscribe"
+    "assert": "node src/util/commandline.js assert",
+    "retract": "node src/util/commandline.js retract",
+    "select": "node src/util/commandline.js select",
+    "subscribe": "node src/util/commandline.js subscribe"
   },
   "dependencies": {
     "@living-room/client-js": "^0.4.5",

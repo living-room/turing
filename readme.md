@@ -6,9 +6,9 @@ Check out the `src/` folder to see what is running on crosby, and being output t
 
 Try these cool commands:
 
-    npm run room:assert '<yournamehere> is a human animal at (0.5, 0.5)'
+    npm run assert '<yournamehere> is a human animal at (0.5, 0.5)'
 
-    npm run room:select '\$who is a \$species animal at (\$, \$)'
+    npm run select '\$who is a \$species animal at (\$, \$)'
 
 Or maybe
 
