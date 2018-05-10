@@ -10,11 +10,15 @@ module.exports = room => {
     `$name has speed ($dx, $dy)`,
     ({ assertions, retractions }) => {
       assertions.forEach(({ name, dx, dy }) => {
-        animalSpeeds.set(name.word, {
-          name: name.word,
-          dx: dx.value,
-          dy: dy.value
-        })
+        if (dx.value + dy.value == 0) {
+          animalSpeeds.delete(name.word)
+        } else {
+          animalSpeeds.set(name.word, {
+            name: name.word,
+            dx: dx.value,
+            dy: dy.value
+          })
+        }
       })
 
       // This is subtle and possibly painful
@@ -37,7 +41,6 @@ module.exports = room => {
 
   return () => {
     animalSpeeds.forEach(({ name, dx, dy }) => {
-      if (dx + dx == 0) return
       room.select(`${name} is a $type animal at ($x, $y)`).then(assertions => {
         assertions.forEach(({ type, x, y }) => {
           // does this trigger our subscription in a bad way?
