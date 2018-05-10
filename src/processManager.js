@@ -8,6 +8,10 @@
  *
  * Maybe we have the processManager emit 'tick'...
  */
+
+const boxen = require('boxen')
+const chalk = require('chalk').default
+
 setTimeout(() => {
   const fps = 1
   const ms = 1000.0 / fps
@@ -26,7 +30,27 @@ setTimeout(() => {
     retractions.forEach(({name}) => {
       processes.get(name.word).active = false
     })
-    console.dir(processes)
+
+    const processList = Array.from(processes.values())
+      .map(({name, active, step}) => {
+        return (typeof step === 'function' ? chalk.keyword('hotpink')('* ') : '  ')
+          + (active ? chalk.greenBright(name) : name)
+      })
+
+    const formatting = {
+      padding: 1,
+      borderStyle: 'round',
+      float: 'center',
+      dimBorder: true
+    }
+
+    const message = chalk.keyword('hotpink')('processes\n')
+    + chalk.greenBright('  green') + ' is active\n'
+    + chalk.keyword('hotpink')('  *') + ' has step fn'
+    + '\n\n'
+    + processList.join('\n')
+
+    console.log(boxen(message, formatting))
   }
 
   const loadModulesInFolder = folder => {
@@ -51,7 +75,6 @@ setTimeout(() => {
   const step = () => {
     for (let {name, active, step} of processes.values()) {
       if (active && typeof step === 'function') {
-        console.log(`stepping ${name}`)
         step()
       }
     }
