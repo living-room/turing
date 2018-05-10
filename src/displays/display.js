@@ -16,7 +16,12 @@
 //  `$name is a ($r, $g, $b) circle at ($x, $y) with radius $radius`
 //  `mycircle is a (255, 12, 123) circle at (0.5, 0.6) with radius 20`
 
-const room = new window.room(`http://${window.location.hostname}:3000`)
+const hostname = location.hostname
+const pathArray = location.pathname.split('/')
+const displayIndex = pathArray.indexOf('displays')
+const namespace = pathArray[displayIndex + 1]
+
+const room = new window.room(`http://${hostname}:3000`)
 const context = canvas.getContext('2d')
 
 let labels = new Map()
@@ -24,24 +29,19 @@ let texts = new Map()
 let circles = new Map()
 let lines = new Map()
 
-// Query labels
-room.subscribe(
-  `draw label $name at ($x, $y)`,
-  ({ assertions, retractions }) => {
-    retractions.forEach(({ name }) => labels.delete(name.word))
+const updateLabel = ({ assertions, retractions }) => {
+  retractions.forEach(({ name }) => labels.delete(name.word))
 
-    assertions.forEach(label => {
-      labels.set(label.name.word, {
-        name: label.name.word,
-        x: label.x.value,
-        y: label.y.value
-      })
+  assertions.forEach(label => {
+    labels.set(label.name.word, {
+      name: label.name.word,
+      x: label.x.value,
+      y: label.y.value
     })
-  }
-)
+  })
+}
 
-// Query text
-room.subscribe(`draw text $text at ($x, $y)`, ({ assertions, retractions }) => {
+const updateText = ({ assertions, retractions }) => {
   retractions.forEach(({ text }) => texts.delete(text.value))
 
   assertions.forEach(label => {
@@ -51,51 +51,67 @@ room.subscribe(`draw text $text at ($x, $y)`, ({ assertions, retractions }) => {
       y: label.y.value
     })
   })
-})
+}
+
+const updateLine = ({ retractions, assertions }) => {
+  retractions.forEach(({ name }) => {
+    lines.delete(name.word)
+  })
+
+  assertions.forEach(line => {
+    lines.set(line.name.word, {
+      name: line.name.word,
+      r: line.r.value,
+      g: line.g.value,
+      b: line.b.value,
+      x: line.x.value,
+      y: line.y.value,
+      xx: line.xx.value,
+      yy: line.yy.value
+    })
+  })
+}
+
+const updateCircle = ({ assertions, retractions }) => {
+  retractions.forEach(({ name }) => circles.delete(name.word))
+
+  assertions.forEach(circle => {
+    circles.set(circle.name.word, {
+      name: circle.name.word,
+      x: circle.x.value,
+      y: circle.y.value,
+      r: circle.r.value,
+      g: circle.g.value,
+      b: circle.b.value,
+      radius: circle.radius.value
+    })
+  })
+}
+
+// Query labels
+room.subscribe(`draw label $name at ($x, $y)`, updateLabel)
+room.subscribe(`${namespace}: draw label $name at ($x, $y)`, updateLabel)
+// Query text
+room.subscribe(`draw text $text at ($x, $y)`, updateText)
+room.subscribe(`${namespace}: draw text $text at ($x, $y)`, updateText)
 
 // Query lines
 room.subscribe(
-  `$name is a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`,
-  ({ retractions, assertions }) => {
-    /* TODO:FIXME
-    retractions.forEach(({ name }) => {
-      lines.delete(name.word)
-    })
-    */
-
-    assertions.forEach(line => {
-      lines.set(line.name.word, {
-        name: line.name.word,
-        r: line.r.value,
-        g: line.g.value,
-        b: line.b.value,
-        x: line.x.value,
-        y: line.y.value,
-        xx: line.xx.value,
-        yy: line.yy.value
-      })
-    })
-  }
+  `draw a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`,
+  updateLine
 )
-
+room.subscribe(
+  `${namespace}: draw a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`,
+  updateLine
+)
 // Query circles
 room.subscribe(
-  `$name is a ($r, $g, $b) circle at ($x, $y) with radius $radius`,
-  ({ assertions, retractions }) => {
-    retractions.forEach(({ name }) => circles.delete(name.word))
-
-    assertions.forEach(circle => {
-      circles.set(circle.name.word, {
-        name: circle.name.word,
-        x: circle.x.value,
-        y: circle.y.value,
-        r: circle.r.value,
-        g: circle.g.value,
-        b: circle.b.value,
-        radius: circle.radius.value
-      })
-    })
-  }
+  `draw a ($r, $g, $b) circle at ($x, $y) with radius $radius`,
+  updateCircle
+)
+room.subscribe(
+  `${namespace}: draw a ($r, $g, $b) circle at ($x, $y) with radius $radius`,
+  updateCircle
 )
 
 async function draw (time) {

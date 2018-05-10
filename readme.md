@@ -21,3 +21,9 @@ We have a drawing api
     draw text "the devils lettuce" at (0.5, 0.5)
 
     draw label freebelflorp at (0.1, 0.2)
+
+We also have a way to output to a single display
+
+    table: draw text "i am a table!" at (0.14, 0.15)
+
+    whiteboard: draw a (255, 0, 255) circle at (0.5, 0.5) with radius 20
