@@ -6,27 +6,25 @@ module.exports = async room => {
   room.subscribe(
     `$name is a $ animal at ($x, $y)`,
     ({ assertions, retractions }) => {
-      retractions.forEach(({ name, x, y }) => {
-        let fact = `draw label ${name.word} at (${x.value}, ${y.value})`
-        console.log(`retract: ${fact}`)
-        room.retract(fact)
-        fact = `draw (255, 255, 255) halo around (${x.value}, ${
-          y.value
-        }) with radius 20`
-        console.log(`retract: ${fact}`)
-        room.retract(fact)
-      })
+      const updateFact = ({ name, x, y }, fn) => {
+        const facts = [
+          `table: draw label ${name.word} at (${x.value}, ${y.value})`,
+          `table: draw a (255, 255, 255) halo around (${x.value}, ${
+            y.value
+          }) with radius 20`
+        ]
+        facts.forEach(fact => {
+          console.log(`${fn.name}: ${fact}`)
+          fn(fact)
+        })
+      }
 
-      assertions.forEach(({ name, x, y }) => {
-        let fact = `draw label ${name.word} at (${x.value}, ${y.value})`
-        console.log(`${fact}`)
-        room.assert(fact)
-        fact = `draw (255, 255, 255) halo around (${x.value}, ${
-          y.value
-        }) with radius 20`
-        console.log(`${fact}`)
-        room.assert(fact)
-      })
+      retractions.forEach(retraction =>
+        updateFact(retraction, room.retract.bind(room))
+      )
+      assertions.forEach(assertion =>
+        updateFact(assertion, room.assert.bind(room))
+      )
     }
   )
 

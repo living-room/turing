@@ -21,7 +21,7 @@ module.exports = room => {
 
           await room
             .assert(
-              `${id}sightline is a (255, 127, 255) line from (${ax.value}, ${
+              `table: draw a (255, 127, 255) line from (${ax.value}, ${
                 ay.value
               }) to (${bx.value}, ${by.value})`
             )

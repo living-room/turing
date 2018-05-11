@@ -7,7 +7,7 @@ module.exports = room => {
   const animalsWeHaveSeen = new Set()
 
   room.subscribe(
-    `$name is a $type animal at ($x, $y)`,
+    `$name is a $type animal at ($, $)`,
     ({ assertions, retractions }) => {
       assertions.forEach(animal => {
         let { type, name } = animal
