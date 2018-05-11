@@ -8,6 +8,10 @@
 //  `draw text $text at ($x, $y)`
 //  `draw text "timon is cool" at (0.8, 0.8)`
 
+// Draw a tiny sentence
+//  `draw small text $text at ($x, $y)`
+//  `draw small text "timon is cool" at (0.8, 0.8)`
+
 // Drawing a line
 //  `draw a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`
 //  `draw a (255, 255, 0) line from (0.3, 0.3) to (0.5, 0.5)`
@@ -49,11 +53,13 @@ const updateLabel = ({ assertions, retractions }) => {
 const updateText = ({ assertions, retractions }) => {
   retractions.forEach(({ text }) => texts.delete(text.value))
 
-  assertions.forEach(label => {
-    texts.set(label.text.value, {
-      text: label.text.value,
-      x: label.x.value,
-      y: label.y.value
+  assertions.forEach(text => {
+    console.dir(text)
+    texts.set(text.text.value, {
+      size: text.size && text.size.word,
+      text: text.text.value,
+      x: text.x.value,
+      y: text.y.value
     })
   })
 }
@@ -116,6 +122,10 @@ room.subscribe(`${namespace}: draw label $name at ($x, $y)`, updateLabel)
 room.subscribe(`draw text $text at ($x, $y)`, updateText)
 room.subscribe(`${namespace}: draw text $text at ($x, $y)`, updateText)
 
+// Query small text
+room.subscribe(`draw $size text $text at ($x, $y)`, updateText)
+room.subscribe(`${namespace}: draw $size text $text at ($x, $y)`, updateText)
+
 // Query lines
 room.subscribe(
   `draw a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`,
@@ -161,9 +171,12 @@ async function draw (time) {
     context.restore()
   })
 
-  texts.forEach(({ x, y }, text) => {
+  texts.forEach(({ x, y, size }, text) => {
     context.save()
-    context.fillStyle = '#6666ff'
+    context.fillStyle = '#9999ff'
+    if (size === 'small') {
+      context.font = '20px sans-serif'
+    }
     context.fillText(text, x * canvas.width, y * canvas.height)
     context.restore()
   })

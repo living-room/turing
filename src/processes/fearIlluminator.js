@@ -1,7 +1,8 @@
 // Shows fear
 module.exports = async room => {
-  let y = 0.05
-  let x = 0.05
+  let em = 0.02
+  let y = 1 - 2 * em
+  let x = em
   // query animals
   room.subscribe(
     `$ $name is $how afraid of a $otherspecies`,
@@ -9,8 +10,9 @@ module.exports = async room => {
       assertions.forEach(({ name, how, otherspecies }) => {
         const debug = `${name.word} ${how.word} afraid of ${otherspecies.word}`
 
-        const fact = `whiteboard: draw text "${debug}" at (${x}, ${(y += 0.05)})`
+        const fact = `whiteboard: draw small text "${debug}" at (${x}, ${y})`
         room.assert(fact)
+        y -= em
       })
     }
   )
