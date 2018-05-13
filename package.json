@@ -5,11 +5,14 @@
   "repository": "https://github.com/living-room/lovelace",
   "author": "Jonathan Dahan",
   "license": "MIT",
-  "engines" : { "node" : ">=8.11.1" },
+  "engines": {
+    "node": ">=8.11.1"
+  },
   "scripts": {
     "server": "node server.js",
     "animals": "serve --cors src",
     "format": "prettier-standard 'src/*/*.js'",
+    "alex": "npx alex@5.1.0 readme.md",
     "processes": "node src/processManager.js",
     "start": "npm-run-all -p format server animals processes",
     "room": "npx node@10 src/util/commandline.js",
