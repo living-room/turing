@@ -4,6 +4,10 @@ All the code running in lovelace
 
 Check out the `src/` folder to see what is running on crosby, and being output through the projectors in lovelace.
 
+Install dependencies with
+
+    npm install
+
 Try these cool commands:
 
     npm run assert '<yournamehere> is a human animal at (0.5, 0.5)'

@@ -9,8 +9,8 @@ module.exports = room => {
   room.subscribe(
     [
       `$a sees $b`,
-      `$a is a $aspecies animal at ($ax, $ay)`,
-      `$b is a $bspecies animal at ($bx, $by)`
+      `$a is a $ animal at ($ax, $ay)`,
+      `$b is a $ animal at ($bx, $by)`
     ],
     async ({ assertions, retractions }) => {
       assertions.forEach(async ({ a, b, ax, ay, bx, by }) => {

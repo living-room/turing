@@ -1,10 +1,11 @@
 {
   "name": "@living-room/lovelace",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "all the stuff running in rc/lovelace",
   "repository": "https://github.com/living-room/lovelace",
   "author": "Jonathan Dahan",
   "license": "MIT",
+  "engines" : { "node" : ">=8.11.1" },
   "scripts": {
     "server": "node server.js",
     "animals": "serve --cors src",
