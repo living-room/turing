@@ -7,6 +7,10 @@ Check out the `src/` folder to see what is running on crosby, and being output t
 Install dependencies with
 
     npm install
+ 
+Run a local server:
+
+    npm start
 
 Try these cool commands:
 
