@@ -30,8 +30,9 @@ module.exports = room => {
       const b = 255 - i * 10
       const r = 30 - i * 2
       const l = alphabet[i]
-      const { x, y } = pos
-      const fact = `mouse${l} is a (${b}, ${b}, ${b}) circle at (${x}, ${y}) with radius ${r}`
+      const fact = `mouse${l} is a (${b}, ${b}, ${b}) circle at (${pos.x}, ${
+        pos.y
+      }) with radius ${r}`
 
       console.log({ fact })
       room.assert(fact).then(console.dir)
@@ -43,21 +44,5 @@ module.exports = room => {
     }
   })
 
-  room.subscribe(
-    [`mouse is active`, `mouse$ is at ($x, $y)`],
-    ({ assertions, retractions }) => {
-      const update = ({ x: { value: x }, y: { value: y } }, fn) => {
-        fn(`whiteboard: draw a (127, 127, 255) halo around ${x}, ${y}`)
-      }
-
-      assertions.forEach(assertion => update(assertion, room.assert.bind(room)))
-      retractions.forEach(retraction =>
-        update(retractions, room.retract.bind(room))
-      )
-    }
-  )
-
-  room.subscribe(`mouse is active`, ({ assertions }) => {
-    ;(assertions.length && ioHook.start()) || ioHook.stop()
-  })
+  ioHook.start()
 }

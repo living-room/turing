@@ -6,7 +6,6 @@ module.exports = room => {
 
   room.subscribe(
     [
-      `sightlines is active`,
       `$a sees $b`,
       `$a is a $ animal at ($ax, $ay)`,
       `$b is a $ animal at ($bx, $by)`
@@ -37,6 +36,4 @@ module.exports = room => {
       )
     }
   )
-
-  room.assert(`sightlines is active`)
 }

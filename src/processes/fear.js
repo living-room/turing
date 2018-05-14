@@ -7,7 +7,6 @@ module.exports = room => {
   const animalsWeHaveSeen = new Set()
 
   room.subscribe(
-    `fear is active`,
     `$name is a $type animal at ($, $)`,
     ({ assertions, retractions }) => {
       assertions.forEach(animal => {
@@ -46,6 +45,4 @@ module.exports = room => {
       })
     }
   )
-
-  room.assert(`fear is active`)
 }
