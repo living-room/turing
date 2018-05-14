@@ -22,9 +22,10 @@ module.exports = room => {
         },
         fn
       ) => {
-        fn(
-          `table: draw a (255, 127, 255) line from ${ax}, ${ay}) to (${bx}, ${by})`
-        )
+        if (a === b) return
+        const fact = `table: draw a (255, 127, 255) line from (${ax}, ${ay}) to (${bx}, ${by})`
+        console.dir(fact)
+        fn(fact)
       }
 
       retractions.forEach(retraction =>

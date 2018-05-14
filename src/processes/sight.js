@@ -18,30 +18,28 @@ module.exports = room => {
       `$b is a $ animal at ($bx, $by)`,
       `$species can see $distance`
     ],
-    async ({ assertions, retractions }) => {
-      // If sight is inactive, retract all sees facts
-      if (retractions.includes('sight is active')) {
-        const { assertions } = await room.select(`$aspecies sees $bspecies`)
-        const retractions = assertions.map(({ aspecies, bspecies }) => {
-          return `${aspecies.word} sees ${bspecies.word}`
-        })
-        return room.retract(retractions).then(console.dir)
-      }
+    ({ assertions, retractions }) => {
+      assertions.forEach(
+        ({
+          a: { word: a },
+          b: { word: b },
+          ax: { value: ax },
+          ay: { value: ay },
+          bx: { value: bx },
+          by: { value: by },
+          distance: { value: distance }
+        }) => {
+          if (a === b) return
+          const [dx, dy] = [bx - ax, by - ay]
+          const seesFact = `${a} sees ${b}`
 
-      assertions.forEach(async ({ a, b, ax, ay, bx, by, distance }) => {
-        if (a.word === b.word) return
-        const [dx, dy] = [
-          100 * (ax.value - bx.value),
-          100 * (ay.value - by.value)
-        ]
-        const seesFact = `${a.word} sees ${b.word}`
-
-        if (dx * dx + dy * dy < distance * distance) {
-          room.assert(seesFact).then(console.dir)
-        } else {
-          room.retract(seesFact).then(console.dir)
+          if (Math.sqrt(dx * dx + dy * dy) < Math.sqrt(distance * distance)) {
+            room.assert(seesFact)
+          } else {
+            room.retract(seesFact)
+          }
         }
-      })
+      )
     }
   )
 

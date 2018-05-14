@@ -18,11 +18,11 @@
 
 // Drawing a circle:
 //  `$name is a ($r, $g, $b) circle at ($x, $y) with radius $radius`
-//  `draw a (255, 12, 123) circle at (0.5, 0.6) with radius 20`
+//  `draw a (255, 12, 123) circle at (0.5, 0.6) with radius 0.1`
 
 // Drawing a halo:
 //  `draw a ($r, $g, $b) halo around ($x, $y) with radius $radius`
-//  `draw a (255, 12, 123) halo around (0.5, 0.6) with radius 20`
+//  `draw a (255, 12, 123) halo around (0.5, 0.6) with radius 0.1`
 
 const hostname = location.hostname
 const pathArray = location.pathname.split('/')
@@ -37,6 +37,8 @@ let texts = new Map()
 let circles = new Map()
 let halos = new Map()
 let lines = new Map()
+
+const normToCoord = (n, s = canvas.height) => (n < -1 || n > 1 ) ? n : n * s
 
 const updateLabel = ({ assertions, retractions }) => {
   retractions.forEach(({ name }) => labels.delete(name.word))
@@ -65,13 +67,10 @@ const updateText = ({ assertions, retractions }) => {
 }
 
 const updateLine = ({ retractions, assertions }) => {
-  retractions.forEach(({ name }) => {
-    lines.delete(name.word)
-  })
+  retractions.forEach(line => lines.delete(JSON.stringify(line)))
 
   assertions.forEach(line => {
-    lines.set(line.name.word, {
-      name: line.name.word,
+    lines.set(JSON.stringify(line), {
       r: line.r.value,
       g: line.g.value,
       b: line.b.value,
@@ -165,9 +164,9 @@ async function draw (time) {
   context.fillStyle = '#fff'
   context.font = '40px sans-serif'
 
-  labels.forEach(({ x, y }, name) => {
+  labels.forEach(({ x, y }, label) => {
     context.save()
-    context.fillText(name, x * canvas.width, y * canvas.height)
+    context.fillText(label, normToCoord(x, canvas.width), normToCoord(y))
     context.restore()
   })
 
@@ -177,7 +176,7 @@ async function draw (time) {
     if (size === 'small') {
       context.font = '20px sans-serif'
     }
-    context.fillText(text, x * canvas.width, y * canvas.height)
+    context.fillText(text, normToCoord(x, canvas.width), normToCoord(y))
     context.restore()
   })
 
@@ -186,10 +185,10 @@ async function draw (time) {
     context.strokeStyle = `rgb(${r},${g},${b})`
     context.beginPath()
     context.ellipse(
-      x * canvas.width,
-      y * canvas.height,
-      radius,
-      radius,
+      normToCoord(x, canvas.width),
+      normToCoord(y),
+      normToCoord(radius),
+      normToCoord(radius),
       0,
       0,
       2 * Math.PI
@@ -204,10 +203,10 @@ async function draw (time) {
     context.fillStyle = `rgb(${r},${g},${b},0)`
     context.beginPath()
     context.ellipse(
-      x * canvas.width,
-      y * canvas.height,
-      radius,
-      radius,
+      normToCoord(x, canvas.width),
+      normToCoord(y),
+      normToCoord(radius),
+      normToCoord(radius),
       0,
       0,
       2 * Math.PI

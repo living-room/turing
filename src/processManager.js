@@ -57,8 +57,8 @@ setTimeout(() => {
     const path = require('path')
     const processesFolder = path.join(__dirname, folder)
     const fs = require('fs')
-    fs.readdirSync(processesFolder)
-      .forEach(processFile => {
+    fs.readdir(processesFolder, (_, processFiles) => {
+      processFiles.forEach(processFile => {
         try {
           const processFilePath = path.join(processesFolder, processFile)
           if (!fs.lstatSync(processFilePath).isFile) return
@@ -70,6 +70,7 @@ setTimeout(() => {
           console.error(e)
         }
       })
+    })
   }
 
   const step = () => {
