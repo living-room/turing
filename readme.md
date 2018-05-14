@@ -2,6 +2,8 @@
 
 All the code running in lovelace
 
+To talk to lovelace directly, make sure to `export LIVING_ROOM_HOST=http://crosby.cluster.recurse.com:3000`
+
 Check out the `src/` folder to see what is running on crosby, and being output through the projectors in lovelace.
 
 Install dependencies with
