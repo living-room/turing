@@ -10,7 +10,7 @@ module.exports = room => {
     `$name has speed ($dx, $dy)`,
     ({ assertions, retractions }) => {
       assertions.forEach(({ name, dx, dy }) => {
-        if (dx.value + dy.value == 0) {
+        if (dx.value == 0 && dy.value == 0) {
           animalSpeeds.delete(name.word)
         } else {
           animalSpeeds.set(name.word, {
