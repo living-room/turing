@@ -12,14 +12,14 @@
     "server": "node server.js",
     "animals": "serve --cors src",
     "format": "prettier-standard 'src/*/*.js'",
-    "alex": "npx alex@5.1.0 readme.md",
+    "alex": "alex readme.md",
     "processes": "node src/processManager.js",
     "start": "npm-run-all -p format server animals processes",
-    "room": "npx node@10 src/util/commandline.js",
-    "assert": "npx node@10 src/util/commandline.js assert",
-    "retract": "npx node@10 src/util/commandline.js retract",
-    "select": "npx node@10 src/util/commandline.js select",
-    "subscribe": "npx node@10 src/util/commandline.js subscribe"
+    "room": "node src/util/commandline.js",
+    "assert": "node src/util/commandline.js assert",
+    "retract": "node src/util/commandline.js retract",
+    "select": "node src/util/commandline.js select",
+    "subscribe": "node src/util/commandline.js subscribe"
   },
   "dependencies": {
     "@living-room/client-js": "^0.4.6",

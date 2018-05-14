@@ -4,33 +4,35 @@ module.exports = room => {
     const room = new Room()
   }
 
-  const lines = new Map()
-
   room.subscribe(
     [
       `$a sees $b`,
       `$a is a $ animal at ($ax, $ay)`,
       `$b is a $ animal at ($bx, $by)`
     ],
-    async ({ assertions, retractions }) => {
-      assertions.forEach(async ({ a, b, ax, ay, bx, by }) => {
-        const id = a.word + b.word
-        const p = lines.get(id)
-        if (!p || p.ax != ax || p.ay != ay || p.bx != bx || p.by != by) {
-          lines.set(id, { ax, ay, bx, by })
+    ({ assertions, retractions }) => {
+      const updateLine = (
+        {
+          a: { word: a },
+          b: { word: b },
+          ax: { value: ax },
+          ay: { value: ay },
+          bx: { value: bx },
+          by: { value: by }
+        },
+        fn
+      ) => {
+        fn(
+          `table: draw a (255, 127, 255) line from ${ax}, ${ay}) to (${bx}, ${by})`
+        )
+      }
 
-          await room
-            .assert(
-              `table: draw a (255, 127, 255) line from (${ax.value}, ${
-                ay.value
-              }) to (${bx.value}, ${by.value})`
-            )
-            .then(console.dir)
-
-          if (!p) return
-          // room.retract(`${id}sightline is a (255, 127, 255) line from (${p.ax.value}, ${p.ay.value}) to (${p.bx.value}, ${p.by.value})`).then(console.dir)
-        }
-      })
+      retractions.forEach(retraction =>
+        updateLine(retraction, room.retract.bind(room))
+      )
+      assertions.forEach(assertion =>
+        updateLine(assertion, room.assert.bind(room))
+      )
     }
   )
 }

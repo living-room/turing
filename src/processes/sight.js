@@ -17,13 +17,14 @@ module.exports = room => {
       `$a is a $species animal at ($ax, $ay)`,
       `$b is a $ animal at ($bx, $by)`,
       `$species can see $distance`
-    ], async ({ assertions, retractions }) => {
+    ],
+    async ({ assertions, retractions }) => {
       // If sight is inactive, retract all sees facts
       if (retractions.includes('sight is active')) {
         const { assertions } = await room.select(`$aspecies sees $bspecies`)
-        const retractions = assertions.map(({aspecies, bspecies}) => {
+        const retractions = assertions.map(({ aspecies, bspecies }) => {
           return `${aspecies.word} sees ${bspecies.word}`
-        }
+        })
         return room.retract(retractions).then(console.dir)
       }
 
