@@ -43,8 +43,8 @@ async function main () {
         .select(facts)
         .then(({ assertions }) => console.log(assertions))
     case 'subscribe':
-      room.subscribe(facts, console.log)
-      process.stdin.on('data', () => process.exit())
+      room.subscribe(facts, ({ assertions }) => assertions.forEach(console.log))
+      // process.stdin.on('data', () => process.exit())
       break
     default:
       return printHelp()
