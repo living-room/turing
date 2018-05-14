@@ -5,6 +5,7 @@ module.exports = async room => {
   let x = em
   // query animals
   room.subscribe(
+    `fearIlluminator is active`,
     `$ $name is $how afraid of a $otherspecies`,
     ({ assertions }) => {
       assertions.forEach(({ name, how, otherspecies }) => {
@@ -16,4 +17,6 @@ module.exports = async room => {
       })
     }
   )
+
+  room.assert(`fearIlluminator is active`)
 }

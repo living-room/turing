@@ -1,27 +1,38 @@
-module.exports = async room => {
+module.exports = room => {
   if (!room) {
     const Room = require('@living-room/client-js')
     room = new Room()
   }
 
-  const animals = await room.select(`$name is a $type animal at ($x, $y)`)
+  room.subscribe(
+    `assignSpeeds is active`,
+    async ({ assertions, retractions }) => {
+      if (!assertions.length && retractions.length) return
 
-  const animalsSpeeds = await room.select([
-    `$name is a $type animal at ($x, $y)`,
-    `$name has speed ($dx, $dy)`
-  ])
+      const animals = await room.select(`$name is a $type animal at ($x, $y)`)
 
-  const names = new Set(animals.assertions.map(({ name: { word } }) => word))
+      const animalsSpeeds = await room.select([
+        `$name is a $type animal at ($x, $y)`,
+        `$name has speed ($dx, $dy)`
+      ])
 
-  if (animalsSpeeds.assertions) {
-    animalsSpeeds.assertions.forEach(({ name, dx, dy }) => {
-      room.retract(`${name.word} has speed (${dx.value}, ${dy.value})`)
-    })
-  }
+      const names = new Set(
+        animals.assertions.map(({ name: { word } }) => word)
+      )
 
-  names.forEach(name => {
-    const dx = (Math.random() - 0.5) / 100
-    const dy = (Math.random() - 0.5) / 100
-    room.assert(`${name} has speed (${dx}, ${dy})`).then(console.dir)
-  })
+      if (animalsSpeeds.assertions) {
+        animalsSpeeds.assertions.forEach(({ name, dx, dy }) => {
+          room.retract(`${name.word} has speed (${dx.value}, ${dy.value})`)
+        })
+      }
+
+      names.forEach(name => {
+        const dx = (Math.random() - 0.5) / 100
+        const dy = (Math.random() - 0.5) / 100
+        room.assert(`${name} has speed (${dx}, ${dy})`).then(console.dir)
+      })
+    }
+  )
+
+  room.assert(`assignSpeeds is active`)
 }
