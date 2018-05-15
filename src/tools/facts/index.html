@@ -71,7 +71,7 @@ const removeFact = fact => {
 	factsEl.removeChild(factEl);
 };
 
-let api = `//crosby.cluster.recurse.com:3000`
+let api = `//${location.hostname}:3000`
 
 var es = new EventSource(`${api}/facts`);
 es.addEventListener('assert', e => {
