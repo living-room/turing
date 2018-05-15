@@ -29,7 +29,7 @@ const pathArray = location.pathname.split('/')
 const displayIndex = pathArray.indexOf('displays')
 const namespace = pathArray[displayIndex + 1]
 
-const room = new window.room(`http://${hostname}:3000`)
+const room = new LivingRoom(`http://${hostname}:3000`)
 const context = canvas.getContext('2d')
 
 let labels = new Map()

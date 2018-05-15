@@ -1,11 +1,9 @@
-(function (global, factory) {
-            typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('node-fetch'), require('socket.io-client')) :
-            typeof define === 'function' && define.amd ? define(['node-fetch', 'socket.io-client'], factory) :
-            (global.room = factory(global.fetch,global.io));
-}(this, (function (fetch,io) { 'use strict';
+var LivingRoom = (function (fetch,io,bonjour) {
+            'use strict';
 
             fetch = fetch && fetch.hasOwnProperty('default') ? fetch['default'] : fetch;
             io = io && io.hasOwnProperty('default') ? io['default'] : io;
+            bonjour = bonjour && bonjour.hasOwnProperty('default') ? bonjour['default'] : bonjour;
 
             var global$1 = typeof global !== "undefined" ? global :
                         typeof self !== "undefined" ? self :
@@ -240,7 +238,27 @@
             class Room {
               constructor (host) {
                 this._host = host || getEnv('LIVING_ROOM_HOST') || 'http://localhost:3000';
+                if (!this._host.startsWith('http://')) this._host = `http://${this._host}`;
+                const serviceDefinition = { type: 'http', subtypes: ['livingroom'] };
+
+                if (bonjour) {
+                  this._browser = bonjour.create().find(serviceDefinition, service => {
+                    const { type, host, port } = service;
+                    this._host = `${type}://${host}:${port}`;
+                    console.log(`set new host to ${this._host}`);
+                    this.connect();
+                  });
+                }
+                this.connect();
+              }
+
+              connect () {
                 this._socket = io.connect(this._host);
+                if (window) {
+                  this._socket.on('reconnect', () => {
+                    window.location.reload(true);
+                  });
+                }
               }
 
               /**
@@ -288,7 +306,14 @@
 
                 return fetch(uri, post)
                   .then(response => response.json())
-                  .catch(console.error)
+                  .catch(error => {
+                    if (error.code === 'ECONNREFUSED') {
+                      console.error(`No server listening on ${uri}`);
+                      console.error(`Try 'npm start' to run a local service`);
+                    } else {
+                      console.error(error);
+                    }
+                  })
               }
 
               assert (facts, callback) {
@@ -310,5 +335,5 @@
 
             return Room;
 
-})));
+}(fetch,io,null));
 //# sourceMappingURL=room.browser.js.map
