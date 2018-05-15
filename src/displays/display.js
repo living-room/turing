@@ -236,16 +236,15 @@ async function draw (time) {
   })
 }
 
-let drawAnimationFrame = null;
-function scheduleDraw() {
-    if (drawAnimationFrame)
-        return;
-    drawAnimationFrame = requestAnimationFrame(() => {
-        drawAnimationFrame = null;
-        draw();
-    });
+let drawAnimationFrame = null
+function scheduleDraw () {
+  if (drawAnimationFrame) return
+  drawAnimationFrame = requestAnimationFrame(() => {
+    drawAnimationFrame = null
+    draw()
+  })
 }
 
-window.addEventListener('resize', draw);
+window.addEventListener('resize', draw)
 
-draw();
+draw()

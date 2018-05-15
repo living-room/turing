@@ -20,21 +20,5 @@ module.exports = room => {
     }
   )
 
-  room.subscribe(
-    [`animalMaker is active`, `glow$id has hueIndex $hueIndex at ($x, $y)`],
-    ({ assertions, retractions }) => {
-      assertions.forEach(
-        ({
-          id: { value: id },
-          x: { value: x },
-          y: { value: y },
-          hueIndex: { value: hueIndex }
-        }) => {
-          room.assert(`${id} is a glow animal at (${x}, ${y})`)
-        }
-      )
-    }
-  )
-
   room.assert('animalMaker is active')
 }
