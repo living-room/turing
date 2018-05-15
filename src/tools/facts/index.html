@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<style>
+
+#newFactForm > input {
+	width: 30em;
+}
+
+#facts > li:hover {
+	text-decoration: line-through;
+	color: red;
+	cursor: pointer;
+}
+
+</style>
+<form id=newFactForm><input name="facts" /></form>
+<ul id=facts></ul>
+<script>
+let newFactFormEl = document.getElementById('newFactForm');
+let factsEl = document.getElementById('facts');
+
+let factEls = {};
+
+const refreshFacts = () => {
+	return fetch(`${api}/facts`)
+		.then(r => r.json())
+        .then(facts => {
+            factsEl.innerHTML = '';
+            factEls = {};
+            for (fact of facts.assertions) {
+                addFact(fact);
+            }
+        });
+};
+
+const assertFact = fact => {
+	const params = new URLSearchParams();
+	params.append('facts', fact);
+
+	return fetch(`${api}/assert`, {
+		body: params,
+		method: 'POST',
+	}).then(refreshFacts);
+};
+
+const retractFact = fact => {
+	const params = new URLSearchParams();
+	params.append('facts', fact);
+
+	return fetch(`${api}/retract`, {
+		body: params,
+		method: 'POST',
+	});
+};
+
+const addFact = fact => {
+	if (fact in factEls)
+		return;
+	let li = document.createElement('li');
+	li.textContent = fact;
+	li.addEventListener('click', () => {
+		retractFact(li.textContent);
+	});
+	factsEl.appendChild(li);
+	factEls[fact] = li;
+};
+
+const removeFact = fact => {
+	const factEl = factEls[fact];
+	if (!factEl)
+		return;
+	factsEl.removeChild(factEl);
+};
+
+let api = `//crosby.cluster.recurse.com:3000`
+
+var es = new EventSource(`${api}/facts`);
+es.addEventListener('assert', e => {
+	addFact(e.data);
+});
+es.addEventListener('retract', e => {
+	removeFact(e.data);
+});
+
+newFactFormEl.addEventListener('submit', e => {
+	e.preventDefault();
+	fetch(`${api}/assert`, {
+		body: new FormData(e.target),
+		method: 'POST',
+	});
+	e.target.reset();
+});
+
+refreshFacts();
+
+</script>
