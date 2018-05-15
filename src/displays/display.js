@@ -155,14 +155,14 @@ room.subscribe(
 
 async function draw (time) {
   // if the window is resized, change the canvas to fill the window
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
+  canvas.width = canvas.clientWidth * window.devicePixelRatio
+  canvas.height = canvas.clientHeight * window.devicePixelRatio
 
   // clear the canvas
   context.clearRect(0, 0, canvas.width, canvas.height)
 
   context.fillStyle = '#fff'
-  context.font = '40px sans-serif'
+  context.font = `${40 * window.devicePixelRatio}px sans-serif`
 
   labels.forEach(({ x, y }, label) => {
     context.save()
@@ -174,7 +174,7 @@ async function draw (time) {
     context.save()
     context.fillStyle = '#9999ff'
     if (size === 'small') {
-      context.font = '20px sans-serif'
+      context.font = `${20 * window.devicePixelRatio}px sans-serif`
     }
     context.fillText(text, normToCoord(x, canvas.width), normToCoord(y))
     context.restore()
