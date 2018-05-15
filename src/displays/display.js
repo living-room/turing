@@ -89,11 +89,10 @@ const updateLine = ({ retractions, assertions }) => {
 }
 
 const updateCircle = ({ assertions, retractions }) => {
-  retractions.forEach(({ name }) => circles.delete(name.word))
+  retractions.forEach(circle => circles.delete(JSON.stringify(circle)))
 
   assertions.forEach(circle => {
-    circles.set(circle.name.word, {
-      name: circle.name.word,
+    circles.set(JSON.stringify(circle), {
       x: circle.x.value,
       y: circle.y.value,
       r: circle.r.value,

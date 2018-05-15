@@ -13,8 +13,8 @@ module.exports = room => {
     [`animalMaker is active`, `$ is a $species animal at ($, $)`],
     async ({ assertions }) => {
       for (const { species: { word: species } } of assertions) {
-        if ((await room.select(`${species} can see $`)).length) return
-
+        const specieslist = await room.select(`${species} can see $`)
+        if (specieslist && specieslist.length) return
         room.assert(`${species} can see ${Math.random() / 5}`)
       }
     }
