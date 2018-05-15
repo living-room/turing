@@ -50,6 +50,8 @@ const updateLabel = ({ assertions, retractions }) => {
       y: label.y.value
     })
   })
+
+  scheduleDraw()
 }
 
 const updateText = ({ assertions, retractions }) => {
@@ -63,6 +65,8 @@ const updateText = ({ assertions, retractions }) => {
       x: text.x.value,
       y: text.y.value
     })
+
+    scheduleDraw()
   })
 }
 
@@ -80,6 +84,8 @@ const updateLine = ({ retractions, assertions }) => {
       yy: line.yy.value
     })
   })
+
+  scheduleDraw()
 }
 
 const updateCircle = ({ assertions, retractions }) => {
@@ -96,6 +102,8 @@ const updateCircle = ({ assertions, retractions }) => {
       radius: circle.radius.value
     })
   })
+
+  scheduleDraw()
 }
 
 const updateHalo = ({ assertions, retractions }) => {
@@ -111,6 +119,8 @@ const updateHalo = ({ assertions, retractions }) => {
       radius: halo.radius.value
     })
   })
+
+  scheduleDraw()
 }
 
 // Query labels
@@ -224,8 +234,18 @@ async function draw (time) {
     context.stroke()
     context.restore()
   })
-
-  requestAnimationFrame(draw)
 }
 
-requestAnimationFrame(draw)
+let drawAnimationFrame = null;
+function scheduleDraw() {
+    if (drawAnimationFrame)
+        return;
+    drawAnimationFrame = requestAnimationFrame(() => {
+        drawAnimationFrame = null;
+        draw();
+    });
+}
+
+window.addEventListener('resize', draw);
+
+draw();
