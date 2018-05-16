@@ -12,34 +12,22 @@ module.exports = room => {
   }
 
   room.subscribe(
-    [
-      `sight is active`,
-      `$a is a $species animal at ($ax, $ay)`,
-      `$b is a $ animal at ($bx, $by)`,
-      `$species can see $distance`
-    ],
+    `sight is active`,
+    `$a is a $species animal at ($ax, $ay)`,
+    `$b is a $ animal at ($bx, $by)`,
+    `$species can see $distance`,
     ({ assertions, retractions }) => {
-      assertions.forEach(
-        ({
-          a: { word: a },
-          b: { word: b },
-          ax: { value: ax },
-          ay: { value: ay },
-          bx: { value: bx },
-          by: { value: by },
-          distance: { value: distance }
-        }) => {
-          if (a === b) return
-          const [dx, dy] = [bx - ax, by - ay]
-          const seesFact = `${a} sees ${b}`
+      assertions.forEach(({ a, b, ax, ay, bx, by, distance }) => {
+        if (a === b) return
+        const [dx, dy] = [bx - ax, by - ay]
+        const seesFact = `${a} sees ${b}`
 
-          if (Math.sqrt(dx * dx + dy * dy) < Math.sqrt(distance * distance)) {
-            room.assert(seesFact)
-          } else {
-            room.retract(seesFact)
-          }
+        if (Math.sqrt(dx * dx + dy * dy) < Math.sqrt(distance * distance)) {
+          room.assert(seesFact)
+        } else {
+          room.retract(seesFact)
         }
-      )
+      })
     }
   )
 

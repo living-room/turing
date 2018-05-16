@@ -41,11 +41,11 @@ let lines = new Map()
 const normToCoord = (n, s = canvas.height) => (n < -1 || n > 1 ? n : n * s)
 
 const updateLabel = ({ assertions, retractions }) => {
-  retractions.forEach(({ name }) => labels.delete(name.word))
+  retractions.forEach(label => labels.delete(JSON.stringify(label)))
 
   assertions.forEach(label => {
-    labels.set(label.name.word, {
-      name: label.name.word,
+    labels.set(JSON.stringify(label), {
+      label: label.name.word,
       x: label.x.value,
       y: label.y.value
     })
@@ -55,19 +55,17 @@ const updateLabel = ({ assertions, retractions }) => {
 }
 
 const updateText = ({ assertions, retractions }) => {
-  retractions.forEach(({ text }) => texts.delete(text.value))
+  retractions.forEach(text => texts.delete(JSON.stringify(text)))
 
   assertions.forEach(text => {
-    console.dir(text)
-    texts.set(text.text.value, {
+    texts.set(JSON.stringify(text), {
       size: text.size && text.size.word,
       text: text.text.value,
       x: text.x.value,
       y: text.y.value
     })
-
-    scheduleDraw()
   })
+  scheduleDraw()
 }
 
 const updateLine = ({ retractions, assertions }) => {
@@ -173,13 +171,13 @@ async function draw (time) {
   context.fillStyle = '#fff'
   context.font = `${40 * window.devicePixelRatio}px sans-serif`
 
-  labels.forEach(({ x, y }, label) => {
+  labels.forEach(({ label, x, y }) => {
     context.save()
     context.fillText(label, normToCoord(x, canvas.width), normToCoord(y))
     context.restore()
   })
 
-  texts.forEach(({ x, y, size }, text) => {
+  texts.forEach(({ text, x, y, size }) => {
     context.save()
     context.fillStyle = '#9999ff'
     if (size === 'small') {
@@ -189,7 +187,7 @@ async function draw (time) {
     context.restore()
   })
 
-  circles.forEach(({ x, y, r, g, b, radius }, name) => {
+  circles.forEach(({ x, y, r, g, b, radius }) => {
     context.save()
     context.strokeStyle = `rgb(${r},${g},${b})`
     context.beginPath()
@@ -206,7 +204,7 @@ async function draw (time) {
     context.restore()
   })
 
-  halos.forEach(({ x, y, r, g, b, radius }, name) => {
+  halos.forEach(({ x, y, r, g, b, radius }) => {
     context.save()
     context.strokeStyle = `rgb(${r},${g},${b})`
     context.fillStyle = `rgb(${r},${g},${b},0)`
@@ -224,7 +222,7 @@ async function draw (time) {
     context.restore()
   })
 
-  lines.forEach(({ x, y, xx, yy, r, g, b }, name) => {
+  lines.forEach(({ x, y, xx, yy, r, g, b }) => {
     context.save()
     context.strokeStyle = `rgb(${r},${g},${b})`
     context.beginPath()

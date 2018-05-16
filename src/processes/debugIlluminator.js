@@ -12,24 +12,15 @@ module.exports = async room => {
     `whiteboard: draw text "active processes" at (${right_x}, ${em})`
   ]
 
-  room.subscribe(
-    [`debugIllimnator is active`, `hueIndex $hueIndex is $r, $g, $b, $a`],
-    ({ assertions, retractions }) => {
-      assertions.forEach(
-        ({
-          hueIndex: { value: hueIndex },
-          r: { value: r },
-          g: { value: g },
-          b: { value: b },
-          a: { value: a }
-        }) => {
-          const radius = 0.8
-          const x = 0.9 * radius
-          const y = 0.9 * radius * (2 + hueIndex)
-          room.assert(
-            `whiteboard: draw a (${r}, ${g}, ${b}) circle at (${x}, ${y}) with radius ${radius}`
-          )
-        }
+  room.on(
+    `debugIllimnator is active`,
+    `hueIndex $hueIndex is $r, $g, $b, $a`,
+    ({ hueIndex, r, g, b, a }) => {
+      const radius = 0.8
+      const x = 0.9 * radius
+      const y = 0.9 * radius * (2 + hueIndex)
+      room.assert(
+        `whiteboard: draw a (${r}, ${g}, ${b}) circle at (${x}, ${y}) with radius ${radius}`
       )
     }
   )
@@ -37,18 +28,16 @@ module.exports = async room => {
   room.subscribe(`$name is active`, ({ assertions, retractions }) => {
     retractions.forEach(({ name }) => {
       const index =
-        (activeProcesses.get(name.word) &&
-          activeProcesses.get(name.word).index) ||
+        (activeProcesses.get(name) && activeProcesses.get(name).index) ||
         activeProcesses.size + 1
-      activeProcesses.set(name.word, { index, active: false })
+      activeProcesses.set(name, { index, active: false })
     })
 
     assertions.forEach(({ name }) => {
       const index =
-        (activeProcesses.get(name.word) &&
-          activeProcesses.get(name.word).index) ||
+        (activeProcesses.get(name) && activeProcesses.get(name).index) ||
         activeProcesses.size + 1
-      activeProcesses.set(name.word, { index, active: true })
+      activeProcesses.set(name, { index, active: true })
     })
 
     if (
@@ -81,4 +70,6 @@ module.exports = async room => {
       )
     }
   })
+
+  room.assert('debugIlluminator is active')
 }

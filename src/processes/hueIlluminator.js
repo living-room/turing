@@ -3,17 +3,10 @@
 
 module.exports = async room => {
   room.subscribe(
-    [`hueIlluminator is active`, `glow$id has hueIndex $hueIndex at ($x, $y)`],
+    `hueIlluminator is active`,
+    `glow$id has hueIndex $hueIndex at ($x, $y)`,
     ({ assertions, retractions }) => {
-      const updateFact = (
-        {
-          id: { value: id },
-          hueIndex: { value: hueIndex },
-          x: { value: x },
-          y: { value: y }
-        },
-        fn
-      ) => {
+      const updateFact = ({ id, hueIndex, x, y }, fn) => {
         const fact = `table: draw a (0, 255, 255) halo around (${x}, ${y}) with radius 0.05`
         fn(fact)
       }

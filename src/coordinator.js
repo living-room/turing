@@ -13,8 +13,6 @@ const boxen = require('boxen')
 const chalk = require('chalk').default
 
 setTimeout(() => {
-  const fps = 1
-  const ms = 1000.0 / fps
   const processes = new Map()
 
   const Room = require('@living-room/client-js')
@@ -22,18 +20,23 @@ setTimeout(() => {
 
   const updateProcesses = ({assertions, retractions}) => {
     assertions.forEach(({name}) => {
-      if (!processes.has(name.word)) {
-        processes.set(name.word, {name: name.word})
+      if (!processes.has(name)) {
+        processes.set(name, {name})
       }
-      processes.get(name.word).active = true
+      processes.get(name).active = true
+      const {step, delay} = processes.get(name)
+      if (step) {
+        clearInterval(processes.get(name).interval)
+        processes.get(name).interval = setInterval(step, delay || 1000)
+      }
     })
     retractions.forEach(({name}) => {
-      processes.get(name.word).active = false
+      clearInterval(processes.get(name).interval)
     })
 
     const processList = Array.from(processes.values())
-      .map(({name, active, step}) => {
-        return (typeof step === 'function' ? chalk.keyword('hotpink')('* ') : '  ')
+      .map(({name, active, interval}) => {
+        return (typeof interval === 'object' ? chalk.keyword('hotpink')('* ') : '  ')
           + (active ? chalk.greenBright(name) : name)
       })
 
@@ -62,10 +65,12 @@ setTimeout(() => {
         try {
           const processFilePath = path.join(processesFolder, processFile)
           if (!fs.lstatSync(processFilePath).isFile) return
-          const step = require(processFilePath)(room)
+          const stepping = require(processFilePath)(room)
+          const step = stepping && stepping.step
+          const delay = stepping && stepping.delay
           const name = processFile.replace(/.js$/, '')
           const active = false
-          processes.set(name, {name, step, active})
+          processes.set(name, {name, step, active, delay})
         } catch (e) {
           console.error(e)
         }
@@ -73,15 +78,6 @@ setTimeout(() => {
     })
   }
 
-  const step = () => {
-    for (let {name, active, step} of processes.values()) {
-      if (active && typeof step === 'function') {
-        step()
-      }
-    }
-  }
-
   room.subscribe(`$name is active`, updateProcesses)
   loadModulesInFolder('processes')
-  setInterval(step, ms)
 }, 3000)

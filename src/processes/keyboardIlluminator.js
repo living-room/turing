@@ -6,19 +6,21 @@ module.exports = async room => {
 
   let buf = []
 
-  room.subscribe([
+  room.on(
     `keyboardIlluminator is active`,
-    `$mac got input event type $type with code $code and value $value @ $seq`
-  ], ({ assertions }) => {
-    assertions.forEach(({code, type, value}) => {
-      if (code.value !== 4) return
-      if (type.value !== 4) return
-      console.log(buf.join(''))
-      room.retract(`whiteboard: draw small text "${buf.join(' ')}" at (0.05, 0.60)`)
-      buf.push(value.value - 458700)
-      room.assert(`whiteboard: draw small text "${buf.join(' ')}" at (0.05, 0.60)`)
-    })
-  })
+    `$mac got input event type $type with code $code and value $value @ $seq`,
+    ({ code, type, value }) => {
+      if (code !== 4) return
+      if (type !== 4) return
+      room.retract(
+        `whiteboard: draw small text "${buf.join(' ')}" at (0.05, 0.60)`
+      )
+      buf[seq] = value - 458700
+      room.assert(
+        `whiteboard: draw small text "${buf.join(' ')}" at (0.05, 0.60)`
+      )
+    }
+  )
 
   room.assert(`keyboardIlluminator is active`)
 }
