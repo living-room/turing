@@ -43,12 +43,16 @@ async function main () {
         .select(facts)
         .then(({ assertions }) => console.log(assertions))
     case 'subscribe':
+      console.log()
+      console.log(`subscribing to ${facts}`)
+      console.log(`press any key to quit`)
+      console.log()
       room.subscribe(facts, ({ assertions }) => assertions.forEach(console.log))
-      // process.stdin.on('data', () => process.exit())
+      process.stdin.on('data', () => process.exit())
       break
     default:
       return printHelp()
   }
 }
 
-main().then(process.exit)
+main()
