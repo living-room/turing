@@ -60,6 +60,7 @@ const updateText = ({ assertions, retractions }) => {
   assertions.forEach(text => {
     texts.set(JSON.stringify(text), {
       size: text.size && text.size.word,
+      angle: text.angle && text.angle.value,
       text: text.text.value,
       x: text.x.value,
       y: text.y.value
@@ -132,6 +133,9 @@ room.subscribe(`${namespace}: draw text $text at ($x, $y)`, updateText)
 room.subscribe(`draw $size text $text at ($x, $y)`, updateText)
 room.subscribe(`${namespace}: draw $size text $text at ($x, $y)`, updateText)
 
+room.subscribe(`draw $size text $text at ($x, $y) at angle $angle`, updateText)
+room.subscribe(`${namespace}: draw $size text $text at ($x, $y) at angle $angle`, updateText)
+
 // Query lines
 room.subscribe(
   `draw a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`,
@@ -177,11 +181,16 @@ async function draw (time) {
     context.restore()
   })
 
-  texts.forEach(({ text, x, y, size }) => {
+  texts.forEach(({ text, x, y, size, angle }) => {
     context.save()
     context.fillStyle = '#9999ff'
     if (size === 'small') {
       context.font = `${20 * window.devicePixelRatio}px sans-serif`
+    }
+    if (typeof angle !== 'undefined') {
+      context.translate(normToCoord(x, canvas.width), normToCoord(y))
+      context.rotate(-angle) // counterclockwise
+      context.translate(-normToCoord(x, canvas.width), -normToCoord(y))
     }
     context.fillText(text, normToCoord(x, canvas.width), normToCoord(y))
     context.restore()
