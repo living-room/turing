@@ -14,17 +14,30 @@ import sys
 
 import os
 import json
-from OSC import OSCClient, OSCMessage
+from OSC import OSCClient, OSCMessage, OSCClientError
 
 SERVER = 'crosby.cluster.recurse.com'
 c = OSCClient()
-c.connect((SERVER, 41234))
+while True:
+    try:
+        c.connect((SERVER, 41234))
+        break
+    except Exception as e:
+        sys.stderr.write(str(e) + '\n')
+        sys.stderr.write('Retrying connection...\n')
+        sys.stderr.flush()
+        time.sleep(5)
+
 def room_assert(facts):
     for fact in facts:
-        msg = OSCMessage()
-        msg.setAddress('/assert')
-        msg.append(fact)
-        c.send(msg)
+        try:
+            msg = OSCMessage()
+            msg.setAddress('/assert')
+            msg.append(fact)
+            c.send(msg)
+        except OSCClientError as e:
+            # FIXME: hack so it doesn't crash
+            sys.stderr.write(str(e) + '\n')
 
 mac = open("/sys/class/net/wlan0/address").readline()[0:17]
 ip = os.popen("hostname -I").read().split()[0]
