@@ -3,9 +3,9 @@ Living Room is a programmable space at Recurse Center. Think of it as a protocol
 > If you are at RC, you can view [the whiteboard][], [the table][], or a list of [live facts][]
 
 Feel free to skip to the section most relevant to you
-- [introduction][#introduction]
-- [getting started][#getting-started]
-- [philosophy][#development-philosophy]
+- [introduction](#introduction)
+- [getting started](#getting-started)
+- [philosophy](#development-philosophy)
 
 # introduction
 
@@ -99,7 +99,7 @@ Start all the necessary servers with
 
     npm start
 
-Now you can [skip to speaking with the room][#speaking-with-the-room]
+Now you can [skip to speaking with the room](#speaking-with-the-room)
 
 ## in lovelace
 
