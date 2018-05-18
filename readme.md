@@ -91,19 +91,10 @@ Once you have node v10, make sure to install dependencies before continuing
 
     npm install
 
-## local development
+Now there are two ways to interact with the room
 
-This repository contains a living room server, some displays, development tools, and various processes.
-
-Start all the necessary servers with
-
-    npm start
-
-Now you can [skip to speaking with the room](#speaking-with-the-room)
-
-## in lovelace
-
-To talk to lovelace directly, make sure to `export LIVING_ROOM_HOST=http://crosby.cluster.recurse.com:3000` before running any commands.
+- for local development run `npm start`
+- for talking in lovelace, `export LIVING_ROOM_HOST=http://crosby.cluster.recurse.com:3000`
 
 You can also check out [what facts exist on crosby][live facts], or [load up the displays or tools][displays]
 
