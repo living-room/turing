@@ -1,10 +1,13 @@
-# living-room/lovelace
+Living Room is a programmable space at Recurse Center. Think of it as a protocol that can be used to create collaborative games, experiments in physical computing, magical real-world data visualizations and just about anything else you can think of.
 
-You can view [the whiteboard][], [the table][], or a list of [live facts][] if you are at RC.
+> If you are at RC, you can view [the whiteboard][], [the table][], or a list of [live facts][]
+
+Feel free to skip to the section most relevant to you
+- [introduction][#introduction]
+- [getting started][#getting-started]
+- [philosophy][#development-philosophy]
 
 # introduction
-
-Living Room is a programmable space at Recurse Center. Think of it as a protocol that can be used to create collaborative games, experiments in physical computing, magical real-world data visualizations and just about anything else you can think of.
 
 > At any given moment, Living Room’s coherence is defined only by the communication and collaboration of the people who are programming the space.
 
@@ -80,6 +83,57 @@ Processes are programs that consume facts and do things with them.  Processes of
 
 - cat-and-mouse-process.js is a process that continuously searches the database for cat and mouse animals that are located at normalized screen coordinates, and draws them to an HTML canvas, which we project onto the wall.
 
+# getting started
+
+There are two ways to get started with the living room - the first is locally, the second is if you are in lovelace.
+
+Once you have node v10, make sure to install dependencies before continuing
+
+    npm install
+
+## local development
+
+This repository contains a living room server, some displays, development tools, and various processes.
+
+Start all the necessary servers with
+
+    npm start
+
+Now you can [skip to speaking with the room][#speaking-with-the-room]
+
+## in lovelace
+
+To talk to lovelace directly, make sure to `export LIVING_ROOM_HOST=http://crosby.cluster.recurse.com:3000` before running any commands.
+
+You can also check out [what facts exist on crosby][live facts], or [load up the displays or tools][displays]
+
+## speaking with the room
+
+In this folder we have some npm scripts to play with the room
+
+Try these cool commands
+
+    npm run assert '<yournamehere> is a human animal at (0.5, 0.5)'
+
+Woah! `yournamehere` showed up on the table display! What other animals are there?
+
+    npm run select '\$who is a \$species animal at (\$, \$)'
+
+We encourage you to dig around `src/processes` to see what kind of facts are being asserted,
+and how things react to facts.
+
+We have a drawing api
+
+    draw text "the devils lettuce" at (0.5, 0.5)
+
+    draw label freebelflorp at (0.1, 0.2)
+
+Which supports drawing to either display
+
+    table: draw text "i am a table!" at (0.14, 0.15)
+
+    whiteboard: draw a (255, 0, 255) circle at (0.5, 0.5) with radius 20
+
 # getting involved
 
 There are a few more things to understand, but the best way to learn is to come hack with us!  Here are just a few ways that you can get involved:
@@ -151,44 +205,8 @@ If an implementation has no link, it means we would like to support it but haven
 - linda
 - [vpri](http://www.vpri.org)
 
-# setup
 
-To talk to lovelace directly, make sure to `export LIVING_ROOM_HOST=http://crosby.cluster.recurse.com:3000` before running any commands.
-
-Check out the `src/` folder to see what is running on crosby, and being output through the projectors in lovelace.
-
-Install dependencies with
-
-    npm install
-
-Run a local server:
-
-    npm start
-
-Try these cool commands:
-
-    npm run assert '<yournamehere> is a human animal at (0.5, 0.5)'
-
-    npm run select '\$who is a \$species animal at (\$, \$)'
-
-Or maybe
-
-    node src/util/sensor.js
-
-![animals sensor](./images/example-sensor.png)
-
-We have a drawing api
-
-    draw text "the devils lettuce" at (0.5, 0.5)
-
-    draw label freebelflorp at (0.1, 0.2)
-
-We also have a way to output to a single display
-
-    table: draw text "i am a table!" at (0.14, 0.15)
-
-    whiteboard: draw a (255, 0, 255) circle at (0.5, 0.5) with radius 20
-
+[displays]: http://crosby.cluster.recurse.com:5000/displays/
 [the whiteboard]: http://crosby.cluster.recurse.com:5000/displays/whiteboard
 [the table]: http://crosby.cluster.recurse.com:5000/displays/whiteboard
 [live facts]: http://crosby.cluster.recurse.com:5000/tools/facts
