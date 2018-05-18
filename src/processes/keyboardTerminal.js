@@ -113,7 +113,7 @@ module.exports = async room => {
       room.retract(
         `table: draw small text "${buf.join('')}" at ($, $)`
       )
-      buf[seq] = keymap[code]
+      buf.push(keymap[code])
       room.assert(
         `table: draw small text "${buf.join('')}" at (${latestX}, ${latestY}) at angle ${latestAngle}`
       )
