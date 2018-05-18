@@ -49,13 +49,13 @@ const keymap = {
  48:'b',
  49:'n',
  50:'m',
- 51:'comma',
- 52:'dot',
- 53:'slash',
+ 51:',',
+ 52:'.',
+ 53:'/',
  54:'rightshift',
  55:'kpasterisk',
  56:'leftalt',
- 57:'space',
+ 57:' ',
  58:'capslock',
  59:'f1',
  60:'f2',
@@ -107,13 +107,28 @@ module.exports = async room => {
   room.on(
     `keyboardTerminal is active`,
     `$mac got input event type $type with code $code and value $value @ $seq`,
-    ({ code, type, value, seq }) => {
+    ({ mac, code, type, value, seq }) => {
       if (type !== 1) return // type 1 = EV_KEY event
       if (value !== 1) return // value 1 = Key-down event
+
+      // Should we retract here?
+      room.retract(
+`${mac} got input event type ${type} with code ${code} and value ${value} @ ${seq}`
+      )
+
       room.retract(
         `table: draw small text "${buf.join('')}" at ($, $)`
       )
-      buf.push(keymap[code])
+      console.log(keymap[code])
+      if (keymap[code] === 'enter') {
+        console.log(buf.join(''));
+        room.assert(buf.join(''))
+        buf = []
+      } else if (keymap[code] === 'backspace') {
+        buf.pop()
+      } else {
+        buf.push(keymap[code])
+      }
       room.assert(
         `table: draw small text "${buf.join('')}" at (${latestX}, ${latestY}) at angle ${latestAngle}`
       )
