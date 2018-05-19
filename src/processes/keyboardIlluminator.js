@@ -9,7 +9,7 @@ module.exports = async room => {
   room.on(
     `keyboardIlluminator is active`,
     `$mac got input event type $type with code $code and value $value @ $seq`,
-    ({ code, type, value }) => {
+    ({ code, type, value, seq }) => {
       if (code !== 4) return
       if (type !== 4) return
       room.retract(
