@@ -14,7 +14,8 @@ module.exports = room => {
 
   // query animals
   room.subscribe(
-    [`networkIlluminator is active`, `$mac got ip $ip`],
+    `networkIlluminator is active`,
+    `$mac got ip $ip`,
     ({ assertions, retractions }) => {
       assertions.forEach(({ mac, ip }) => {
         lastseen.set(mac, { mac, ip, x, y, date: Date.now() })
