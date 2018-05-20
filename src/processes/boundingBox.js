@@ -36,6 +36,9 @@ module.exports = room => {
   const animals = room.subscribe(
     `$name is a $type animal at ($x, $y) @ $frame`,
     `$name has speed ($dx, $dy)`,
+    `boundingBox is active`,
     bounce_off_wall
   )
+
+  room.assert(`boundingBox is active`)
 }
