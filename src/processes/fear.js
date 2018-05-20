@@ -6,36 +6,35 @@ module.exports = room => {
 
   const animalsWeHaveSeen = new Set()
 
-  room.on(`$name is a $type animal at ($, $) @ $`, ({ type, name }) => {
-    if (animalsWeHaveSeen.has(name)) return
+  room.on(
+    `$name is a $type animal at ($, $) @ $`,
+    ({ type, name }) => {
+      if (animalsWeHaveSeen.has(name)) return
 
-    let fears = {
-      [type]: 'not',
-      mouse: 'mildly'
-    }
+      let fears = {
+        [type]: 'not',
+        mouse: 'mildly'
+      }
 
-    switch (type) {
-      case 'cat':
-        fears['dog'] = 'very'
-        fears['mouse'] = 'not'
-        break
-      case 'elephant':
-        fears['mouse'] = 'very'
-        break
-      case 'dog':
-        fears['cat'] = 'very'
-        break
-      case 'mouse':
-        fears['cat'] = 'very'
-        break
-      default:
-        break
-    }
+      const fearsByType = {
+        cat: {
+          dog: 'very',
+          mouse: 'not'
+        },
+        elephant: {
+          mouse: 'very'
+        },
+        dog: {
+          cat: 'very'
+        },
+        mouse: {
+          cat: 'very'
+        }
+      }
 
-    for (let otherType in fears) {
-      let fearFact = `${type} ${name} is ${fears[otherType]} afraid of a ${otherType}`
-      room.assert(fearFact)
-    }
-    animalsWeHaveSeen.add(name)
+      for (let otherType in Object.assign(fears, fearsByType[type])) {
+        room.assert(`${type} ${name} is ${fears[otherType]} afraid of a ${otherType}`)
+      }
+      animalsWeHaveSeen.add(name)
   })
 }
