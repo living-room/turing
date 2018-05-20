@@ -53,7 +53,16 @@ setTimeout(() => {
     + '\n\n'
     + processList.join('\n')
 
-    console.log(boxen(message, formatting))
+    draw(boxen(message, formatting))
+  }
+
+  let drawTimeout = null
+
+  const draw = text => {
+    clearTimeout(drawTimeout)
+    drawTimeout = setTimeout(() => {
+      console.log(text)
+    }, 2000)
   }
 
   const loadModulesInFolder = folder => {

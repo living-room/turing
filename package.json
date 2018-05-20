@@ -10,11 +10,11 @@
   },
   "scripts": {
     "server": "node server",
-    "animals": "serve --cors --open --silent src",
+    "displays": "serve --cors --open --silent src",
     "format": "prettier-standard 'src/*/*.js'",
     "alex": "alex readme.md",
     "processes": "node src/coordinator",
-    "start": "npm-run-all -p server animals processes",
+    "start": "npm-run-all -p server processes displays",
     "room": "npx room",
     "assert": "npx room assert",
     "retract": "npx room retract",
@@ -23,17 +23,15 @@
   },
   "dependencies": {
     "@living-room/client-js": "^0.5.6",
-    "@living-room/service-js": "^0.5.6",
+    "@living-room/service-js": "^0.5.8",
     "boxen": "^1.3.0",
     "chalk": "^2.4.1",
     "chance": "^1.0.16",
     "node-compat-require": "^1.0.3",
     "node-fetch": "^2.1.2",
     "npm-run-all": "^4.1.3",
-    "opn": "^5.3.0",
     "ping": "^0.2.2",
     "prettier-standard": "^8.0.1",
-    "serve": "^6.5.7",
-    "signale": "^1.0.1"
+    "serve": "^6.5.7"
   }
 }

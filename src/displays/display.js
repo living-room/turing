@@ -26,7 +26,8 @@
 
 const hostname = location.hostname
 const pathArray = location.pathname.split('/')
-const namespace = pathArray[pathArray.length - 1]
+const htmlpath = pathArray[pathArray.length - 1]
+const namespace = htmlpath.split('.')[0]
 
 const room = new LivingRoom(`http://${hostname}:3000`)
 const context = canvas.getContext('2d')
@@ -44,9 +45,9 @@ const updateLabel = ({ assertions, retractions }) => {
 
   assertions.forEach(label => {
     labels.set(JSON.stringify(label), {
-      label: label.name.word,
-      x: label.x.value,
-      y: label.y.value
+      label: label.name,
+      x: label.x,
+      y: label.y
     })
   })
 
@@ -58,11 +59,11 @@ const updateText = ({ assertions, retractions }) => {
 
   assertions.forEach(text => {
     texts.set(JSON.stringify(text), {
-      size: text.size && text.size.word,
-      angle: text.angle && text.angle.value,
-      text: text.text.value,
-      x: text.x.value,
-      y: text.y.value
+      size: text.size,
+      angle: text.angle,
+      text: text.text,
+      x: text.x,
+      y: text.y
     })
   })
   scheduleDraw()
@@ -73,13 +74,13 @@ const updateLine = ({ retractions, assertions }) => {
 
   assertions.forEach(line => {
     lines.set(JSON.stringify(line), {
-      r: line.r.value,
-      g: line.g.value,
-      b: line.b.value,
-      x: line.x.value,
-      y: line.y.value,
-      xx: line.xx.value,
-      yy: line.yy.value
+      r: line.r,
+      g: line.g,
+      b: line.b,
+      x: line.x,
+      y: line.y,
+      xx: line.xx,
+      yy: line.yy
     })
   })
 
@@ -91,12 +92,12 @@ const updateCircle = ({ assertions, retractions }) => {
 
   assertions.forEach(circle => {
     circles.set(JSON.stringify(circle), {
-      x: circle.x.value,
-      y: circle.y.value,
-      r: circle.r.value,
-      g: circle.g.value,
-      b: circle.b.value,
-      radius: circle.radius.value
+      x: circle.x,
+      y: circle.y,
+      r: circle.r,
+      g: circle.g,
+      b: circle.b,
+      radius: circle.radius
     })
   })
 
@@ -108,12 +109,12 @@ const updateHalo = ({ assertions, retractions }) => {
 
   assertions.forEach(halo => {
     halos.set(JSON.stringify(halo), {
-      x: halo.x.value,
-      y: halo.y.value,
-      r: halo.r.value,
-      g: halo.g.value,
-      b: halo.b.value,
-      radius: halo.radius.value
+      x: halo.x,
+      y: halo.y,
+      r: halo.r,
+      g: halo.g,
+      b: halo.b,
+      radius: halo.radius
     })
   })
 

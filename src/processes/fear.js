@@ -1,6 +1,4 @@
 module.exports = room => {
-  const signale = require('signale')
-
   if (!room) {
     const Room = require('@living-room/client-js')
     room = new Room()
@@ -36,7 +34,7 @@ module.exports = room => {
 
     for (let otherType in fears) {
       let fearFact = `${type} ${name} is ${fears[otherType]} afraid of a ${otherType}`
-      room.assert(fearFact).then(f => signale.info(f[0]))
+      room.assert(fearFact)
     }
     animalsWeHaveSeen.add(name)
   })
