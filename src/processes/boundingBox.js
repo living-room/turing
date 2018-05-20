@@ -13,7 +13,7 @@ module.exports = room => {
     `draw a (255, 255, 255) line from (${box[0]}, ${box[1] + box[3]}) to (${box[0]}, ${box[1]})`
   ])
 
-  const printOutOfBounds = async function (changes) {
+  const bounce_off_wall = async function (changes) {
     for (animal of changes.assertions) {
       if (
         animal.x <= box[0] ||
@@ -36,6 +36,6 @@ module.exports = room => {
   const animals = room.subscribe(
     `$name is a $type animal at ($x, $y) @ $frame`,
     `$name has speed ($dx, $dy)`,
-    printOutOfBounds
+    bounce_off_wall
   )
 }
