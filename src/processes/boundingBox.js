@@ -13,27 +13,29 @@ module.exports = room => {
     `draw a (255, 255, 255) line from (${box[0]}, ${box[1] + box[3]}) to (${box[0]}, ${box[1]})`
   ])
 
-  const printOutOfBounds = function (changes) {
-    for (assertion of changes.assertions) {
+  const printOutOfBounds = async function (changes) {
+    for (animal of changes.assertions) {
       if (
-        assertion.x.value <= box[0] ||
-        assertion.y.value <= box[1] ||
-        assertion.x.value >= box[2] ||
-        assertion.y.value >= box[3]
+        animal.x <= box[0] ||
+        animal.y <= box[1] ||
+        animal.x >= box[2] ||
+        animal.y >= box[3]
       ) {
-        const animalSpeed = room.select([
-          `${assertion.name.word} has speed ($dx, $dy)`
-        ])
-        console.log(`animalSpeed=${animalSpeed}`)
-        // room.retract(`${assertion.name.word} has speed (${dx.value}, ${dy.value})`)
+        room.retract(`${animal.name} has speed (${animal.dx}, ${animal.dy})`)
+        room.assert(`${animal.name} has speed (${-animal.dx}, ${-animal.dy})`)
       }
     }
   }
 
-  // query the db for all animals (any name, any type, any position)
+  // Query the db for all animals (any name, any type, any position)
   // and store them in the the provide `$`-variables
+  //
+  // Note: A feature of the subscribe function is that it uses a constraint
+  // solver to satisfy the placeholders, e.g. $x and $y, before calling the
+  // callback function.
   const animals = room.subscribe(
-    `$name is a $type animal at ($x, $y)`,
+    `$name is a $type animal at ($x, $y) @ $frame`,
+    `$name has speed ($dx, $dy)`,
     printOutOfBounds
   )
 }
