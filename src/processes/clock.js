@@ -1,3 +1,4 @@
+// Increase a clock once a second
 module.exports = room => {
   if (!room) {
     const Room = require('@living-room/client-js')()

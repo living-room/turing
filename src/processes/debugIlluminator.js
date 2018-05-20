@@ -1,5 +1,4 @@
-// This labels displays
-
+// Label displays, processes, and other debug information
 module.exports = async room => {
   const em = 0.05
   const right_x = 1 - 5 * em
@@ -11,19 +10,6 @@ module.exports = async room => {
     `whiteboard: draw label whiteboard at (${em}, ${em + em})`,
     `whiteboard: draw text "active processes" at (${right_x}, ${em})`
   ]
-
-  room.on(
-    `debugIllimnator is active`,
-    `hueIndex $hueIndex is $r, $g, $b, $a`,
-    ({ hueIndex, r, g, b, a }) => {
-      const radius = 0.8
-      const x = 0.9 * radius
-      const y = 0.9 * radius * (2 + hueIndex)
-      room.assert(
-        `whiteboard: draw a (${r}, ${g}, ${b}) circle at (${x}, ${y}) with radius ${radius}`
-      )
-    }
-  )
 
   room.subscribe(`$name is active`, ({ assertions, retractions }) => {
     retractions.forEach(({ name }) => {
