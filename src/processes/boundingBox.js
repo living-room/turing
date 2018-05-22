@@ -4,23 +4,38 @@ module.exports = room => {
     room = new Room()
   }
 
-  const box = [0.25, 0.25, 0.5, 0.5]
+  // const box = { x: 0, y: 0, w: 1, h: 1 }
+  const box = { x: 0.25, y: 0.25, w: 0.5, h: 0.5 }
 
-  room.assert([
-    `draw a (255, 255, 255) line from (${box[0]}, ${box[1]}) to (${box[0] + box[2]}, ${box[1]})`,
-    `draw a (255, 255, 255) line from (${box[0] + box[2]}, ${box[1]}) to (${box[0] + box[2]}, ${box[1] + box[3]})`,
-    `draw a (255, 255, 255) line from (${box[0] + box[2]}, ${box[1] + box[3]}) to (${box[0]}, ${box[1] + box[3]})`,
-    `draw a (255, 255, 255) line from (${box[0]}, ${box[1] + box[3]}) to (${box[0]}, ${box[1]})`
-  ])
+  // Redraw boundingBox if any attribute has changed
+  const draw_bounding_box = async function (changes) {
+    const x = box.x
+    const y = box.y
+    const w = box.w
+    const h = box.h
+    for (newBox of changes.assertions) {
+      if (newBox.x != x || newBox.y != y || newBox.w != w || newBox.h != h) {
+        room.assert([
+          `draw a (255, 255, 255) line from (${x}, ${y}) to (${x+w}, ${y})`,
+          `draw a (255, 255, 255) line from (${x+w}, ${y}) to (${x+w}, ${y+h})`,
+          `draw a (255, 255, 255) line from (${x+w}, ${y+h}) to (${x}, ${y+h})`,
+          `draw a (255, 255, 255) line from (${x}, ${y+h}) to (${x}, ${y})`
+        ])
+      }
+    }
+  }
 
+  // If an animal intersects with a boundingBox wall "bounce" the animal in the
+  // opposite direction
   const bounce_off_wall = async function (changes) {
+    const x = box.x
+    const y = box.y
+    const w = box.w
+    const h = box.h
     for (animal of changes.assertions) {
-      if (
-        animal.x <= box[0] ||
-        animal.y <= box[1] ||
-        animal.x >= box[2] ||
-        animal.y >= box[3]
-      ) {
+      const dx = (animal.x <= x || animal.x >= w) ? -animal.dx : animal.dx
+      const dy = (animal.y <= y || animal.y >= h) ? - animal.dy : animal.dy
+      if (dx != animal.dx || dy != animal.dy) {
         room.retract(`${animal.name} has speed (${animal.dx}, ${animal.dy})`)
         room.assert(`${animal.name} has speed (${-animal.dx}, ${-animal.dy})`)
       }
@@ -28,7 +43,6 @@ module.exports = room => {
   }
 
   // Query the db for all animals (any name, any type, any position)
-  // and store them in the the provide `$`-variables
   //
   // Note: A feature of the subscribe function is that it uses a constraint
   // solver to satisfy the placeholders, e.g. $x and $y, before calling the
@@ -40,5 +54,16 @@ module.exports = room => {
     bounce_off_wall
   )
 
+  // Query the db for all boundingBoxes (any position, any size)
+  //
+  // Note: A feature of the subscribe function is that it uses a constraint
+  // solver to satisfy the placeholders, e.g. $x and $y, before calling the
+  // callback function.
+  const boxes = room.subscribe(
+    `boundingBox is $w x $h at ($x, $y)`,
+    draw_bounding_box
+  )
+
+  room.assert(`boundingBox is ${box.w} x ${box.h} at (${box.x}, ${box.y})`)
   room.assert(`boundingBox is active`)
 }
