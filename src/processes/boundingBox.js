@@ -8,26 +8,22 @@ module.exports = room => {
   const box = { x: 0.25, y: 0.25, w: 0.5, h: 0.5 }
 
   // Redraw boundingBox if any attribute has changed
-  const draw_bounding_box = async function (changes) {
+  const update_bounding_box = function (changes) {
     const x = box.x
     const y = box.y
     const w = box.w
     const h = box.h
     for (newBox of changes.assertions) {
       if (newBox.x != x || newBox.y != y || newBox.w != w || newBox.h != h) {
-        room.assert([
-          `draw a (255, 255, 255) line from (${x}, ${y}) to (${x+w}, ${y})`,
-          `draw a (255, 255, 255) line from (${x+w}, ${y}) to (${x+w}, ${y+h})`,
-          `draw a (255, 255, 255) line from (${x+w}, ${y+h}) to (${x}, ${y+h})`,
-          `draw a (255, 255, 255) line from (${x}, ${y+h}) to (${x}, ${y})`
-        ])
+        draw_bounding_box(w, h, x, y)
+        box = newBox
       }
     }
   }
 
   // If an animal intersects with a boundingBox wall "bounce" the animal in the
   // opposite direction
-  const bounce_off_wall = async function (changes) {
+  const bounce_off_wall = function (changes) {
     const x = box.x
     const y = box.y
     const w = box.w
@@ -40,6 +36,15 @@ module.exports = room => {
         room.assert(`${animal.name} has speed (${-animal.dx}, ${-animal.dy})`)
       }
     }
+  }
+
+  const draw_bounding_box = function (w, h, x, y) {
+    room.assert([
+      `draw a (255, 255, 255) line from (${x}, ${y}) to (${x+w}, ${y})`,
+      `draw a (255, 255, 255) line from (${x+w}, ${y}) to (${x+w}, ${y+h})`,
+      `draw a (255, 255, 255) line from (${x+w}, ${y+h}) to (${x}, ${y+h})`,
+      `draw a (255, 255, 255) line from (${x}, ${y+h}) to (${x}, ${y})`
+    ])
   }
 
   // Query the db for all animals (any name, any type, any position)
@@ -61,9 +66,10 @@ module.exports = room => {
   // callback function.
   const boxes = room.subscribe(
     `boundingBox is $w x $h at ($x, $y)`,
-    draw_bounding_box
+    update_bounding_box
   )
 
-  room.assert(`boundingBox is ${box.w} x ${box.h} at (${box.x}, ${box.y})`)
+  draw_bounding_box(box.w, box.h, box.x, box.y)
+
   room.assert(`boundingBox is active`)
 }
