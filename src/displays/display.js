@@ -38,7 +38,7 @@ let circles = new Map()
 let halos = new Map()
 let lines = new Map()
 
-const normToCoord = (n, s = canvas.height) => (n < -1 || n > 1 ? n : n * s)
+const normToCoord = (n, s = canvas.height) => (Number.isInteger(n) ? n : n * s)
 
 const updateLabel = ({ assertions, retractions }) => {
   retractions.forEach(label => labels.delete(JSON.stringify(label)))
