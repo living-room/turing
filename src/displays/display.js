@@ -1,8 +1,14 @@
+/* global LivingRoom, location */
+
 // This is a demo of subscribing to a server query.
 
 // Draw a word
 //  `draw label $name at ($x, $y)`
 //  `draw label Timon at (0.3, 0.3)`
+
+// Draw a centered word
+//  `draw centered label $name at ($x, $y)`
+//  `draw centered label Timon at (0.3, 0.3)`
 
 // Draw a sentence
 //  `draw text $text at ($x, $y)`
@@ -23,6 +29,7 @@
 // Drawing a halo:
 //  `draw a ($r, $g, $b) halo around ($x, $y) with radius $radius`
 //  `draw a (255, 12, 123) halo around (0.5, 0.6) with radius 0.1`
+const { canvas } = window
 const hostname = location.hostname
 const pathArray = location.pathname.split('/')
 const htmlpath = pathArray[pathArray.length - 1]
@@ -254,7 +261,7 @@ async function draw (time) {
 let drawAnimationFrame = null
 function scheduleDraw () {
   if (drawAnimationFrame) return
-  drawAnimationFrame = requestAnimationFrame(() => {
+  drawAnimationFrame = window.requestAnimationFrame(() => {
     drawAnimationFrame = null
     draw()
   })
