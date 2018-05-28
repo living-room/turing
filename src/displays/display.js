@@ -44,6 +44,7 @@ const updateLabel = ({ assertions, retractions }) => {
 
   assertions.forEach(label => {
     labels.set(JSON.stringify(label), {
+      centered: label.centered || false,
       label: label.name,
       x: label.x,
       y: label.y
@@ -123,6 +124,8 @@ const updateHalo = ({ assertions, retractions }) => {
 // Query labels
 room.subscribe(`draw label $name at ($x, $y)`, updateLabel)
 room.subscribe(`${namespace}: draw label $name at ($x, $y)`, updateLabel)
+room.subscribe(`draw $centered label $name at ($x, $y)`, updateLabel)
+room.subscribe(`${namespace}: draw $centered label $name at ($x, $y)`, updateLabel)
 
 // Query text
 room.subscribe(`draw text $text at ($x, $y)`, updateText)
@@ -177,8 +180,12 @@ async function draw (time) {
   context.fillStyle = '#fff'
   context.font = `${40 * window.devicePixelRatio}px sans-serif`
 
-  labels.forEach(({ label, x, y }) => {
+  labels.forEach(({ label, x, y, centered }) => {
     context.save()
+    if (centered === 'centered') {
+      context.textBaseline = `middle`
+      context.textAlign = `center`
+    }
     context.fillText(label, normToCoord(x, canvas.width), normToCoord(y))
     context.restore()
   })

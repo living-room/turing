@@ -10,8 +10,8 @@ module.exports = Room => {
 
   room.subscribe(
     `sight is active`,
-    `$a is a $species animal at ($ax, $ay)`,
-    `$b is a $ animal at ($bx, $by)`,
+    `$a is a $species animal at ($ax, $ay) @ $t`,
+    `$b is a $ animal at ($bx, $by) @ $f`,
     `$species can see $distance`,
     ({ assertions, retractions }) => {
       assertions.forEach(({ a, b, ax, ay, bx, by, distance }) => {

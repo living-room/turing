@@ -4,8 +4,8 @@ module.exports = Room => {
 
   room.on(`$name is a $ animal at ($x, $y) @ $`, ({ name, x, y }) => {
     room
-      .retract(`table: draw label ${name} at ($, $)`)
-      .assert(`table: draw label ${name} at (${x}, ${y})`)
+      .retract(`table: draw centered label ${name} at ($, $)`)
+      .assert(`table: draw centered label ${name} at (${x}, ${y})`)
       .then()
   })
 }
