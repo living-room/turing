@@ -16,7 +16,6 @@ setTimeout(() => {
   const processes = new Map()
 
   const Room = require('@living-room/client-js')
-  const room = new Room()
 
   const updateProcesses = ({assertions, retractions}) => {
     assertions.forEach(({name}) => {
@@ -36,8 +35,8 @@ setTimeout(() => {
 
     const processList = Array.from(processes.values())
       .map(({name, active, interval}) => {
-        return (typeof interval === 'object' ? chalk.keyword('hotpink')('* ') : '  ')
-          + (active ? chalk.greenBright(name) : name)
+        return (typeof interval === 'object' ? chalk.keyword('hotpink')('* ') : '  ') +
+          (active ? chalk.greenBright(name) : name)
       })
 
     const formatting = {
@@ -47,11 +46,11 @@ setTimeout(() => {
       dimBorder: true
     }
 
-    const message = chalk.keyword('hotpink')('processes\n')
-    + chalk.greenBright('  green') + ' is active\n'
-    + chalk.keyword('hotpink')('  *') + ' has step fn'
-    + '\n\n'
-    + processList.join('\n')
+    const message = chalk.keyword('hotpink')('processes\n') +
+    chalk.greenBright('  green') + ' is active\n' +
+    chalk.keyword('hotpink')('  *') + ' has step fn' +
+    '\n\n' +
+    processList.join('\n')
 
     draw(boxen(message, formatting))
   }
@@ -74,7 +73,7 @@ setTimeout(() => {
         try {
           const processFilePath = path.join(processesFolder, processFile)
           if (!fs.lstatSync(processFilePath).isFile) return
-          const stepping = require(processFilePath)(room)
+          const stepping = require(processFilePath)(Room)
           const step = stepping && stepping.step
           const delay = stepping && stepping.delay
           const name = processFile.replace(/.js$/, '')
@@ -87,6 +86,7 @@ setTimeout(() => {
     })
   }
 
+  const room = new Room()
   room.subscribe(`$name is active`, updateProcesses)
   loadModulesInFolder('processes')
 }, 3000)

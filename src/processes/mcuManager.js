@@ -1,11 +1,8 @@
 // Cleans up after an MCU (which is a simple client constantly
 // asserting its analog input value, without retractions).
 
-module.exports = room => {
-  if (!room) {
-    const Room = require('@living-room/client-js')
-    room = new Room()
-  }
+module.exports = Room => {
+  const room = new Room()
 
   room.subscribe(
     `$name has analog value $value @ $seq`,

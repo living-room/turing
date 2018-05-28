@@ -1,7 +1,9 @@
 // This looks for animals, and adds text for them
 //    `$name is a $ animal at ($x, $y)`,
 
-module.exports = async room => {
+module.exports = Room => {
+  const room = new Room()
+
   room.subscribe(
     `hueIlluminator is active`,
     `glow$ has hueIndex $ at ($x, $y)`,

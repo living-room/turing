@@ -1,9 +1,7 @@
 // Shows fear
-module.exports = room => {
-  if (!room) {
-    const Room = require('@living-room/client-js')
-    room = new Room()
-  }
+module.exports = Room => {
+  const room = new Room()
+
   const ping = require('ping')
 
   let em = 0.02

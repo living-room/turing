@@ -23,7 +23,6 @@
 // Drawing a halo:
 //  `draw a ($r, $g, $b) halo around ($x, $y) with radius $radius`
 //  `draw a (255, 12, 123) halo around (0.5, 0.6) with radius 0.1`
-
 const hostname = location.hostname
 const pathArray = location.pathname.split('/')
 const htmlpath = pathArray[pathArray.length - 1]

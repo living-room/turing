@@ -1,8 +1,5 @@
-module.exports = room => {
-  if (!room) {
-    const Room = require('@living-room/client-js')()
-    room = new Room()
-  }
+module.exports = Room => {
+  const room = new Room()
 
   room.on(
     `$name is a $species animal at ($x, $y) @ $previous`,
@@ -20,9 +17,8 @@ module.exports = room => {
           `${name} is a ${species} animal at (${x + dx}, ${y +
             dy}) @ ${current + 1}`
         )
-        .then()
     }
   )
 
-  room.assert('move is active').then()
+  room.assert('move is active')
 }

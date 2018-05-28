@@ -84,11 +84,8 @@ const keymap = {
   83: 'kpdot'
 }
 
-module.exports = async room => {
-  if (!room) {
-    const Room = require('@living-room/client-js')
-    room = new Room()
-  }
+module.exports = Room => {
+  const room = new Room()
 
   let buf = []
 

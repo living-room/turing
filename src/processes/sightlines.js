@@ -1,8 +1,5 @@
-module.exports = room => {
-  if (!room) {
-    const Room = require('@living-room/client-js')
-    const room = new Room()
-  }
+module.exports = Room => {
+  const room = new Room()
 
   room.subscribe(
     `$a sees $b`,
@@ -16,7 +13,6 @@ module.exports = room => {
           .retract(
             `table: draw a (255, 127, 255) line from (${ax}, ${ay}) to (${bx}, ${by})`
           )
-          .then()
       })
 
       assertions.forEach(({ a, b, ax, ay, bx, by }) => {
@@ -25,8 +21,8 @@ module.exports = room => {
           .assert(
             `table: draw a (255, 127, 255) line from (${ax}, ${ay}) to (${bx}, ${by})`
           )
-          .then()
       })
     }
   )
+  room.assert(`sightlines is active`)
 }

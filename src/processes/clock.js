@@ -1,9 +1,6 @@
 // Increase a clock once a second
-module.exports = room => {
-  if (!room) {
-    const Room = require('@living-room/client-js')()
-    room = new Room()
-  }
+module.exports = Room => {
+  const room = new Room()
 
   room.on(`time is $t`, ({ t }) => {
     setTimeout(() => {
