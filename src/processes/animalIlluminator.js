@@ -6,6 +6,5 @@ module.exports = Room => {
     room
       .retract(`table: draw centered label ${name} at ($, $)`)
       .assert(`table: draw centered label ${name} at (${x}, ${y})`)
-      .then() // why is this needed here? im worried about race conditions
   })
 }
