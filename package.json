@@ -13,7 +13,7 @@
     "format": "prettier-standard 'src/*/*.js'",
     "alex": "alex readme.md",
     "processes": "node src/coordinator",
-    "start": "npm-run-all -p server processes",
+    "start": "npm-run-all --silent -p server processes",
     "room": "npx room",
     "assert": "npx room assert",
     "retract": "npx room retract",
