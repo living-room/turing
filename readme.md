@@ -7,6 +7,8 @@ Feel free to skip to the section most relevant to you
 - [getting started](#getting-started)
 - [philosophy](#development-philosophy)
 
+<img src="images/start.png" width="324" align="right" />
+
 # introduction
 
 > At any given moment, Living Room’s coherence is defined only by the communication and collaboration of the people who are programming the space.
