@@ -1,3 +1,5 @@
+<img src="images/start.png" width="324" align="right" />
+
 Living Room is a programmable space at Recurse Center. Think of it as a protocol that can be used to create collaborative games, experiments in physical computing, magical real-world data visualizations and just about anything else you can think of.
 
 > If you are at RC, you can view [the whiteboard][], [the table][], or a list of [live facts][]
@@ -6,8 +8,6 @@ Feel free to skip to the section most relevant to you
 - [introduction](#introduction)
 - [getting started](#getting-started)
 - [philosophy](#development-philosophy)
-
-<img src="images/start.png" width="324" align="right" />
 
 # introduction
 
