@@ -1,11 +1,8 @@
 // Cleans up after an MCU (which is a simple client constantly
 // asserting its analog input value, without retractions).
 
-module.exports = room => {
-  if (!room) {
-    const Room = require('@living-room/client-js')
-    room = new Room()
-  }
+module.exports = Room => {
+  const room = new Room()
 
   room.subscribe(
     `$name has analog value $value @ $seq`,
@@ -21,13 +18,13 @@ module.exports = room => {
       }
 
       for (let [name, { value }] of latestAssertions) {
-        room.retract(`"${name}" has analog value $`)
-
-        room.retract(`table: draw text $ at (0.5, 0.5)`)
-        room.assert(`table: draw text "${name}: ${value}" at (0.5, 0.5)`)
-
-        room.assert(`"${name}" has analog value ${value}`)
-        room.retract(`"${name}" has analog value $ @ $`)
+        room
+          .retract(`"${name}" has analog value $`)
+          .retract(`table: draw text $ at (0.5, 0.5)`)
+          .assert(`table: draw text "${name}: ${value}" at (0.5, 0.5)`)
+          .assert(`"${name}" has analog value ${value}`)
+          .retract(`"${name}" has analog value $ @ $`)
+          .then()
       }
     }
   )

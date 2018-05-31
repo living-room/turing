@@ -1,8 +1,14 @@
+/* global LivingRoom, location */
+
 // This is a demo of subscribing to a server query.
 
 // Draw a word
 //  `draw label $name at ($x, $y)`
 //  `draw label Timon at (0.3, 0.3)`
+
+// Draw a centered word
+//  `draw centered label $name at ($x, $y)`
+//  `draw centered label Timon at (0.3, 0.3)`
 
 // Draw a sentence
 //  `draw text $text at ($x, $y)`
@@ -23,7 +29,7 @@
 // Drawing a halo:
 //  `draw a ($r, $g, $b) halo around ($x, $y) with radius $radius`
 //  `draw a (255, 12, 123) halo around (0.5, 0.6) with radius 0.1`
-
+const { canvas } = window
 const hostname = location.hostname
 const pathArray = location.pathname.split('/')
 const htmlpath = pathArray[pathArray.length - 1]
@@ -38,13 +44,14 @@ let circles = new Map()
 let halos = new Map()
 let lines = new Map()
 
-const normToCoord = (n, s = canvas.height) => (n < -1 || n > 1 ? n : n * s)
+const normToCoord = (n, s = canvas.height) => (Number.isInteger(n) ? n : n * s)
 
 const updateLabel = ({ assertions, retractions }) => {
   retractions.forEach(label => labels.delete(JSON.stringify(label)))
 
   assertions.forEach(label => {
     labels.set(JSON.stringify(label), {
+      centered: label.centered || false,
       label: label.name,
       x: label.x,
       y: label.y
@@ -124,6 +131,8 @@ const updateHalo = ({ assertions, retractions }) => {
 // Query labels
 room.subscribe(`draw label $name at ($x, $y)`, updateLabel)
 room.subscribe(`${namespace}: draw label $name at ($x, $y)`, updateLabel)
+room.subscribe(`draw $centered label $name at ($x, $y)`, updateLabel)
+room.subscribe(`${namespace}: draw $centered label $name at ($x, $y)`, updateLabel)
 
 // Query text
 room.subscribe(`draw text $text at ($x, $y)`, updateText)
@@ -134,7 +143,10 @@ room.subscribe(`draw $size text $text at ($x, $y)`, updateText)
 room.subscribe(`${namespace}: draw $size text $text at ($x, $y)`, updateText)
 
 room.subscribe(`draw $size text $text at ($x, $y) at angle $angle`, updateText)
-room.subscribe(`${namespace}: draw $size text $text at ($x, $y) at angle $angle`, updateText)
+room.subscribe(
+  `${namespace}: draw $size text $text at ($x, $y) at angle $angle`,
+  updateText
+)
 
 // Query lines
 room.subscribe(
@@ -175,8 +187,12 @@ async function draw (time) {
   context.fillStyle = '#fff'
   context.font = `${40 * window.devicePixelRatio}px sans-serif`
 
-  labels.forEach(({ label, x, y }) => {
+  labels.forEach(({ label, x, y, centered }) => {
     context.save()
+    if (centered === 'centered') {
+      context.textBaseline = `middle`
+      context.textAlign = `center`
+    }
     context.fillText(label, normToCoord(x, canvas.width), normToCoord(y))
     context.restore()
   })
@@ -245,7 +261,7 @@ async function draw (time) {
 let drawAnimationFrame = null
 function scheduleDraw () {
   if (drawAnimationFrame) return
-  drawAnimationFrame = requestAnimationFrame(() => {
+  drawAnimationFrame = window.requestAnimationFrame(() => {
     drawAnimationFrame = null
     draw()
   })

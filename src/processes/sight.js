@@ -1,11 +1,8 @@
 // $name is a $species animal at ($x, $y)
 // $species can see $distance
 
-module.exports = room => {
-  if (!room) {
-    const Room = require('@living-room/client-js')
-    room = new Room()
-  }
+module.exports = Room => {
+  const room = new Room()
 
   const metadata = {
     url: `https://github.com/living-room/lovelace/blob/master/src/processes/sight.js`
@@ -13,8 +10,8 @@ module.exports = room => {
 
   room.subscribe(
     `sight is active`,
-    `$a is a $species animal at ($ax, $ay)`,
-    `$b is a $ animal at ($bx, $by)`,
+    `$a is a $species animal at ($ax, $ay) @ $t`,
+    `$b is a $ animal at ($bx, $by) @ $f`,
     `$species can see $distance`,
     ({ assertions, retractions }) => {
       assertions.forEach(({ a, b, ax, ay, bx, by, distance }) => {

@@ -1,9 +1,7 @@
-module.exports = room => {
-  return
-  if (!room) {
-    const Room = require('@living-room/client-js')
-    room = new Room()
-  }
+module.exports = Room => {
+  const disabled = true
+  if (disabled) return
+  const room = new Room()
 
   let start = new Date()
 
@@ -39,7 +37,7 @@ module.exports = room => {
 
       const timeout = 100 * (10 - i)
       setTimeout(() => {
-        room.retract(fact)
+        room.retract(fact).then()
       }, timeout)
     }
   })

@@ -1,5 +1,6 @@
-// Shows fear
-module.exports = async room => {
+module.exports = Room => {
+  const room = new Room()
+
   let em = 0.02
   let y = 1 - 2 * em
   let x = em
@@ -11,7 +12,7 @@ module.exports = async room => {
         const debug = `${name} ${how} afraid of ${otherspecies}`
 
         const fact = `whiteboard: draw small text "${debug}" at (${x}, ${y})`
-        room.assert(fact)
+        room.assert(fact).then()
         y -= em
       })
     }

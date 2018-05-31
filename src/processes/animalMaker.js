@@ -1,10 +1,7 @@
 // Create some animals, assign how far species can see
 
-module.exports = room => {
-  if (!room) {
-    const Room = require('@living-room/client-js')
-    room = new Room()
-  }
+module.exports = Room => {
+  const room = new Room()
 
   room.on(
     `$ is a $species animal at ($, $) @ $`,
@@ -15,12 +12,20 @@ module.exports = room => {
     }
   )
 
-  room.assert('animalMaker is active')
-
   // bootstrap
-  setTimeout(() => {
-    room.assert(`simba is a cat animal at (0.4, 0.6) @ 1`)
-    room.assert(`timon is a meerkat animal at (0.6, 0.6) @ 1`)
-    room.assert(`pumba is a warthog animal at (0.5, 0.4) @ 1`)
-  }, 100)
+  room.subscribe(`animalMaker is $active`, ({ assertions, retractions }) => {
+    if (assertions.length) {
+      room
+        .assert(`simba is a cat animal at (0.4, 0.6) @ 1`)
+        .assert(`timon is a meerkat animal at (0.6, 0.6) @ 1`)
+        .assert(`pumba is a warthog animal at (0.5, 0.4) @ 1`)
+    } else if (retractions.length) {
+      room
+        .retract(`simba is a $ animal at ($, $) @ $`)
+        .retract(`timon is a $ animal at ($, $) @ $`)
+        .retract(`pumba is a $ animal at ($, $) @ $`)
+    }
+  })
+
+  room.assert('animalMaker is active')
 }
