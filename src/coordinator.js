@@ -42,7 +42,6 @@ setTimeout(() => {
     const formatting = {
       padding: 1,
       borderStyle: 'round',
-      float: 'center',
       dimBorder: true
     }
 
