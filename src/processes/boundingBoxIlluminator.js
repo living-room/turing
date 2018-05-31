@@ -34,7 +34,7 @@ module.exports = Room => {
   // solver to satisfy the placeholders, e.g. $x and $y, before calling the
   // callback function.
   room.subscribe(
-    `boundingBox is $w x $h at ($x0, $y0)`,
+    `boundingBox is $w by $h at ($x0, $y0)`,
     updateBoundingBox
   )
 
