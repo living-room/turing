@@ -267,6 +267,15 @@ function scheduleDraw () {
   })
 }
 
+canvas.onclick = async () => {
+  const frames = await room.select(`time is $frame`)
+  if (!frames.length) return
+  const frame = frames[0].frame.value
+  room
+    .retract(`mouse clicked on frame $`)
+    .assert(`mouse clicked on frame ${frame}`)
+}
+
 window.addEventListener('resize', draw)
 
 draw()
