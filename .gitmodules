@@ -1,3 +1,6 @@
 [submodule "colorTracker"]
 	path = sensors/colorTracker
 	url = https://github.com/jedahan/colorTracker.git
+[submodule "sensors/keyboardTracker"]
+	path = sensors/keyboardTracker
+	url = https://github.com/jedahan/colorTrackerBackground.git
