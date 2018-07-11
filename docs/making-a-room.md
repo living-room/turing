@@ -1,10 +1,10 @@
-How to build your own room
+How to build your own living room
 
 Use this as a template, and fork to a make log, like we have done with [making-crosby.md](making-crosby.md)
 
-# what it will look like when you are done
+# what it might look like when you are done
 
-// picture of people interacting with the table
+![picture of people interacting with the table]()
 
 # provisioning a room
 
@@ -15,27 +15,28 @@ you will need:
 3. a projector
 4. a kinect
 
-// picture of lovelace
+![picture of lovelace]()
 
 put the kinect and projector directly above the table
 
-// picture
+![picture of kinect and projector mounted above table]()
 
 connect the computer to the projector and kinect
 
-stretch!
+:seedling: stretch! 
 
 # installing the software
 
-there are two pieces of software to setup
+There are two pieces of software to setup
 
 1. the living room service
-2. sensor software
+2. sensors
 
 All of the software needed are in this repository
 
     git clone --recursive https://github.com/living-room/lovelace
     cd lovelace
+    git submodule update --init --recursive
     npm install
 
 Let's test that it works without any sensors
@@ -51,4 +52,4 @@ You should see
 
 Open a display
 
-  firefox http://localhost:5000/displays/table.html
+  DISPLAY=:0 firefox http://localhost:5000/displays/table.html
