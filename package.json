@@ -1,12 +1,12 @@
 {
   "name": "@living-room/lovelace",
-  "version": "0.6.16",
+  "version": "0.6.17",
   "description": "all the stuff running in rc/lovelace",
   "repository": "https://github.com/living-room/lovelace",
   "author": "Jonathan Dahan",
   "license": "MIT",
   "engines": {
-    "node": ">=10.3.0"
+    "node": ">=10.1.0"
   },
   "scripts": {
     "check": "node src/check",
