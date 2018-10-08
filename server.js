@@ -5,7 +5,7 @@ const handler = require('serve-handler')
 const proxy = require('http-proxy')
 const udpforward = require('node-udp-forwarder')
 
-const chalk = require('chalk')
+const color = require('ansi-colors')
 const boxen = require('boxen')
 const opn = require('opn')
 
@@ -29,7 +29,7 @@ service.listen({ verbose: false }).then(({ port, oscport }) => {
       padding: 1,
       dimBorder: true
     }
-    const message = chalk.keyword('hotpink')(`displays and tools at\n${chalk.white(uri)}`)
+    const message = color.red(`displays and tools at\n${color.white(uri)}`)
     console.log(boxen(message, formatting))
     opn(uri)
   })

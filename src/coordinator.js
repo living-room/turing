@@ -10,7 +10,7 @@
  */
 
 const boxen = require('boxen')
-const chalk = require('chalk').default
+const color = require('ansi-colors')
 
 setTimeout(() => {
   const processes = new Map()
@@ -35,8 +35,8 @@ setTimeout(() => {
 
     const processList = Array.from(processes.values())
       .map(({name, active, interval}) => {
-        return (typeof interval === 'object' ? chalk.keyword('hotpink')('* ') : '  ') +
-          (active ? chalk.greenBright(name) : name)
+        return (typeof interval === 'object' ? color.red('* ') : '  ') +
+          (active ? color.greenBright(name) : name)
       })
 
     const formatting = {
@@ -45,9 +45,9 @@ setTimeout(() => {
       dimBorder: true
     }
 
-    const message = chalk.keyword('hotpink')('processes\n') +
-    chalk.greenBright('  green') + ' is active\n' +
-    chalk.keyword('hotpink')('  *') + ' has step fn' +
+    const message = color.red('processes\n') +
+    color.greenBright('  green') + ' is active\n' +
+    color.red('  *') + ' has step fn' +
     '\n\n' +
     processList.join('\n')
 
