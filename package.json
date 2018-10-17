@@ -1,6 +1,6 @@
 {
   "name": "@living-room/lovelace",
-  "version": "0.6.18",
+  "version": "0.6.19",
   "description": "all the stuff running in rc/lovelace",
   "repository": "https://github.com/living-room/lovelace",
   "author": "Jonathan Dahan",
@@ -22,7 +22,7 @@
     "subscribe": "npx room subscribe"
   },
   "dependencies": {
-    "@living-room/client-js": "^0.6.18",
+    "@living-room/client-js": "^0.6.19",
     "@living-room/service-js": "^0.6.18",
     "ansi-colors": "^3.1.0",
     "boxen": "^2.0.0",
