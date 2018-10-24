@@ -31,6 +31,6 @@ service.listen({ verbose: false }).then(({ port, oscport }) => {
     }
     const message = color.red(`displays and tools at\n${color.white(uri)}`)
     console.log(boxen(message, formatting))
-    try { opn(uri) } catch { }
+    opn(uri).catch(console.log)
   })
 })
