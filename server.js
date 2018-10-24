@@ -13,15 +13,14 @@ service.listen({ verbose: false }).then(({ port, oscport }) => {
   proxy.createProxyServer({target: `http://localhost:${port}`}).listen(3000)
   udpforward.create(oscport, 'localhost', { port: 4000 })
 
-  const staticport = 5000
-
   const server = http.createServer((request, response) => {
     return handler(request, response, {
       cleanUrls: false,
-      public: 'src'
+      public: `${__dirname}/src`
     })
   })
 
+  const staticport = 5000
   server.listen(staticport, () => {
     const uri = `http://localhost:${staticport}`
     const formatting = {
@@ -31,6 +30,6 @@ service.listen({ verbose: false }).then(({ port, oscport }) => {
     }
     const message = color.red(`displays and tools at\n${color.white(uri)}`)
     console.log(boxen(message, formatting))
-    opn(uri).catch(console.log)
+    opn(uri).catch()
   })
 })
