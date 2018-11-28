@@ -9,12 +9,13 @@
     "node": ">=10.1.0"
   },
   "scripts": {
+    "build": "cp node_modules/@living-room/client-js/src/room.browser.prod.js src/displays/",
     "check": "node src/check",
     "server": "node server",
     "format": "prettier-standard 'src/*/*.js'",
     "alex": "alex readme.md",
     "processes": "node src/coordinator",
-    "start": "npm-run-all --silent check -p server processes",
+    "start": "npm-run-all --silent check build -p server processes",
     "room": "npx room",
     "assert": "npx room assert",
     "retract": "npx room retract",
