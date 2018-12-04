@@ -9,6 +9,10 @@ Feel free to skip to the section most relevant to you
 - [getting started](#getting-started)
 - [philosophy](#development-philosophy)
 
+<video style="display:block; width:100%; height:auto;" autoplay controls loop="loop">
+    <source src="{{ site.baseurl }}/images/banana.mp4" type="video/mp4" />
+</video>
+
 # introduction
 
 > At any given moment, Living Room’s coherence is defined only by the communication and collaboration of the people who are programming the space.
