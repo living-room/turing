@@ -9,9 +9,9 @@ Feel free to skip to the section most relevant to you
 - [getting started](#getting-started)
 - [philosophy](#development-philosophy)
 
-<video style="display:block; width:100%; height:auto;" autoplay controls loop="loop">
-    <source src="{{ site.baseurl }}/images/banana.mp4" type="video/mp4" />
-</video>
+![someone throwing a banana](/images/banana.gif)
+
+![recognizing drawings on a whiteboard](/images/drawings.gif)
 
 # introduction
 
