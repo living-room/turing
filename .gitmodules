@@ -4,3 +4,9 @@
 [submodule "sensors/keyboardTracker"]
 	path = sensors/keyboardTracker
 	url = https://github.com/jedahan/colorTrackerBackground.git
+[submodule "packages/@living-room/client-js"]
+	path = packages/@living-room/client-js
+	url = https://github.com/living-room/client-js.git
+[submodule "packages/@living-room/service-js"]
+	path = packages/@living-room/service-js
+	url = https://github.com/living-room/service-js.git

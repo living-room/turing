@@ -1,31 +1,35 @@
 {
-  "name": "@living-room/lovelace",
+  "name": "@living-room/turing",
   "version": "0.6.20",
-  "description": "all the stuff running in rc/lovelace",
-  "repository": "https://github.com/living-room/lovelace",
+  "description": "all the stuff running in recurse/turing",
+  "repository": "https://github.com/living-room/turing",
   "author": "Jonathan Dahan",
   "license": "MIT",
   "engines": {
-    "node": ">=10.1.0"
+    "node": "16",
+    "npm": "8"
   },
+  "workspaces": [
+    "packages/@living-room/client-js",
+    "packages/@living-room/service-js"
+  ],
   "scripts": {
-    "build": "cp node_modules/@living-room/client-js/src/room.browser.prod.js src/displays/",
-    "check": "node src/check",
-    "server": "node server",
-    "format": "prettier-standard 'src/*/*.js'",
-    "alex": "alex readme.md",
-    "processes": "node src/coordinator",
-    "start": "npm run npm-run-all --silent check build -p server processes",
-    "npm-run-all": "npm-run-all",
     "room": "npx room",
-    "assert": "npx room assert",
-    "retract": "npx room retract",
-    "select": "npx room select",
-    "subscribe": "npx room subscribe"
+    "build:install": "npm run install --workspaces",
+    "build:deps": "npm run build --workspaces",
+    "build:display": "cp node_modules/@living-room/client-js/src/room.browser.prod.js src/displays/",
+    "build": "npm-run-all build:install build:deps build:display",
+    "lint:code": "prettier-standard 'src/*/*.js'",
+    "lint:doc": "alex readme.md",
+    "start:server": "node server",
+    "start:coordinator": "node src/coordinator",
+    "start": "npm-run-all build --parallel start:server start:coordinator",
+    "assert": "room assert",
+    "retract": "room retract",
+    "select": "room select",
+    "subscribe": "room subscribe"
   },
   "dependencies": {
-    "@living-room/client-js": "^0.6.20",
-    "@living-room/service-js": "^0.6.20",
     "ansi-colors": "^3.2.1",
     "boxen": "^2.0.0",
     "chance": "^1.0.16",
@@ -33,8 +37,10 @@
     "node-udp-forwarder": "0.0.5",
     "opn": "^5.4.0",
     "ping": "^0.2.2",
-    "please-upgrade-node": "^3.1.1",
-    "prettier-standard": "^8.0.1",
     "serve-handler": "^5.0.5"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "prettier-standard": "^8.0.1"
   }
 }
