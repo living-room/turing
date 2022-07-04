@@ -11,6 +11,7 @@
   },
   "workspaces": [
     "packages/@living-room/client-js",
+    "packages/@living-room/database-js",
     "packages/@living-room/service-js"
   ],
   "scripts": {

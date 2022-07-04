@@ -10,3 +10,6 @@
 [submodule "packages/@living-room/service-js"]
 	path = packages/@living-room/service-js
 	url = https://github.com/living-room/service-js.git
+[submodule "packages/@living-room/database-js"]
+	path = packages/@living-room/database-js
+	url = https://github.com/living-room/database-js.git

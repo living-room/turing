@@ -93,6 +93,10 @@ Processes are programs that consume facts and do things with them.  Processes of
 
 There are two ways to get started with the living room - the first is locally, the second is if you are in lovelace.
 
+First, clone this repository and its submodules
+
+    git clone --recursive https://github.com/living-room/turing
+
 Once you have [node.js](nodejs.org), install the dependencies
 
     npm install
