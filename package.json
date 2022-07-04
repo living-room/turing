@@ -16,10 +16,9 @@
   ],
   "scripts": {
     "room": "npx room",
-    "build:install": "npm run install --workspaces",
-    "build:deps": "npm run build --workspaces",
-    "build:display": "cp node_modules/@living-room/client-js/src/room.browser.prod.js src/displays/",
-    "build": "npm-run-all build:install build:deps build:display",
+    "build:install": "npm install --workspaces",
+    "build:client": "npm run build --workspace packages/@living-room/client-js && cp packages/@living-room/client-js/src/room.browser.prod.js src/displays/",
+    "build": "npm-run-all build:install build:client",
     "lint:code": "prettier-standard 'src/*/*.js'",
     "lint:doc": "alex readme.md",
     "start:server": "node server",
