@@ -9,13 +9,20 @@
  * Maybe we have the processManager emit 'tick'...
  */
 
-const boxen = require('boxen')
-const color = require('ansi-colors')
+import boxen from 'boxen'
+import color from 'ansi-colors'
+import Room from '@living-room/client-js'
+import path from 'path'
+import fs from 'fs'
+
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 setTimeout(() => {
-  const processes = new Map()
-
-  const Room = require('@living-room/client-js')
+  const processes = new Map()  
 
   const updateProcesses = ({assertions, retractions}) => {
     assertions.forEach(({name}) => {
@@ -64,20 +71,22 @@ setTimeout(() => {
   }
 
   const loadModulesInFolder = folder => {
-    const path = require('path')
     const processesFolder = path.join(__dirname, folder)
-    const fs = require('fs')
+    
     fs.readdir(processesFolder, (_, processFiles) => {
-      processFiles.forEach(processFile => {
+      processFiles.forEach(async processFile => {
         try {
           const processFilePath = path.join(processesFolder, processFile)
           if (!fs.lstatSync(processFilePath).isFile) return
-          const stepping = require(processFilePath)(Room)
-          const step = stepping && stepping.step
-          const delay = stepping && stepping.delay
-          const name = processFile.replace(/.js$/, '')
-          const active = false
-          processes.set(name, {name, step, active, delay})
+          
+          import(processFilePath).then(process => {
+            const stepping = process.default(Room)
+            const step = stepping && stepping.step
+            const delay = stepping && stepping.delay
+            const name = processFile.replace(/.js$/, '')
+            const active = false
+            processes.set(name, {name, step, active, delay})
+          })
         } catch (e) {
           console.error(e)
         }

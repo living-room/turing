@@ -274,6 +274,7 @@ canvas.onclick = async () => {
   room
     .retract(`mouse clicked on frame $`)
     .assert(`mouse clicked on frame ${frame}`)
+    .do()
 }
 
 window.addEventListener('resize', draw)

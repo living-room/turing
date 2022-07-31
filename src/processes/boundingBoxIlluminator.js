@@ -1,4 +1,4 @@
-module.exports = Room => {
+export default Room => {
   const room = new Room()
 
   var box = { x: 0.25, y: 0.25, w: 0.5, h: 0.5 }

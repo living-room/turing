@@ -1,7 +1,7 @@
 // $name is a $species animal at ($x, $y)
 // $species can see $distance
 
-module.exports = Room => {
+export default Room => {
   const room = new Room()
 
   const metadata = {

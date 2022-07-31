@@ -1,4 +1,4 @@
-const Chance = require('chance')
+import Chance from 'chance'
 const chance = new Chance()
 
 const getRandomDelay = () => chance.integer({ min: 1, max: 10 }) * 1000

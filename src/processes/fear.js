@@ -1,4 +1,4 @@
-module.exports = Room => {
+export default Room => {
   const room = new Room()
 
   const animalsWeHaveSeen = new Set()

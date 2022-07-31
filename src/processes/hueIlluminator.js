@@ -1,7 +1,7 @@
 // This looks for animals, and adds text for them
 //    `$name is a $ animal at ($x, $y)`,
 
-module.exports = Room => {
+export default Room => {
   const room = new Room()
 
   room.subscribe(

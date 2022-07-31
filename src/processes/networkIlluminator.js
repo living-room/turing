@@ -1,8 +1,8 @@
 // Shows fear
-module.exports = Room => {
-  const room = new Room()
+import ping from 'ping'
 
-  const ping = require('ping')
+export default  Room => {
+  const room = new Room()
 
   let em = 0.02
   let y = 1 - 2 * em

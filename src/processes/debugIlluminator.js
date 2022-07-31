@@ -1,5 +1,5 @@
 // Label displays, processes, and other debug information
-module.exports = Room => {
+export default Room => {
   const room = new Room()
 
   const em = 0.05

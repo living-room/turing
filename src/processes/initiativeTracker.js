@@ -1,5 +1,5 @@
 // Draw animals on the table
-module.exports = Room => {
+export default Room => {
   const room = new Room()
 
   const y = 0.1

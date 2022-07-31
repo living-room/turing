@@ -1,6 +1,6 @@
 // Create some animals, assign how far species can see
 
-module.exports = Room => {
+export default Room => {
   const room = new Room()
 
   room.on(
@@ -13,18 +13,17 @@ module.exports = Room => {
   )
 
   // bootstrap
-  room.subscribe(`animalMaker is $active`, ({ assertions, retractions }) => {
-    if (assertions.length) {
-      room
-        .assert(`simba is a cat animal at (0.4, 0.6) @ 1`)
-        .assert(`timon is a meerkat animal at (0.6, 0.6) @ 1`)
-        .assert(`pumba is a warthog animal at (0.5, 0.4) @ 1`)
-    } else if (retractions.length) {
-      room
-        .retract(`simba is a $ animal at ($, $) @ $`)
-        .retract(`timon is a $ animal at ($, $) @ $`)
-        .retract(`pumba is a $ animal at ($, $) @ $`)
-    }
+  room.on(`animalMaker is active`, () => {
+    room
+      .retract(`simba is a $ animal at ($, $) @ $`)
+      .retract(`timon is a $ animal at ($, $) @ $`)
+      .retract(`pumba is a $ animal at ($, $) @ $`)
+    room
+      .assert(`simba is a cat animal at (0.4, 0.6) @ 1`)
+      .assert(`timon is a meerkat animal at (0.6, 0.6) @ 1`)
+      .assert(`pumba is a warthog animal at (0.5, 0.4) @ 1`)
+    room
+      .send()
   })
 
   room.assert('animalMaker is active')

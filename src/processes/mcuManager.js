@@ -1,7 +1,7 @@
 // Cleans up after an MCU (which is a simple client constantly
 // asserting its analog input value, without retractions).
 
-module.exports = Room => {
+export default Room => {
   const room = new Room()
 
   room.subscribe(

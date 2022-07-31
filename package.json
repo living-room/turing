@@ -1,10 +1,11 @@
 {
   "name": "@living-room/turing",
-  "version": "0.6.20",
+  "version": "0.7.0",
   "description": "all the stuff running in recurse/turing",
   "repository": "https://github.com/living-room/turing",
   "author": "Jonathan Dahan",
   "license": "MIT",
+  "type": "module",
   "engines": {
     "node": "16",
     "npm": "8"
@@ -37,7 +38,8 @@
     "node-udp-forwarder": "0.0.5",
     "opn": "^5.4.0",
     "ping": "^0.2.2",
-    "serve-handler": "^5.0.5"
+    "serve-handler": "^5.0.5",
+    "socket.io": "^4.5.1"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",

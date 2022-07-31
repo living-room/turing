@@ -1,5 +1,5 @@
 // Increase a clock once a second
-module.exports = Room => {
+export default Room => {
   const room = new Room()
 
   room.on(`time is $t`, ({ t }) => {
