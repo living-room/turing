@@ -1,6 +1,6 @@
 /* global LivingRoom, location */
 
-// This is a demo of subscribing to a server query.
+// This example draws words, lines, circles, and halos
 
 // Draw a word
 //  `draw label $name at ($x, $y)`
@@ -275,7 +275,7 @@ canvas.onclick = async () => {
   room
     .retract(`mouse clicked on frame $`)
     .assert(`mouse clicked on frame ${frame}`)
-    .do()
+    .send()
 }
 
 window.addEventListener('resize', draw)
