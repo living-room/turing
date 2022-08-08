@@ -23,13 +23,14 @@ service.listen({verbose: false}).then(({ port, oscport }) => {
 
   const server = http.createServer((request, response) => {
     return handler(request, response, {
+      cleanUrls: false,
       public: `${__dirname}/src`
     })
   })
 
   const staticport = 5000
   server.listen(staticport, () => {
-    const uri = `http://localhost:${staticport}/displays`
+    const uri = `http://localhost:${staticport}/displays/whiteboard.html`
     const formatting = {
       borderColor: `cyan`,
       padding: 1,
