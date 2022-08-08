@@ -198,6 +198,10 @@ If an implementation has no link, it means we would like to support it but haven
 * platforms: **[browser & node.js client][client-js]**, arduino, openFrameworks, clojure
 * visualizers: **[subscription vis](https://github.com/modernserf/rumor-visualizer)**
 
+# playing around
+
+    node src/util/sensor.js | xargs -i {} npm run assert "{}"
+
 # inspirations
 
 - realtalk
