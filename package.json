@@ -28,7 +28,8 @@
     "assert": "room assert",
     "retract": "room retract",
     "select": "room select",
-    "subscribe": "room subscribe"
+    "subscribe": "room subscribe",
+    "test": "npm test --workspaces"
   },
   "dependencies": {
     "ansi-colors": "^3.2.1",
