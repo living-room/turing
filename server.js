@@ -30,7 +30,7 @@ service.listen({verbose: false}).then(({ port, oscport }) => {
 
   const staticport = 5000
   server.listen(staticport, () => {
-    const uri = `http://localhost:${staticport}/displays/whiteboard.html`
+    const uri = `http://localhost:${staticport}/displays/table.html`
     const formatting = {
       borderColor: `cyan`,
       padding: 1,

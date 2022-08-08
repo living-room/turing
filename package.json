@@ -18,7 +18,7 @@
   "scripts": {
     "room": "npx room",
     "build:install": "npm install --workspaces",
-    "build:client": "npm run build --workspace packages/@living-room/client-js && cp packages/@living-room/client-js/src/room.browser.prod.js src/displays/",
+    "build:client": "cp packages/@living-room/client-js/src/room.js src/displays/",
     "build": "npm-run-all build:install build:client",
     "lint:code": "prettier-standard 'src/*/*.js'",
     "lint:doc": "alex readme.md",
