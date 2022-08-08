@@ -32,7 +32,7 @@ export default Room => {
         .assert(
           `${type} ${name} is ${fears[otherType]} afraid of a ${otherType}`
         )
-        .then()
+        .send()
     }
     animalsWeHaveSeen.add(name)
   })

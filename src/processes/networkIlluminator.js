@@ -29,7 +29,7 @@ export default  Room => {
         const drawfact = `whiteboard: draw small text "${fact}" at (${x}, ${y})`
         console.log(`retract: ${drawfact}`)
         lastseen.delete(mac)
-        room.retract(drawfact).then()
+        room.retract(drawfact).send()
       })
     }
   )
@@ -41,7 +41,7 @@ export default  Room => {
         ping.sys.probe(ip, isAlive => {
           if (!isAlive) {
             const fact = `"${mac}" got ip "${ip}"`
-            return room.retract(fact).then()
+            return room.retract(fact).send()
           }
           lastseen.set(mac, { mac, ip, x, y, date: Date.now() })
         })

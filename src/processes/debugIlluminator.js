@@ -50,14 +50,14 @@ export default Room => {
           const y = (2 + index + 1) * em
           const fact = `whiteboard: draw label ${name} at (${rightX}, ${y})`
           if (active) {
-            room.assert(fact).then()
+            room.assert(fact).send()
           } else {
-            room.retract(fact).then()
+            room.retract(fact).send()
           }
         }
       )
     }
   })
 
-  room.assert('debugIlluminator is active').then()
+  room.assert('debugIlluminator is active').send()
 }

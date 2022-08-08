@@ -25,5 +25,5 @@ export default Room => {
     }
   )
 
-  room.assert(`hueIlluminator is active`).then()
+  room.assert(`hueIlluminator is active`).send()
 }

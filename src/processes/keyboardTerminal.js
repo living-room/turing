@@ -114,13 +114,13 @@ export default Room => {
         .retract(
           `${mac} got input event type ${type} with code ${code} and value ${value} @ ${seq}`
         )
-        .then()
+        .send()
 
-      room.retract(`table: draw small text "${buf.join('')}" at ($, $)`).then()
+      room.retract(`table: draw small text "${buf.join('')}" at ($, $)`).send()
       console.log(keymap[code])
       if (keymap[code] === 'enter') {
         console.log(buf.join(''))
-        room.assert(buf.join('')).then()
+        room.assert(buf.join('')).send()
         buf = []
       } else if (keymap[code] === 'backspace') {
         buf.pop()
@@ -133,9 +133,9 @@ export default Room => {
             ''
           )}" at (${latestX}, ${latestY}) at angle ${latestAngle}`
         )
-        .then()
+        .send()
     }
   )
 
-  room.assert(`keyboardTerminal is active`).then()
+  room.assert(`keyboardTerminal is active`).send()
 }

@@ -7,9 +7,9 @@ export default Room => {
       room
         .retract(`time is ${t}`)
         .assert(`time is ${t + 1}`)
-        .then()
+        .send()
     }, 1000)
   })
 
-  room.assert(`time is 1`).then()
+  room.assert(`time is 1`).send()
 }

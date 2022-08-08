@@ -24,7 +24,7 @@ export default Room => {
           .assert(`table: draw text "${name}: ${value}" at (0.5, 0.5)`)
           .assert(`"${name}" has analog value ${value}`)
           .retract(`"${name}" has analog value $ @ $`)
-          .then()
+          .send()
       }
     }
   )

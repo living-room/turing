@@ -12,7 +12,7 @@ export default Room => {
         const debug = `${name} ${how} afraid of ${otherspecies}`
 
         const fact = `whiteboard: draw small text "${debug}" at (${x}, ${y})`
-        room.assert(fact).then()
+        room.assert(fact).send()
         y -= em
       })
     }

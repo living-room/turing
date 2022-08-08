@@ -19,9 +19,9 @@ export default Room => {
       room
         .retract(previous)
         .assert(current)
-        .then()
+        .send()
     }
   )
 
-  room.assert(`keyboardIlluminator is active`).then()
+  room.assert(`keyboardIlluminator is active`).send()
 }
