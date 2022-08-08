@@ -1,4 +1,4 @@
-import service from '@living-room/service-js'
+import LivingRoomService from '@living-room/service-js'
 
 import http from 'http'
 import handler from 'serve-handler'
@@ -15,7 +15,9 @@ import { dirname } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-service.listen({ verbose: true }).then(({ port, oscport }) => {
+const service = new LivingRoomService({verbose: true})
+
+service.listen().then(({ port, oscport }) => {
   proxy.createProxyServer({target: `http://localhost:${port}`}).listen(3000)
   udpforward.create(oscport, 'localhost', { port: 4000 })
 
