@@ -12,13 +12,19 @@
         height: 100vh;
       }
     </style>
+
+    <script type=importmap>
+      {
+        "imports": {
+          "socket.io-client": "http://localhost:3000/socket.io/socket.io.esm.min.js"
+        }
+      }
+    </script>
   </head>
 
   <body>
     <canvas id="canvas"></canvas>
 
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
-    <script src="room.browser.prod.js"></script>
-    <script src="display.js"></script>
+    <script type=module src=display.js></script>
   </body>
 </html>

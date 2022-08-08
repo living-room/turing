@@ -210,6 +210,9 @@ If an implementation has no link, it means we would like to support it but haven
 - linda
 - [vpri](http://www.vpri.org)
 
+# notes on firefox
+
+importmaps is not a standard yet, enable in about:config dom.importMaps.enabled = true
 
 [displays]: http://crosby.cluster.recurse.com:5000/displays/
 [the whiteboard]: http://crosby.cluster.recurse.com:5000/displays/whiteboard

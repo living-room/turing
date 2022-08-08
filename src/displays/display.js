@@ -1,5 +1,3 @@
-/* global LivingRoom, location */
-
 // This example draws words, lines, circles, and halos
 
 // Draw a word
@@ -29,6 +27,8 @@
 // Drawing a halo:
 //  `draw a ($r, $g, $b) halo around ($x, $y) with radius $radius`
 //  `draw a (255, 12, 123) halo around (0.5, 0.6) with radius 0.1`
+
+import LivingRoom from './room.js'
 
 const { canvas } = window
 const hostname = location.hostname
