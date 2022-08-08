@@ -54,9 +54,9 @@ setTimeout(() => {
 
     const message = color.red('processes\n') +
     color.greenBright('  green') + ' is active\n' +
-    color.red('  *') + ' has step fn' +
+    color.red('  *') + ' has step function' +
     '\n\n' +
-    processList.join('\n')
+    processList.sort().join('\n')
 
     draw(boxen(message, formatting))
   }
