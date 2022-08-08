@@ -15,9 +15,9 @@ import { dirname } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const service = new LivingRoomService({verbose: true})
+const service = new LivingRoomService()
 
-service.listen().then(({ port, oscport }) => {
+service.listen({verbose: false}).then(({ port, oscport }) => {
   proxy.createProxyServer({target: `http://localhost:${port}`}).listen(3000)
   udpforward.create(oscport, 'localhost', { port: 4000 })
 
