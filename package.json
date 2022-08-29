@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "ansi-colors": "^3.2.1",
-    "boxen": "^2.0.0",
+    "boxen": "^7.0.0",
     "chance": "^1.0.16",
     "http-proxy": "^1.17.0",
     "node-udp-forwarder": "^0.2.0",
