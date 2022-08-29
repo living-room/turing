@@ -34,7 +34,7 @@
     "test": "npm test --workspaces"
   },
   "dependencies": {
-    "ansi-colors": "^3.2.1",
+    "ansi-colors": "^4.1.3",
     "boxen": "^7.0.0",
     "chance": "^1.0.16",
     "http-proxy": "^1.17.0",
