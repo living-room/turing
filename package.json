@@ -38,7 +38,7 @@
     "boxen": "^2.0.0",
     "chance": "^1.0.16",
     "http-proxy": "^1.17.0",
-    "node-udp-forwarder": "0.0.5",
+    "node-udp-forwarder": "^0.2.0",
     "opn": "^5.4.0",
     "ping": "^0.2.2",
     "serve-handler": "^6.1.3",
