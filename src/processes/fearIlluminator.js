@@ -1,12 +1,12 @@
 export default Room => {
   const room = new Room()
 
-  let em = 0.02
+  const em = 0.02
   let y = 1 - 2 * em
-  let x = em
+  const x = em
   // query animals
   room.subscribe(
-    `$ $name is $how afraid of a $otherspecies`,
+    '$ $name is $how afraid of a $otherspecies',
     ({ assertions }) => {
       assertions.forEach(({ name, how, otherspecies }) => {
         const debug = `${name} ${how} afraid of ${otherspecies}`

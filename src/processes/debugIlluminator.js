@@ -13,7 +13,7 @@ export default Room => {
     `whiteboard: draw text "active processes" at (${rightX}, ${em})`
   ]
 
-  room.subscribe(`$name is active`, ({ assertions, retractions }) => {
+  room.subscribe('$name is active', ({ assertions, retractions }) => {
     retractions.forEach(({ name }) => {
       const index =
         (activeProcesses.get(name) && activeProcesses.get(name).index) ||

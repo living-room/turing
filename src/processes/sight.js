@@ -5,14 +5,14 @@ export default Room => {
   const room = new Room()
 
   const metadata = {
-    url: `https://github.com/living-room/lovelace/blob/master/src/processes/sight.js`
+    url: 'https://github.com/living-room/lovelace/blob/master/src/processes/sight.js'
   }
 
   room.subscribe(
-    `sight is active`,
-    `$a is a $species animal at ($ax, $ay) @ $t`,
-    `$b is a $ animal at ($bx, $by) @ $f`,
-    `$species can see $distance`,
+    'sight is active',
+    '$a is a $species animal at ($ax, $ay) @ $t',
+    '$b is a $ animal at ($bx, $by) @ $f',
+    '$species can see $distance',
     ({ assertions, retractions }) => {
       assertions.forEach(({ a, b, ax, ay, bx, by, distance }) => {
         if (a === b) return
@@ -29,7 +29,7 @@ export default Room => {
   )
 
   room.assert('sight is active')
-  for (let key in metadata) {
+  for (const key in metadata) {
     room.assert(`sight has ${key} "${metadata[key]}"`)
   }
 }

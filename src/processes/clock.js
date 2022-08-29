@@ -2,7 +2,7 @@
 export default Room => {
   const room = new Room()
 
-  room.on(`time is $t`, ({ t }) => {
+  room.on('time is $t', ({ t }) => {
     setTimeout(() => {
       room
         .retract(`time is ${t}`)
@@ -11,5 +11,5 @@ export default Room => {
     }, 1000)
   })
 
-  room.assert(`time is 1`).send()
+  room.assert('time is 1').send()
 }

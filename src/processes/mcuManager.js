@@ -5,11 +5,11 @@ export default Room => {
   const room = new Room()
 
   room.subscribe(
-    `$name has analog value $value @ $seq`,
+    '$name has analog value $value @ $seq',
     ({ assertions, retractions }) => {
       const latestAssertions = new Map()
 
-      for (let assertion of assertions) {
+      for (const assertion of assertions) {
         const { name, seq } = assertion
         const latestAssertion = latestAssertions.get(name) || assertion
         if (seq >= latestAssertion.seq) {
@@ -17,10 +17,10 @@ export default Room => {
         }
       }
 
-      for (let [name, { value }] of latestAssertions) {
+      for (const [name, { value }] of latestAssertions) {
         room
           .retract(`"${name}" has analog value $`)
-          .retract(`table: draw text $ at (0.5, 0.5)`)
+          .retract('table: draw text $ at (0.5, 0.5)')
           .assert(`table: draw text "${name}: ${value}" at (0.5, 0.5)`)
           .assert(`"${name}" has analog value ${value}`)
           .retract(`"${name}" has analog value $ @ $`)

@@ -20,7 +20,9 @@
     "build:install": "npm install --workspaces",
     "build:client": "cp packages/@living-room/client-js/src/room.js src/displays/",
     "build": "npm-run-all build:install build:client",
-    "lint:code": "prettier-standard 'src/*/*.js'",
+    "format": "standard --fix 'src/*/*.js'",
+    "lint": "npm-run-all lint:code lint:doc",
+    "lint:code": "standard 'src/*/*.js'",
     "lint:doc": "alex readme.md",
     "start:server": "node server",
     "start:coordinator": "node src/coordinator",
@@ -44,6 +46,6 @@
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
-    "prettier-standard": "^8.0.1"
+    "standard": "^17.0.0"
   }
 }

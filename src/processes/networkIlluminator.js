@@ -1,19 +1,19 @@
 // Shows fear
 import ping from 'ping'
 
-export default  Room => {
+export default Room => {
   const room = new Room()
 
-  let em = 0.02
+  const em = 0.02
   let y = 1 - 2 * em
-  let x = 1 - 10 * em
+  const x = 1 - 10 * em
 
   const lastseen = new Map()
 
   // query animals
   room.subscribe(
-    `networkIlluminator is active`,
-    `$mac got ip $ip`,
+    'networkIlluminator is active',
+    '$mac got ip $ip',
     ({ assertions, retractions }) => {
       assertions.forEach(({ mac, ip }) => {
         lastseen.set(mac, { mac, ip, x, y, date: Date.now() })
@@ -37,7 +37,7 @@ export default  Room => {
   return {
     delay: 5000,
     step: () => {
-      for (let [mac, { ip, x, y }] of lastseen.entries()) {
+      for (const [mac, { ip, x, y }] of lastseen.entries()) {
         ping.sys.probe(ip, isAlive => {
           if (!isAlive) {
             const fact = `"${mac}" got ip "${ip}"`

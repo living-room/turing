@@ -39,11 +39,11 @@ const namespace = htmlpath.split('.')[0]
 const room = new LivingRoom(`http://${hostname}:3000`)
 const context = canvas.getContext('2d')
 
-let labels = new Map()
-let texts = new Map()
-let circles = new Map()
-let halos = new Map()
-let lines = new Map()
+const labels = new Map()
+const texts = new Map()
+const circles = new Map()
+const halos = new Map()
+const lines = new Map()
 
 const normToCoord = (n, s = canvas.height) => (Number.isInteger(n) ? n : n * s)
 
@@ -130,20 +130,20 @@ const updateHalo = ({ assertions, retractions }) => {
 }
 
 // Query labels
-room.subscribe(`draw label $name at ($x, $y)`, updateLabel)
+room.subscribe('draw label $name at ($x, $y)', updateLabel)
 room.subscribe(`${namespace}: draw label $name at ($x, $y)`, updateLabel)
-room.subscribe(`draw $centered label $name at ($x, $y)`, updateLabel)
+room.subscribe('draw $centered label $name at ($x, $y)', updateLabel)
 room.subscribe(`${namespace}: draw $centered label $name at ($x, $y)`, updateLabel)
 
 // Query text
-room.subscribe(`draw text $text at ($x, $y)`, updateText)
+room.subscribe('draw text $text at ($x, $y)', updateText)
 room.subscribe(`${namespace}: draw text $text at ($x, $y)`, updateText)
 
 // Query small text
-room.subscribe(`draw $size text $text at ($x, $y)`, updateText)
+room.subscribe('draw $size text $text at ($x, $y)', updateText)
 room.subscribe(`${namespace}: draw $size text $text at ($x, $y)`, updateText)
 
-room.subscribe(`draw $size text $text at ($x, $y) at angle $angle`, updateText)
+room.subscribe('draw $size text $text at ($x, $y) at angle $angle', updateText)
 room.subscribe(
   `${namespace}: draw $size text $text at ($x, $y) at angle $angle`,
   updateText
@@ -151,7 +151,7 @@ room.subscribe(
 
 // Query lines
 room.subscribe(
-  `draw a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)`,
+  'draw a ($r, $g, $b) line from ($x, $y) to ($xx, $yy)',
   updateLine
 )
 room.subscribe(
@@ -160,7 +160,7 @@ room.subscribe(
 )
 // Query circles
 room.subscribe(
-  `draw a ($r, $g, $b) circle at ($x, $y) with radius $radius`,
+  'draw a ($r, $g, $b) circle at ($x, $y) with radius $radius',
   updateCircle
 )
 room.subscribe(
@@ -169,7 +169,7 @@ room.subscribe(
 )
 // Query halos
 room.subscribe(
-  `draw a ($r, $g, $b) halo around ($x, $y) with radius $radius`,
+  'draw a ($r, $g, $b) halo around ($x, $y) with radius $radius',
   updateHalo
 )
 room.subscribe(
@@ -191,8 +191,8 @@ async function draw (time) {
   labels.forEach(({ label, x, y, centered }) => {
     context.save()
     if (centered === 'centered') {
-      context.textBaseline = `middle`
-      context.textAlign = `center`
+      context.textBaseline = 'middle'
+      context.textAlign = 'center'
     }
     context.fillText(label, normToCoord(x, canvas.width), normToCoord(y))
     context.restore()
@@ -269,11 +269,11 @@ function scheduleDraw () {
 }
 
 canvas.onclick = async () => {
-  const frames = await room.select(`time is $frame`)
+  const frames = await room.select('time is $frame')
   if (!frames.length) return
   const frame = frames[0].frame.value
   room
-    .retract(`mouse clicked on frame $`)
+    .retract('mouse clicked on frame $')
     .assert(`mouse clicked on frame ${frame}`)
     .send()
 }

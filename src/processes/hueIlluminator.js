@@ -5,8 +5,8 @@ export default Room => {
   const room = new Room()
 
   room.subscribe(
-    `hueIlluminator is active`,
-    `glow$ has hueIndex $ at ($x, $y)`,
+    'hueIlluminator is active',
+    'glow$ has hueIndex $ at ($x, $y)',
     ({ assertions, retractions }) => {
       retractions.forEach(({ x, y }) => {
         room
@@ -25,5 +25,5 @@ export default Room => {
     }
   )
 
-  room.assert(`hueIlluminator is active`).send()
+  room.assert('hueIlluminator is active').send()
 }

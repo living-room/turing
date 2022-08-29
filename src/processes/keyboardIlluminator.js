@@ -1,11 +1,11 @@
 export default Room => {
   const room = new Room()
 
-  let buf = []
+  const buf = []
 
   room.on(
-    `keyboardIlluminator is active`,
-    `$mac got input event type $type with code $code and value $value @ $seq`,
+    'keyboardIlluminator is active',
+    '$mac got input event type $type with code $code and value $value @ $seq',
     ({ code, type, value, seq }) => {
       if (code !== 4) return
       if (type !== 4) return
@@ -23,5 +23,5 @@ export default Room => {
     }
   )
 
-  room.assert(`keyboardIlluminator is active`).send()
+  room.assert('keyboardIlluminator is active').send()
 }

@@ -1,7 +1,7 @@
 export default Room => {
   const room = new Room()
 
-  var box = { x: 0.25, y: 0.25, w: 0.5, h: 0.5 }
+  let box = { x: 0.25, y: 0.25, w: 0.5, h: 0.5 }
 
   // Redraw boundingBox if any attribute has changed
   const updateBoundingBox = function (changes) {
@@ -15,17 +15,17 @@ export default Room => {
   }
 
   const drawBoundingBox = function (w, h, x, y) {
-    room.assert(`draw a (255, 255, 255) line from (${x}, ${y}) to (${x+w}, ${y})`)
-    room.assert(`draw a (255, 255, 255) line from (${x+w}, ${y}) to (${x+w}, ${y+h})`)
-    room.assert(`draw a (255, 255, 255) line from (${x+w}, ${y+h}) to (${x}, ${y+h})`)
-    room.assert(`draw a (255, 255, 255) line from (${x}, ${y+h}) to (${x}, ${y})`)
+    room.assert(`draw a (255, 255, 255) line from (${x}, ${y}) to (${x + w}, ${y})`)
+    room.assert(`draw a (255, 255, 255) line from (${x + w}, ${y}) to (${x + w}, ${y + h})`)
+    room.assert(`draw a (255, 255, 255) line from (${x + w}, ${y + h}) to (${x}, ${y + h})`)
+    room.assert(`draw a (255, 255, 255) line from (${x}, ${y + h}) to (${x}, ${y})`)
   }
 
   const eraseBoundingBox = function (w, h, x, y) {
-    room.retract(`draw a (255, 255, 255) line from (${x}, ${y}) to (${x+w}, ${y})`)
-    room.retract(`draw a (255, 255, 255) line from (${x+w}, ${y}) to (${x+w}, ${y+h})`)
-    room.retract(`draw a (255, 255, 255) line from (${x+w}, ${y+h}) to (${x}, ${y+h})`)
-    room.retract(`draw a (255, 255, 255) line from (${x}, ${y+h}) to (${x}, ${y})`)
+    room.retract(`draw a (255, 255, 255) line from (${x}, ${y}) to (${x + w}, ${y})`)
+    room.retract(`draw a (255, 255, 255) line from (${x + w}, ${y}) to (${x + w}, ${y + h})`)
+    room.retract(`draw a (255, 255, 255) line from (${x + w}, ${y + h}) to (${x}, ${y + h})`)
+    room.retract(`draw a (255, 255, 255) line from (${x}, ${y + h}) to (${x}, ${y})`)
   }
 
   // Query the db for boundingBox (any position, any size) and draw it
@@ -34,12 +34,12 @@ export default Room => {
   // solver to satisfy the placeholders, e.g. $x and $y, before calling the
   // callback function.
   room.subscribe(
-    `boundingBox is $w by $h at ($x0, $y0)`,
+    'boundingBox is $w by $h at ($x0, $y0)',
     updateBoundingBox
   )
 
   // Draw first box using defaults
   drawBoundingBox(box.w, box.h, box.x, box.y)
 
-  room.assert(`boundingBoxIlluminator is active`)
+  room.assert('boundingBoxIlluminator is active')
 }

@@ -93,8 +93,8 @@ export default Room => {
   let latestY = 0.5
   let latestAngle = 0
   room.on(
-    `keyboardTerminal is active`,
-    `keyboard $ is at ($x, $y) angle $angle`,
+    'keyboardTerminal is active',
+    'keyboard $ is at ($x, $y) angle $angle',
     ({ x, y, angle }) => {
       latestX = x
       latestY = y
@@ -103,8 +103,8 @@ export default Room => {
   )
 
   room.on(
-    `keyboardTerminal is active`,
-    `$mac got input event type $type with code $code and value $value @ $seq`,
+    'keyboardTerminal is active',
+    '$mac got input event type $type with code $code and value $value @ $seq',
     ({ mac, code, type, value, seq }) => {
       if (type !== 1) return // type 1 = EV_KEY event
       if (value !== 1) return // value 1 = Key-down event
@@ -137,5 +137,5 @@ export default Room => {
     }
   )
 
-  room.assert(`keyboardTerminal is active`).send()
+  room.assert('keyboardTerminal is active').send()
 }

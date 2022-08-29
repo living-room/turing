@@ -2,9 +2,9 @@ export default Room => {
   const room = new Room()
 
   room.on(
-    `$name is a $species animal at ($x, $y) @ $previous`,
-    `time is $current`,
-    `move is active`,
+    '$name is a $species animal at ($x, $y) @ $previous',
+    'time is $current',
+    'move is active',
     async ({ name, species, x, y, previous, current }) => {
       if (current < previous) return
       const speed = await room.select(`${name} has speed ($dx, $dy)`)
