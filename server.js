@@ -7,7 +7,7 @@ import udpforward from 'node-udp-forwarder'
 
 import color from 'ansi-colors'
 import boxen from 'boxen'
-import opn from 'opn'
+import open from 'open'
 
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
@@ -38,6 +38,6 @@ service.listen({verbose: false}).then(({ port, oscport }) => {
     }
     const message = color.red(`displays and tools at\n${color.white(uri)}`)
     console.log(boxen(message, formatting))
-    opn(uri).catch()
+    open(uri).catch()
   })
 })
