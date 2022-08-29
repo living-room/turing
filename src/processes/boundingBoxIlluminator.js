@@ -5,8 +5,8 @@ export default Room => {
 
   // Redraw boundingBox if any attribute has changed
   const updateBoundingBox = function (changes) {
-    for (newBox of changes.assertions) {
-      if (newBox.x0 != box.x || newBox.y0 != box.y || newBox.w != box.w || newBox.h != box.h) {
+    for (const newBox of changes.assertions) {
+      if (newBox.x0 !== box.x || newBox.y0 !== box.y || newBox.w !== box.w || newBox.h !== box.h) {
         eraseBoundingBox(box.w, box.h, box.x, box.y)
         drawBoundingBox(newBox.w, newBox.h, newBox.x0, newBox.y0)
         box = newBox

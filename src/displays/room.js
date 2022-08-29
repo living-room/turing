@@ -102,6 +102,7 @@ export default class Room {
     return Promise.all(messages.map(verb => {
       if (verb.assert) return this._socket.emit('assert', verb.assert)
       if (verb.retract) return this._socket.emit('retract', verb.retract)
+      return null // should never happen
     }))
   }
 

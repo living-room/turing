@@ -12,12 +12,18 @@ export default Room => {
       .map(a => a.who.word)
   }
 
-  room.on('$who rolled $what for initiative', async ({ who, what }) => {
-    const init = await getInitiative()
-    let my = y
+  room.on('$ rolled $ for initiative', async () => {
+    const lineHeight = em
+    let verticalPosition = y - lineHeight
+    const initiative = await getInitiative()
+    const initiativeLabels = initiative.map(who => {
+      verticalPosition += lineHeight
+      return `draw label ${who} at (${x}, ${verticalPosition})`
+    })
     room
       .retract(`draw label $ at (${x}, $)`)
-      .assert(...init.map(who => `draw label ${who} at (${x}, ${my += em})`))
+      .assert(...initiativeLabels)
+      .send()
   })
 
   room.on('it is $name turn', async ({ name }) => {

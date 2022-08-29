@@ -31,6 +31,7 @@
 import LivingRoom from './room.js'
 
 const { canvas } = window
+/* global location */
 const hostname = location.hostname
 const pathArray = location.pathname.split('/')
 const htmlpath = pathArray[pathArray.length - 1]
