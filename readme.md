@@ -17,15 +17,15 @@ Feel free to skip to the section most relevant to you
 
 > At any given moment, Living Room’s coherence is defined only by the communication and collaboration of the people who are programming the space.
 
-To start hacking the room, there are just two concepts to understand: *FACTS* and *PROCESSES*.
+To start hacking the room, there are two concepts to learn: *FACTS* and *PROCESSES*.
 
 ## FACTS
 
-Let’s talk about facts first.  At the center of our universe is a [database][database-js] of strings.  We call these strings facts.  A fact can be any length and it can contain any information that you’d like.  A fact is basically just a sentence.  It’s a collection of words intended to express an idea.
+Let’s talk about facts first.  At the center of our universe is a [database][database-js] of strings.  We call these strings facts.  A fact can be any length and it can contain any information that you’d like.  A fact is a sentence.  It’s a collection of words intended to express an idea.
 
 Anyone can add a fact to the database.  When you add a fact to the database, we call that an ASSERTION.
 
-Anyone can also delete any fact from the database.  When you delete a fact from the database, we call that a RETRACTION.
+Anyone can also remove any fact from the database.  When you remove a fact from the database, we call that a RETRACTION.
 
 What’s more, anyone is allowed to search for a fact in the database.  When you search the database for a fact, we call that a SELECT.
 
@@ -51,7 +51,7 @@ retract('there is a mouse at (0.20, 0.85)')
 retract('whiskers is hungry')
 ```
 
-Performing a select is just a bit more complicated.  Selecting on a string will return all facts in the database that match it, like so:
+Performing a select is a bit more complicated.  Selecting on a string will return all facts in the database that match it, like so:
 
 ```js
 select('noah is a person at recurse center')
@@ -65,7 +65,7 @@ select('$animalName is a $animalType at ($x, $y)')  // might return { animalName
 select('$who is hungry')                            // might return { who: "whiskers" }
 ```
 
-And there's one more tool at your disposal:  The wildcard. Like a variable, the wildcard will match on any word at a given position, but it will not bind the word's value in the return object.  To insert a wildcard, just use the $ symbol:
+And there's one more tool at your disposal:  The wildcard. Like a variable, the wildcard will match on any word at a given position, but it will not bind the word's value in the return object.  To insert a wildcard, use the $ symbol:
 
 ```js
 select('$ is a $ at $')
@@ -137,7 +137,7 @@ Which supports drawing to either display
 
 # getting involved
 
-There are a few more things to understand, but the best way to learn is to come hack with us!  Here are just a few ways that you can get involved:
+There are a few more things to understand, but the best way to learn is to come hack with us!  Here are a few ways that you can get involved:
 
 - Write a process that contributes logic to a group game
 - Work on infrastructure optimizations
@@ -148,7 +148,7 @@ There are a few more things to understand, but the best way to learn is to come 
 
 If you are interested in hacking *right now* feel free to `git clone http://github.com/living-room/client-js` and follow the readme there.
 
-Also we would love to chat and pair so just tap on @**Jonathan Dahan (S'14)**, @**Noah Levenson (SP1'18)**, or @**Ana Malagon (SP1'18)**'s shoulders. A good time to start hacking is 12:30pm every friday in Lovelace, where we go over [the state of the room](https://www.recurse.com/calendar/2005) - introducing it to new people, and going over the work.
+Also we would love to chat and pair so tap on @**Jonathan Dahan (S'14)**, @**Noah Levenson (SP1'18)**, or @**Ana Malagon (SP1'18)**'s shoulders. A good time to start hacking is 12:30pm every friday in Lovelace, where we go over [the state of the room](https://www.recurse.com/calendar/2005) - introducing it to new people, and going over the work.
 
 ## helping out
 
